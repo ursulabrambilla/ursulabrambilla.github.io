@@ -244,6 +244,10 @@ figure{margin:0}
 .cv b .yc{font-size:.55em}
 .cv i{font-family:var(--display);color:var(--berry);font-size:.92em;align-self:center;justify-self:end;text-align:right}
 .cv span:not(.yc){grid-column:1/-1;font-size:.8em;color:var(--ink-soft)}
+.cv .haslink{position:relative}
+.cv .haslink button{padding-bottom:1.5em}
+.cvlink{position:absolute;right:.75em;bottom:.4em;font-size:.78em;color:var(--berry);font-family:var(--display);font-style:italic;font-weight:600}
+.tags.strong span{background:var(--berry);border-color:var(--berry);color:var(--parchment);font-size:.82em;font-weight:600}
 .cta{display:flex;gap:.6em;justify-content:center;flex-wrap:wrap}
 .cta button{font:inherit;font-family:var(--display);font-weight:600;font-size:1em;border-radius:999px;padding:.4em 1.1em;cursor:pointer;background:var(--berry);color:var(--parchment);border:1px solid var(--berry)}
 .cta button.alt{background:transparent;color:var(--berry)}
@@ -368,8 +372,8 @@ figure{margin:0}
     <p class="ink small center">No time for the whole storybook? Here is the trailer, newest first. Tap a line to jump to its chapter.</p>
     <ul class="cv">
       <li><button type="button" data-go="19"><b>Didit <span class="yc">YC W26</span></b><i>Barcelona · Marketing &amp; events</i><span>Office launch event end to end, product demo video, social content, SiGMA Rome.</span></button></li>
-      <li><button type="button" data-go="15"><b>The Plushy Society</b><i>Founder</i><span>Designed, built and launched a storybook web platform on my own. 50 members in the first month.</span></button></li>
-      <li><button type="button" data-go="12"><b>Accenture Song</b><i>Switzerland · BA, Scrum Master, Delivery Lead</i><span>Five projects for a skincare brand, Switzerland's largest telco, B2B marketing and global consumer apps. Leadership events for 30+ leaders.</span></button></li>
+      <li class="haslink"><button type="button" data-go="15"><b>The Plushy Society</b><i>Founder</i><span>Designed, built and launched a storybook web platform on my own. 50 members in the first month.</span></button><a class="cvlink" href="https://theplushysociety.com" target="_blank" rel="noopener">theplushysociety.com ↗</a></li>
+      <li><button type="button" data-go="12"><b>Accenture Song</b><i>Switzerland</i><span>Business Analyst, Product Owner, Scrum Master and Delivery Lead on five projects for a skincare brand, Switzerland's largest telco, B2B marketing and global consumer apps. Leadership events for 30+ leaders.</span></button></li>
       <li><button type="button" data-go="10"><b>Tell-Me</b><i>Growth marketer</i><span>Value proposition, go-to-market and digital PR for a travel startup.</span></button></li>
       <li><button type="button" data-go="11"><b>SLB Coaching Academy</b><i>Content producer</i><span>Course programs for beauty, fashion and lifestyle business owners.</span></button></li>
       <li><button type="button" data-go="7"><b>L'Oréal Brandstorm</b><i>Finalist</i><span>6 finalists out of 280 teams in Italy, then a pitch to the L'Oréal Italy Board.</span></button></li>
@@ -380,13 +384,13 @@ figure{margin:0}
     <h2 class="title ink">In a <em>nutshell</em></h2>
     <div class="stats">
       <div><b>6/280</b><span>L'Oréal finalists</span></div>
-      <div><b>5</b><span>Accenture projects</span></div>
+      <div><b>5</b><span>Accenture projects in different industries, B2B and B2C</span></div>
       <div><b>30+</b><span>countries rolled out</span></div>
       <div><b>50</b><span>members in month one</span></div>
     </div>
-    <div><p class="lbl">Good at</p><div class="tags"><span>Marketing &amp; growth</span><span>Events</span><span>Business design</span><span>Strategy</span><span>Content &amp; video</span><span>Stakeholder management</span><span>Building things myself</span></div></div>
+    <div><p class="lbl">Good at</p><div class="tags"><span>Marketing &amp; growth</span><span>Events</span><span>Business design</span><span>Strategy</span><span>Content &amp; storytelling</span><span>Stakeholder management</span><span>Building things myself</span></div></div>
     <div><p class="lbl">Studied</p><p class="ink small">Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano · Bachelor in Communication &amp; Advertising, Università Cattolica · Boston University · University of Antwerp</p></div>
-    <div><p class="lbl">Languages</p><div class="langs"><div><b>Italian</b><span>native</span></div><div><b>English</b><span>C1</span></div><div><b>French</b><span>B2</span></div><div><b>German</b><span>A2</span></div></div></div>
+    <div><p class="lbl">Strongest skills</p><div class="tags strong"><span>Agency</span><span>Taste</span><span>Creativity</span><span>Good knowledge of AI</span></div></div>
     <p class="ink center">Moving to <b>San Francisco</b>. Looking for roles in marketing, events, business design and strategy.</p>
     <div class="cta">
       <button type="button" data-go="3">Read the story ›</button>
