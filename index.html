@@ -236,6 +236,18 @@ figure{margin:0}
 #mailbox img{display:block;max-width:100%;max-height:86vh;width:auto;height:auto;margin:0 auto;border-radius:6px;box-shadow:0 10px 40px rgba(0,0,0,.5);background:#fff}
 #mailbox button{display:block;margin:.8em auto 0;background:none;border:1px solid var(--honey);color:var(--honey);border-radius:999px;padding:6px 16px;font:15px var(--display);cursor:pointer}
 
+/* short version */
+.cv{list-style:none;margin:0;padding:0;display:grid;gap:.35em}
+.cv button{width:100%;display:grid;grid-template-columns:auto 1fr;column-gap:.5em;text-align:left;background:var(--parchment);border:1px solid var(--line);border-left:3px solid var(--berry);border-radius:6px;padding:.4em .7em;cursor:pointer;font:inherit;color:var(--ink);line-height:1.3}
+.cv button:hover{border-color:var(--berry)}
+.cv b{font-family:var(--display);font-weight:600;font-size:1.08em;white-space:nowrap}
+.cv b .yc{font-size:.55em}
+.cv i{font-family:var(--display);color:var(--berry);font-size:.92em;align-self:center;justify-self:end;text-align:right}
+.cv span:not(.yc){grid-column:1/-1;font-size:.8em;color:var(--ink-soft)}
+.cta{display:flex;gap:.6em;justify-content:center;flex-wrap:wrap}
+.cta button{font:inherit;font-family:var(--display);font-weight:600;font-size:1em;border-radius:999px;padding:.4em 1.1em;cursor:pointer;background:var(--berry);color:var(--parchment);border:1px solid var(--berry)}
+.cta button.alt{background:transparent;color:var(--berry)}
+
 /* character sheet */
 .sheet{display:grid;gap:.8em}
 .sheet .who{display:flex;gap:.9em;align-items:center}
@@ -350,6 +362,38 @@ figure{margin:0}
     </div>
   </div>
 
+  <section data-run="The short version">
+    <p class="chap">Before you turn the page</p>
+    <h2 class="title ink">The <em>short version</em></h2>
+    <p class="ink small center">No time for the whole storybook? Here is the trailer, newest first. Tap a line to jump to its chapter.</p>
+    <ul class="cv">
+      <li><button type="button" data-go="19"><b>Didit <span class="yc">YC W26</span></b><i>Barcelona · Marketing &amp; events</i><span>Office launch event end to end, product demo video, social content, SiGMA Rome.</span></button></li>
+      <li><button type="button" data-go="15"><b>The Plushy Society</b><i>Founder</i><span>Designed, built and launched a storybook web platform on my own. 50 members in the first month.</span></button></li>
+      <li><button type="button" data-go="12"><b>Accenture Song</b><i>Switzerland · BA, Scrum Master, Delivery Lead</i><span>Five projects for a skincare brand, Switzerland's largest telco, B2B marketing and global consumer apps. Leadership events for 30+ leaders.</span></button></li>
+      <li><button type="button" data-go="10"><b>Tell-Me</b><i>Growth marketer</i><span>Value proposition, go-to-market and digital PR for a travel startup.</span></button></li>
+      <li><button type="button" data-go="11"><b>SLB Coaching Academy</b><i>Content producer</i><span>Course programs for beauty, fashion and lifestyle business owners.</span></button></li>
+      <li><button type="button" data-go="7"><b>L'Oréal Brandstorm</b><i>Finalist</i><span>6 finalists out of 280 teams in Italy, then a pitch to the L'Oréal Italy Board.</span></button></li>
+    </ul>
+  </section>
+
+  <section data-run="The short version">
+    <h2 class="title ink">In a <em>nutshell</em></h2>
+    <div class="stats">
+      <div><b>6/280</b><span>L'Oréal finalists</span></div>
+      <div><b>5</b><span>Accenture projects</span></div>
+      <div><b>30+</b><span>countries rolled out</span></div>
+      <div><b>50</b><span>members in month one</span></div>
+    </div>
+    <div><p class="lbl">Good at</p><div class="tags"><span>Marketing &amp; growth</span><span>Events</span><span>Business design</span><span>Strategy</span><span>Content &amp; video</span><span>Stakeholder management</span><span>Building things myself</span></div></div>
+    <div><p class="lbl">Studied</p><p class="ink small">Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano · Bachelor in Communication &amp; Advertising, Università Cattolica · Boston University · University of Antwerp</p></div>
+    <div><p class="lbl">Languages</p><div class="langs"><div><b>Italian</b><span>native</span></div><div><b>English</b><span>C1</span></div><div><b>French</b><span>B2</span></div><div><b>German</b><span>A2</span></div></div></div>
+    <p class="ink center">Moving to <b>San Francisco</b>. Looking for roles in marketing, events, business design and strategy.</p>
+    <div class="cta">
+      <button type="button" data-go="3">Read the story ›</button>
+      <button type="button" data-go="23" class="alt">Get in touch ✉</button>
+    </div>
+  </section>
+
   <section data-run="Epigraph">
     <div class="grow"></div>
     <p class="epi ink">“We spend our lives looking for an identity that evolves as much as we do.”</p>
@@ -358,17 +402,17 @@ figure{margin:0}
     <div>
       <p class="chap" style="margin-bottom:.6em">Contents</p>
       <ul class="toc">
-        <li><button type="button" data-go="1"><span class="r">I</span>Once upon a time, in Milan<span class="dots"></span><span class="p">2</span></button></li>
-        <li><button type="button" data-go="4"><span class="r">II</span>The training montage<span class="dots"></span><span class="p">5</span></button></li>
-        <li><button type="button" data-go="5"><span class="r">III</span>Red lipstick speaks louder<span class="dots"></span><span class="p">6</span></button></li>
-        <li><button type="button" data-go="7"><span class="r">IV</span>Creative explorations<span class="dots"></span><span class="p">8</span></button></li>
-        <li><button type="button" data-go="8"><span class="r">V</span>A startup called Tell-Me<span class="dots"></span><span class="p">9</span></button></li>
-        <li><button type="button" data-go="9"><span class="r">VI</span>SLB Coaching Academy<span class="dots"></span><span class="p">10</span></button></li>
-        <li><button type="button" data-go="10"><span class="r">VII</span>Accenture<span class="dots"></span><span class="p">11</span></button></li>
-        <li><button type="button" data-go="13"><span class="r">VIII</span>The Plushy Society<span class="dots"></span><span class="p">14</span></button></li>
-        <li><button type="button" data-go="17"><span class="r">IX</span>Didit<span class="dots"></span><span class="p">18</span></button></li>
-        <li><button type="button" data-go="19"><span class="r">✦</span>Side quest: two spec ads<span class="dots"></span><span class="p">20</span></button></li>
-        <li><button type="button" data-go="21"><span class="r">✦</span>Epilogue: the next chapter<span class="dots"></span><span class="p">22</span></button></li>
+        <li><button type="button" data-go="3"><span class="r">I</span>Once upon a time, in Milan<span class="dots"></span><span class="p">4</span></button></li>
+        <li><button type="button" data-go="6"><span class="r">II</span>The training montage<span class="dots"></span><span class="p">7</span></button></li>
+        <li><button type="button" data-go="7"><span class="r">III</span>Red lipstick speaks louder<span class="dots"></span><span class="p">8</span></button></li>
+        <li><button type="button" data-go="9"><span class="r">IV</span>Creative explorations<span class="dots"></span><span class="p">10</span></button></li>
+        <li><button type="button" data-go="10"><span class="r">V</span>A startup called Tell-Me<span class="dots"></span><span class="p">11</span></button></li>
+        <li><button type="button" data-go="11"><span class="r">VI</span>SLB Coaching Academy<span class="dots"></span><span class="p">12</span></button></li>
+        <li><button type="button" data-go="12"><span class="r">VII</span>Accenture<span class="dots"></span><span class="p">13</span></button></li>
+        <li><button type="button" data-go="15"><span class="r">VIII</span>The Plushy Society<span class="dots"></span><span class="p">16</span></button></li>
+        <li><button type="button" data-go="19"><span class="r">IX</span>Didit<span class="dots"></span><span class="p">20</span></button></li>
+        <li><button type="button" data-go="21"><span class="r">✦</span>Side quest: two spec ads<span class="dots"></span><span class="p">22</span></button></li>
+        <li><button type="button" data-go="23"><span class="r">✦</span>Epilogue: the next chapter<span class="dots"></span><span class="p">24</span></button></li>
       </ul>
     </div>
     <div class="grow"></div>
