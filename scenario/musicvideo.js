@@ -120,7 +120,7 @@ function build(){
   function setCaption(i){ if (i === lastStop) return; lastStop = i; cap.classList.remove('on');
     setTimeout(() => { if (i < 0) return; const s = STOPS[i]; capK.textContent = s.city; capL.textContent = s.line; capS.textContent = s.sub; cap.classList.add('on'); }, 260); }
 
-  let t = 0, last = 0, running = false, outfit = null, burst = -9;
+  let t = 0, last = 0, running = false, outfit = null, burst = -9, faded = false;
   function frame(t){
     const x = trainX(t); train.position.x = x;
     train.children.forEach((c, j) => { if (c.children.length > 5) c.position.y = Math.abs(Math.sin(t*14 + j))*.012; });
@@ -154,41 +154,27 @@ function build(){
   addEventListener('resize', size); size();
   const music = soundtrack();
   function loop(now){ if (!running) return; t += Math.min(.05, (now - last)/1000); last = now; frame(t);
-    if (t > END) { mv.querySelector('.mv-end').classList.add('on'); }
+    if (t > END) { mv.querySelector('.mv-end').classList.add('on'); if (!faded) { faded = true; music.fadeOut(); } }
     requestAnimationFrame(loop); }
-  mv.querySelector('.mv-replay').addEventListener('click', () => { t = 0; lastStop = -2; mv.querySelector('.mv-end').classList.remove('on'); music.restart(); });
+  mv.querySelector('.mv-replay').addEventListener('click', () => { t = 0; faded = false; lastStop = -2; mv.querySelector('.mv-end').classList.remove('on'); music.restart(); });
   return {
-    play(){ if (running) return; running = true; t = 0; lastStop = -2; mv.querySelector('.mv-end').classList.remove('on'); last = performance.now(); music.start(); requestAnimationFrame(loop); },
+    play(){ if (running) return; running = true; t = 0; faded = false; lastStop = -2; mv.querySelector('.mv-end').classList.remove('on'); last = performance.now(); music.start(); requestAnimationFrame(loop); },
     stop(){ running = false; music.stop(); },
     seek(x){ running = false; t = x; frame(t); setTimeout(() => frame(t), 1500); setTimeout(() => frame(t), 3500); }
   };
 }
 
-// ---------- an original, upbeat pop soundtrack, synthesised live (no copyrighted music)
+// ---------- soundtrack: "A Small Miracle" by Romarecord1973, Pixabay Content License (free to use)
 function soundtrack(){
-  let ctx, master, timer, next = 0, step = 0;
-  const BPM = 104, SPB = 60 / BPM / 4;
-  const prog = [[57,61,64],[62,66,69],[66,69,73],[64,68,71]]; // A, D, F#m, E in a bright major key
-  const mel = [76,0,73,0,74,76,0,73, 71,0,69,0,71,73,0,0, 73,0,74,76,0,78,76,0, 74,0,73,0,71,0,69,0];
-  function noise(len){ const b = ctx.createBuffer(1, ctx.sampleRate*len, ctx.sampleRate), d = b.getChannelData(0); for (let i=0;i<d.length;i++) d[i] = Math.random()*2-1; return b; }
-  let nb;
-  function tone(m, t, len, vol, type){ const o = ctx.createOscillator(), g = ctx.createGain(); o.type = type; o.frequency.value = 440*Math.pow(2,(m-69)/12);
-    g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+.01); g.gain.exponentialRampToValueAtTime(.0008,t+len); o.connect(g); g.connect(master); o.start(t); o.stop(t+len+.05); }
-  function kick(t){ const o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.setValueAtTime(130,t); o.frequency.exponentialRampToValueAtTime(42,t+.18); g.gain.setValueAtTime(.55,t); g.gain.exponentialRampToValueAtTime(.001,t+.25); o.connect(g); g.connect(master); o.start(t); o.stop(t+.3); }
-  function hit(t, f, vol, len){ const s = ctx.createBufferSource(); s.buffer = nb; const bp = ctx.createBiquadFilter(); bp.type = 'highpass'; bp.frequency.value = f; const g = ctx.createGain();
-    g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.001,t+len); s.connect(bp); bp.connect(g); g.connect(master); s.start(t); s.stop(t+len+.02); }
-  function tick(){ while (next < ctx.currentTime + .2) { const bar = Math.floor(step/16) % 4, i = step % 16, ch = prog[bar];
-      if (i % 4 === 0) kick(next); if (i === 4 || i === 12) hit(next, 1800, .25, .18); if (i % 2 === 0) hit(next, 7000, .05, .05);
-      if (i === 0 || i === 6 || i === 10) ch.forEach(m => tone(m, next, .9, .05, 'triangle'));
-      if (i % 4 === 0) tone(ch[0]-24, next, .4, .16, 'sine');
-      const mm = mel[step % 32]; if (mm && step >= 32) tone(mm, next, .35, .07, 'square');
-      next += SPB; step++; } }
+  const a = new Audio('audio/a-small-miracle.mp3'); a.preload = 'auto'; a.volume = 0;
+  let fade = 0;
+  const to = (v, ms, done) => { clearInterval(fade); const v0 = a.volume, t0 = performance.now();
+    fade = setInterval(() => { const k = Math.min(1, (performance.now() - t0) / ms); a.volume = v0 + (v - v0) * k; if (k >= 1) { clearInterval(fade); done && done(); } }, 30); };
   return {
-    start(){ try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === 'suspended') ctx.resume(); nb = nb || noise(1);
-      master = ctx.createGain(); master.gain.value = .0001; master.connect(ctx.destination); master.gain.exponentialRampToValueAtTime(.5, ctx.currentTime + 1.5);
-      next = ctx.currentTime + .1; step = 0; clearInterval(timer); timer = setInterval(tick, 50); } catch(e){} },
-    stop(){ clearInterval(timer); if (master) { const m = master; m.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .5); setTimeout(() => m.disconnect(), 700); } },
-    restart(){ this.stop(); setTimeout(() => this.start(), 550); }
+    start(){ a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); to(.85, 1200); },
+    stop(){ to(0, 600, () => a.pause()); },
+    restart(){ a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); to(.85, 800); },
+    fadeOut(){ to(0, 2500, () => a.pause()); }
   };
 }
 
