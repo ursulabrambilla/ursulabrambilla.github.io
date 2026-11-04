@@ -10,7 +10,16 @@
 <meta property="og:url" content="https://ursulabrambilla.github.io/scenario/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
-<style>body{margin:0}</style>
+<style>body{margin:0}#hero{position:fixed;inset:0;z-index:80;background:radial-gradient(ellipse at 50% 38%,#5a3e2c 0%,#2a1c14 55%,#140d09 100%);transition:opacity .9s ease;overflow:hidden}
+#hero.gone{opacity:0;pointer-events:none}
+#hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hero .hero-top{position:absolute;top:max(26px,env(safe-area-inset-top));left:0;right:0;text-align:center;pointer-events:none;color:#f6e7cc}
+#hero .hero-top p{margin:0;font-family:var(--hand);font-size:18px;color:#e7b98a}
+#hero .hero-top h1{margin:.1em 0 0;font-family:var(--display);font-weight:600;font-size:clamp(34px,5.4vw,64px);line-height:1;letter-spacing:.01em}
+#hero .hero-bottom{position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:0;right:0;display:grid;justify-items:center;gap:10px}
+#hero button{font-family:var(--display);font-size:21px;font-weight:600;color:#fff;background:#9c2f4f;border:0;border-radius:999px;padding:12px 30px;cursor:pointer;box-shadow:0 4px 0 #6e1f37,0 0 30px rgba(240,180,90,.35)}
+#hero small{font-family:var(--hand);color:#d9b892;font-size:15px}
+</style>
 <title>A Storybook by Ursula Brambilla</title>
 <meta name="description" content="The (mostly) true story of Ursula Brambilla, told as a storybook.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -343,6 +352,10 @@ figure{margin:0}
 <body>
 <dialog id="mailbox"><img alt=""><button type="button">Close</button></dialog>
 
+<div id="hero" role="dialog" aria-label="Opening: the storybook lies open and the pop-up of the journey rises">
+  <div class="hero-top"><p>a pop-up storybook by</p><h1>Ursula Brambilla</h1></div>
+  <div class="hero-bottom"><button id="hero-enter" type="button">Open the story ›</button><small>Milan · Lugano · Zurich · Barcelona · San Francisco</small></div>
+</div>
 <div id="stage">
   <div class="topbar">
     <span class="brand">A Storybook by Ursula Brambilla</span>
@@ -1174,104 +1187,10 @@ figure{margin:0}
   if (m) { var t = pageLeafIndex(+m[1] - 1); leaves.forEach(function(l){ l.style.transition = 'none'; }); cur = Math.min(t, leaves.length - 1); apply(); bookEl.offsetHeight; leaves.forEach(function(l){ l.style.transition = ''; }); reveal(); }
 })();
 </script>
-<script>
-/* ---------- living photos: parts of a photo move (water, wind, sky), the people stay still ---------- */
-(function(){
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  // regions in image coordinates (0..1, top-left origin): [type, x0, y0, x1, y1, feather]
-  // type 1 = water, 2 = wind (tops move more), 3 = sky drift
-  var LIVE = {
-    'lugano-afterwork.jpg': [[1, .44, .40, 1, .51, .03], [1, .44, .51, .72, .67, .03], [1, .86, .51, 1, .67, .02], [3, 0, 0, 1, .27, .06]],
-    'lugano-tulips.jpg':    [[1, 0, .435, 1, .56, .02], [2, 0, .47, 1, 1, .06], [3, 0, 0, 1, .36, .06]],
-    'zurich.jpg':           [[2, 0, 0, .4, .2, .06], [2, 0, .36, 1, .5, .04], [1, 0, .5, .45, .6, .03]],
-    'pasta.jpg':            [[1, 0, 0, 1, .55, .04], [1, 0, .55, .02, 1, .02], [1, .92, .55, 1, 1, .03]],
-    'cover.jpg':            [[2, .36, .19, .9, .34, .03], [2, 0, .3, .12, .58, .03], [2, .83, .3, .98, .5, .03]],
-    'bcn-terrace.jpg':      [[3, .55, 0, 1, .38, .08]]
-  };
-  var VS = 'attribute vec2 p;varying vec2 v;void main(){v=p*.5+.5;gl_Position=vec4(p,0.,1.);}';
-  var FS = [
-    'precision mediump float;varying vec2 v;uniform sampler2D img;uniform float t;uniform vec4 fit;',
-    'uniform vec4 R[4];uniform vec4 K[4];',
-    'float box(vec2 q,vec4 r,float f){return smoothstep(r.x-f,r.x+f,q.x)*smoothstep(r.z+f,r.z-f,q.x)*smoothstep(r.y-f,r.y+f,q.y)*smoothstep(r.w+f,r.w-f,q.y);}',
-    'void main(){',
-    ' vec2 q=vec2(fit.x+v.x*fit.z, fit.y+(1.-v.y)*fit.w);',   // image uv, top-left origin
-    ' vec2 d=vec2(0.);float glint=0.;',
-    ' for(int i=0;i<4;i++){ float ty=K[i].x; if(ty<.5) continue; float m=box(q,R[i],K[i].y);',
-    '  if(ty<1.5){ d+=m*vec2(sin(q.y*140.+t*2.1)*.0016+sin(q.x*38.+t*1.2)*.0011, sin(q.x*95.+t*1.7)*.0013+sin(q.y*60.-t*1.1)*.0009);',
-    '   glint+=m*pow(max(0.,sin(q.x*80.+q.y*150.+t*2.4)*sin(q.y*70.-t*1.9)),6.); }',
-    '  else if(ty<2.5){ float k=clamp((R[i].w-q.y)/(R[i].w-R[i].y),0.,1.); d.x+=m*k*(sin(t*1.5+q.y*9.+q.x*5.)*.0045+sin(t*2.7+q.x*17.)*.0015); }',
-    '  else { d.x+=m*(sin(t*.25)*.006+sin(t*.11+q.y*3.)*.003); }',
-    ' }',
-    ' vec4 c=texture2D(img,clamp(q+d,0.,1.)*vec2(1.,1.));',
-    ' c.rgb+=glint*.09;gl_FragColor=c;}'
-  ].join('\n');
 
-  function cover(img, w, h){ // object-fit: cover, honouring object-position
-    var iw = img.naturalWidth, ih = img.naturalHeight, A = w / h, I = iw / ih;
-    var pos = (getComputedStyle(img).objectPosition || '50% 50%').split(' ').map(function(s){ return parseFloat(s) / 100; });
-    var px = isNaN(pos[0]) ? .5 : pos[0], py = isNaN(pos[1]) ? .5 : pos[1];
-    if (A > I) { var s = I / A; return [0, py * (1 - s), 1, s]; }
-    var sx = A / I; return [px * (1 - sx), 0, sx, 1];
-  }
-  function Live(img, regions){
-    this.img = img; this.regions = regions; this.on = false; this.raf = 0;
-  }
-  Live.prototype.start = function(){
-    if (this.on) return; var self = this, img = this.img;
-    if (!img.complete || !img.naturalWidth) { img.addEventListener('load', function(){ self.start(); }, {once:true}); return; }
-    if (img.classList.contains('kb')) { img.style.animation = 'none'; img.style.transform = 'none'; }
-    var host = img.parentElement; if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
-    var cv = document.createElement('canvas'); cv.className = 'livephoto'; cv.setAttribute('aria-hidden', 'true');
-    var gl = cv.getContext('webgl', {premultipliedAlpha:false}); if (!gl) return;
-    var r = img.getBoundingClientRect(), hr = host.getBoundingClientRect(), k = (r.width / img.offsetWidth) || 1;
-    cv.style.cssText = 'position:absolute;pointer-events:none;opacity:0;transition:opacity 1.2s;left:' + img.offsetLeft + 'px;top:' + img.offsetTop + 'px;width:' + img.offsetWidth + 'px;height:' + img.offsetHeight + 'px;border-radius:' + getComputedStyle(img).borderRadius + ';transform:' + getComputedStyle(img).transform.replace('none','') ;
-    var dpr = Math.min(2, (window.devicePixelRatio || 1) * Math.max(1, k));
-    cv.width = Math.round(img.offsetWidth * dpr); cv.height = Math.round(img.offsetHeight * dpr);
-    img.insertAdjacentElement('afterend', cv);
-    function sh(type, src){ var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-    var pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr);
-    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { cv.remove(); return; }
-    gl.useProgram(pr);
-    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
-    var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-    try { gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img); } catch (e) { cv.remove(); return; }
-    var f = cover(img, img.offsetWidth, img.offsetHeight);
-    gl.uniform4f(gl.getUniformLocation(pr, 'fit'), f[0], f[1], f[2], f[3]);
-    var R = new Float32Array(16), K = new Float32Array(16);
-    this.regions.slice(0, 4).forEach(function(g, i){ R.set([g[1], g[2], g[3], g[4]], i * 4); K.set([g[0], g[5], 0, 0], i * 4); });
-    gl.uniform4fv(gl.getUniformLocation(pr, 'R'), R); gl.uniform4fv(gl.getUniformLocation(pr, 'K'), K);
-    var uT = gl.getUniformLocation(pr, 't'), t0 = performance.now() - Math.random() * 4000;
-    gl.viewport(0, 0, cv.width, cv.height);
-    this.cv = cv; this.gl = gl; this.on = true;
-    var first = true;
-    (function frame(now){
-      if (!self.on) return;
-      gl.uniform1f(uT, (now - t0) / 1000); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      if (first) { first = false; setTimeout(function(){ cv.style.opacity = 1; }, 700); }
-      self.raf = requestAnimationFrame(frame);
-    })(performance.now());
-  };
-  Live.prototype.stop = function(){
-    if (!this.on) return; this.on = false; cancelAnimationFrame(this.raf);
-    var ext = this.gl && this.gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext();
-    if (this.cv) this.cv.remove(); this.cv = this.gl = null;
-  };
-  var lives = [];
-  document.querySelectorAll('#book img').forEach(function(img){
-    var name = (img.getAttribute('src') || '').split('/').pop();
-    if (LIVE[name]) lives.push(new Live(img, LIVE[name]));
-  });
-  function onVisible(list){ lives.forEach(function(L){ var sec = L.img.closest('section'); (list || []).indexOf(sec) > -1 ? setTimeout(function(){ L.start(); }, 900) : L.stop(); }); }
-  addEventListener('pages:visible', function(e){ onVisible(e.detail); });
-  addEventListener('resize', function(){ lives.forEach(function(L){ if (L.on) { L.stop(); L.start(); } }); });
-  onVisible(window.__visiblePages);
-})();
-</script>
 <script type="module" src="pop3d.js"></script>
+<script src="magicphoto.js"></script>
+<script type="module" src="hero.js"></script>
 
 </body>
 </html>

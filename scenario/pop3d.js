@@ -176,18 +176,22 @@ function artPlane(name, h){
   m.userData.c = '#ffffff'; m.userData.noink = true; m.castShadow = true; return {m, w};
 }
 // a big illustrated cut-out that folds up from the page, w = width in world units
-function art(name, w){ const A = ART[name], [x0,y0,x1,y1] = A.box, h = w*(y1-y0)/(x1-x0); const {m} = artPlane(name, h); m.position.y = h/2; const g = new THREE.Group(); g.add(m); return g; }
+function art(name, w, clipSrc){ const A = ART[name], [x0,y0,x1,y1] = A.box, h = w*(y1-y0)/(x1-x0); const {m} = artPlane(name, h); m.position.y = h/2; const g = new THREE.Group(); g.add(m);
+  if(clipSrc){ const cp = clipPlane(clipSrc, w/0.86, h/0.748); cp.mesh.position.set(0, h/2, .01); g.add(cp.mesh); g.userData.clip = {cp, still:m}; }
+  return g; }
 // the illustrated mini-Ursula: a paper doll that always faces the reader
 function makeSprite(key, camera){
   const root = new THREE.Group(), holder = new THREE.Group(); root.add(holder);
   const H = .86, {m:plane} = artPlane('girl-' + key, H); plane.position.y = H/2; holder.add(plane);
   const blob = new THREE.Mesh(new THREE.CircleGeometry(.17,20), new THREE.MeshBasicMaterial({color:INK, transparent:true, opacity:.13, depthWrite:false}));
   blob.rotation.x = -Math.PI/2; blob.position.y = .003; root.add(blob);
+  const clip = clipPlane('clips/girl-' + key + '.mp4', (H/.86)*(720/1280), H/.86); clip.mesh.position.y = H/2; holder.add(clip.mesh);
   const top = new THREE.Group(); top.position.y = H - .12; holder.add(top);
   const cap = new THREE.Group(); cap.add(box(.26,.016,.26,'#1f1f24',0,.06)); cap.add(cyl(.1,.06,'#1f1f24',0,0,0,16)); cap.add(box(.01,.08,.01,'#e3b04b',.11,0,.11)); cap.visible = false; top.add(cap);
   const dummy = () => new THREE.Object3D();
-  return {root, all:[plane], props:{books:dummy(), backpack:dummy(), briefcase:dummy(), suitcase:dummy(), hat:dummy(), badge:dummy(), mic:dummy(), gradcap:cap}, arms:[dummy(),dummy()], head:dummy(),
-    fade(k){ plane.material.transparent = k < 1; plane.material.opacity = k; blob.material.opacity = .13*k; },
+  return {root, all:[plane], props:{books:dummy(), backpack:dummy(), briefcase:dummy(), suitcase:dummy(), hat:dummy(), badge:dummy(), mic:dummy(), gradcap:dummy()}, clip,
+    playClip(){ clip.play(() => { plane.visible = true; }, () => { plane.visible = false; }); }, arms:[dummy(),dummy()], head:dummy(),
+    fade(k){ plane.material.transparent = k < 1; plane.material.opacity = k; blob.material.opacity = .13*k; if(clip.mesh.visible) clip.mesh.material.opacity = Math.min(clip.mesh.material.opacity, k); },
     pose({t=0, moving=false, wave=0, look=0, hop=0, cheer=0}={}){
       const ph = t*10;
       holder.position.y = (root.userData.base || 0) + (moving ? Math.abs(Math.sin(ph))*.035 : 0) + hop + (cheer ? Math.abs(Math.sin(t*7))*.09*cheer : 0);
@@ -195,9 +199,33 @@ function makeSprite(key, camera){
       holder.rotation.x = -.1*look;
       plane.rotation.y = Math.atan2(camera.position.x - root.position.x, camera.position.z - root.position.z) - root.rotation.y;
       plane.scale.x = (moving && Math.sin(root.rotation.y) < -.2) ? -1 : 1;
+      clip.mesh.rotation.y = plane.rotation.y; holder.rotation.z = clip.mesh.visible ? 0 : holder.rotation.z;
     }};
 }
 const SPRITE_FOR = {duomo:'milan', montage:'student', accenture:'work', plushy:'plushy', didit:'summer', sf:'travel'};
+
+
+// ---------------------------------------------------------------- Kling clips on paper (white background keyed out)
+let ACTIVE = 0;
+function keyedMaterial(tex){
+  const m = new THREE.MeshBasicMaterial({map:tex, side:THREE.DoubleSide, transparent:true, opacity:0});
+  m.onBeforeCompile = sh => { sh.fragmentShader = sh.fragmentShader.replace('#include <map_fragment>',
+    '#include <map_fragment>\n  float kmin = min(diffuseColor.r, min(diffuseColor.g, diffuseColor.b));\n  if (kmin > 0.86) discard;\n  diffuseColor.a *= smoothstep(0.86, 0.74, kmin) * 0.6 + 0.4;'); };
+  return m;
+}
+function clipPlane(src, w, h){
+  const v = document.createElement('video'); v.src = src; v.muted = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'auto';
+  const tex = new THREE.VideoTexture(v); tex.colorSpace = THREE.SRGBColorSpace;
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h), keyedMaterial(tex)); mesh.visible = false; mesh.userData.noink = true; mesh.userData.noshadow = true; mesh.userData.c = '#ffffff';
+  let on = false;
+  return {mesh, video:v,
+    play(onEnd, onShown){ if(on || REDUCE) return; on = true; ACTIVE++; v.currentTime = 0; const pr = v.play(); if(pr && pr.catch) pr.catch(() => {});
+      mesh.visible = true; const t0 = performance.now(); let shown = false;
+      (function fade(now){ const k = Math.min(1, (now - t0) / 450); mesh.material.opacity = k; if(k >= 1 && !shown){ shown = true; onShown && onShown(); } if(on && k < 1) requestAnimationFrame(fade); })(t0);
+      v.onended = () => { const t1 = performance.now(); onEnd && onEnd();
+        (function out(now){ const k = Math.min(1, (now - t1) / 450); mesh.material.opacity = 1 - k; if(k < 1) requestAnimationFrame(out); else { mesh.visible = false; on = false; ACTIVE = Math.max(0, ACTIVE - 1); } })(t1); }; },
+    reset(){ if(on){ on = false; ACTIVE = Math.max(0, ACTIVE - 1); } v.pause(); mesh.visible = false; mesh.material.opacity = 0; }};
+}
 
 // ---------------------------------------------------------------- one stage
 function stage(host){
@@ -222,7 +250,7 @@ function stage(host){
       const pivot = new THREE.Group(); pivot.position.set(x, opts.y || 0, z); pivot.rotation.y = opts.ry || 0;
       const inner = new THREE.Group(); inner.add(obj); pivot.add(inner);
       const meshes = [], lines = [];
-      obj.traverse(o => { if(o.isMesh){ o.castShadow = o.receiveShadow = true; meshes.push(o); } });
+      obj.traverse(o => { if(o.isMesh){ o.castShadow = o.receiveShadow = !o.userData.noshadow; meshes.push(o); } });
       meshes.forEach(m => {
         if(m.userData.noink){ mats(m).forEach(mm => mm.color.set(PAPER)); return; }
         const l = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry, 28), new THREE.LineBasicMaterial({color:INK, transparent:true, opacity:0}));
@@ -230,7 +258,7 @@ function stage(host){
         mats(m).forEach(mm => mm.color.set(PAPER));
       });
       world.add(pivot);
-      const p = {pivot, inner, meshes, lines, mode: opts.mode || 'hinge', t0:null, at:opts.at, near:opts.near};
+      const p = {pivot, inner, meshes, lines, mode: opts.mode || 'hinge', t0:null, at:opts.at, near:opts.near, clip: obj.userData.clip};
       pieces.push(p); return p;
     },
     flat(w,d,x,z,rot,c,at){ const m = new THREE.Mesh(new THREE.PlaneGeometry(w,d), mat(c)); m.rotation.set(-Math.PI/2,0,rot); m.position.set(x,.002+flats.length*.0003,z);
@@ -256,10 +284,12 @@ function stage(host){
         const was = p.w || 0; p.w = was + (near - was) * .18;
         if(was < .45 && p.w >= .45 && window.__bookAudio && t - (S.lastRustle || 0) > .25){ S.lastRustle = t; window.__bookAudio.rustle(); }
         p.inner.rotation.z = Math.sin(t*8 + p.pivot.position.x*3) * .05 * p.w; p.inner.position.y = .07 * p.w;
+        if(p.clip && k > 1.9 && !p.clipDone){ p.clipDone = true; const c = p.clip; c.cp.play(() => { c.still.visible = true; }, () => { c.still.visible = false; }); }
       });
       S.hoverK += (S.hoverT - S.hoverK) * .1;
+      if(S.girl && S.girl.playClip && !S.girlClipped && t > S.walkEnd + .35){ S.girlClipped = true; S.girl.playClip(); }
     },
-    reset(){ pieces.forEach(p => p.t0 = null); }};
+    reset(){ pieces.forEach(p => { p.t0 = null; p.clipDone = false; if(p.clip){ p.clip.cp.reset(); p.clip.still.visible = true; } }); S.girlClipped = false; if(S.girl && S.girl.clip){ S.girl.clip.reset(); } }};
   const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane(new THREE.Vector3(0,1,0), -.35), hit = new THREE.Vector3();
   host.addEventListener('pointermove', e => { const r = host.getBoundingClientRect(); S.px = (e.clientX-r.left)/r.width - .5; S.py = (e.clientY-r.top)/r.height - .5;
     ndc.set(S.px*2, -S.py*2); ray.setFromCamera(ndc, camera); if(ray.ray.intersectPlane(plane, hit)){ S.hx = hit.x; S.hz = hit.z; } S.hoverT = 1; S.kick && S.kick(); });
@@ -290,7 +320,7 @@ SCENES.duomo = S => {
   body.add(box(.36,.42,.36,MARBLE,0,H+.2,-.95)); body.add(cone(.2,.5,MARBLE,0,H+.62,-.95,8));
   S.ground(7, 0, -.25, 2.35, 1.3, ['#f6e6c8','#f1d9cf','#ece3c9','#f4dfd0','#efe6d3','#f3d9c4']);
   for(let i=0;i<9;i++){ const a = -.9 + i*.225; S.flat(.08,.9,Math.sin(a)*.65,.25+Math.cos(a)*.35,-a,'#e3d6c6',.4+i*.02); }
-  S.add(art('duomo', 3.5), 0, -.75, {at:.9});
+  S.add(art('duomo', 3.5, 'clips/duomo-art.mp4'), 0, -.75, {at:.9});
       const tram = new THREE.Group(); tram.add(box(.9,.3,.3,'#e8913a',0,.04)); tram.add(box(.94,.05,.33,'#f3e3c3',0,.34)); tram.add(box(.9,.04,.3,'#3a2a22'));
   for(let i=0;i<4;i++) tram.add(box(.14,.12,.01,'#5d6c7c',-.31+i*.21,.16,.155)); tram.add(box(.02,.22,.02,'#3a2a22',0,.39));
     S.add(tree(), -2.55, .1, {mode:'grow', near:-2.4}); S.add(tree(.5), 1.65, .35, {mode:'grow', near:.8}); S.add(tree(.4), 2.55, .55, {mode:'grow', near:1.2});
@@ -450,7 +480,7 @@ SCENES.plushy = S => {
   const rf = cut([[-w/2-.05,0],[w/2+.05,0],[0,.48]],'#5e7b55',d+.08); rf.position.y = h; cabin.add(rf);
   windows(cabin,w,h,d,1,2,'#f6d48f',.28); cabin.add(box(.2,.34,.02,'#4a2f20',0,0,d/2+.012));
   const csign = sign('The Pinewood', '', .7, 0); csign.position.set(0, h+.08, d/2+.06); cabin.add(csign);
-  S.add(art('cabin', 2.6), .2, -.95, {at:.3});
+  S.add(art('cabin', 2.6, 'clips/cabin-art.mp4'), .2, -.95, {at:.3});
   [-2.4,2.7].forEach((x,i) => S.add(pine(.75 + i*.15), x, -.8, {mode:'grow', at:.5 + i*.08}));
   const mailbox = new THREE.Group(); mailbox.add(box(.03,.28,.03,'#7d5539')); mailbox.add(box(.16,.1,.1,BERRY,0,.28)); mailbox.add(box(.02,.06,.01,'#f3d38c',.09,.33,0));
     S.add(sign('theplushysociety.com', '50 members in the first month', 1.3, .18), -2, .35, {at:1.1, ry:.2});
@@ -525,7 +555,7 @@ SCENES.sf = S => {
   const cp = new THREE.CurvePath(); [[-2.7,.9,-1.4,1.6],[-1.4,1.6,1.4,1.6],[1.4,1.6,2.7,.9]].forEach(([a,b,c,d],i) => cp.add(new THREE.QuadraticBezierCurve3(new THREE.Vector3(a,b,0), new THREE.Vector3((a+c)/2, i===1 ? .75 : (b+d)/2-.2, 0), new THREE.Vector3(c,d,0))));
   const cab = new THREE.Mesh(new THREE.TubeGeometry(cp,80,.02,6), mat(O)); cab.userData.c = O; br.add(cab);
   const pts = cp.getPoints(200); for(let x=-2.5;x<=2.5;x+=.25){ if(Math.abs(Math.abs(x)-1.4) < .2) continue; const q = pts.reduce((a,b) => Math.abs(b.x-x) < Math.abs(a.x-x) ? b : a); br.add(box(.012,q.y-.64,.012,O,x,.64)); }
-  S.add(art('sf', 3.4), .4, -.8, {at:.3});
+  S.add(art('sf', 3.4, 'clips/sf-art.mp4'), .4, -.8, {at:.3});
     S.add(sign('Next stop: San Francisco', 'the next chapter is unwritten', 1.35, .18), -2.1, .25, {at:1, ry:.25});
   const g = S.putGirl({lower:'coat', bottom:'#c9a77c', top:'#c9a77c', belt:'#8a6446', legs:'#2f2522', props:['suitcase']});
   const plane = new THREE.Group(); const pw = cut([[0,0],[.22,.04],[0,.09]],'#ffffff',.01); pw.rotation.x = Math.PI/2; plane.add(pw);
@@ -576,7 +606,7 @@ async function play(host){
   if(L.t >= L.sc.end){ L.t = 0; L.S.reset(); }            // coming back to the page replays it
   L.playing = true; L.last = performance.now();
   const tick = now => { if(!L.playing) return; L.t += Math.min(.1, (now - L.last)/1000); L.last = now; L.draw();
-    if(L.t > L.sc.end + 4 && L.S.hoverK < .01 && !L.S.hoverT) { L.playing = false; return; } L.raf = requestAnimationFrame(tick); };
+    if(L.t > L.sc.end + 4 && L.S.hoverK < .01 && !L.S.hoverT && ACTIVE === 0) { L.playing = false; return; } L.raf = requestAnimationFrame(tick); };
   L.S.kick = () => { if(!L.playing && !REDUCE && L.visible){ L.playing = true; L.last = performance.now(); L.raf = requestAnimationFrame(tick); } };
   L.raf = requestAnimationFrame(tick);
 }
