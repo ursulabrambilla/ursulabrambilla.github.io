@@ -19,6 +19,24 @@
 #hero .hero-bottom{position:absolute;bottom:max(28px,env(safe-area-inset-bottom));left:0;right:0;display:grid;justify-items:center;gap:10px}
 #hero button{font-family:var(--display);font-size:21px;font-weight:600;color:#fff;background:#9c2f4f;border:0;border-radius:999px;padding:12px 30px;cursor:pointer;box-shadow:0 4px 0 #6e1f37,0 0 30px rgba(240,180,90,.35)}
 #hero small{font-family:var(--hand);color:#d9b892;font-size:15px}
+#mv{position:fixed;inset:0;z-index:90;background:#f3e7d3;opacity:0;transition:opacity .6s}
+#mv.on{opacity:1}
+#mv canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#mv .mv-intro{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 24px;pointer-events:none;opacity:0;transition:opacity .8s;background:rgba(243,231,211,.55)}
+#mv .mv-intro.on{opacity:1}
+#mv .mv-intro p{margin:0;font-family:var(--display);font-style:italic;font-size:clamp(30px,5vw,60px);line-height:1.1;color:#3a2a22;max-width:16em}
+#mv .mv-cap{position:absolute;left:0;right:0;bottom:max(34px,env(safe-area-inset-bottom));text-align:center;pointer-events:none;opacity:0;transform:translateY(14px);transition:opacity .5s,transform .5s;padding:0 16px}
+#mv .mv-cap.on{opacity:1;transform:none}
+#mv .mv-cap small{display:block;font-family:var(--hand);color:#9c2f4f;font-size:clamp(16px,2vw,22px)}
+#mv .mv-cap strong{display:block;font-family:var(--display);font-weight:600;font-size:clamp(28px,4.4vw,54px);color:#3a2a22;line-height:1.05}
+#mv .mv-cap span{display:block;font-family:var(--display);font-style:italic;font-size:clamp(18px,2.4vw,28px);color:#5a4234;margin-top:.2em}
+#mv .mv-close{position:absolute;top:max(14px,env(safe-area-inset-top));right:16px;z-index:2;font:600 16px var(--display);background:rgba(58,42,34,.8);color:#fbf6ec;border:0;border-radius:999px;padding:8px 16px;cursor:pointer}
+#mv .mv-end{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:14px;background:rgba(243,231,211,.8);opacity:0;pointer-events:none;transition:opacity .8s}
+#mv .mv-end.on{opacity:1;pointer-events:auto}
+#mv .mv-end p{margin:0;font-family:var(--display);font-size:clamp(28px,4vw,48px);color:#3a2a22;text-align:center;padding:0 16px}
+#mv .mv-end button{font:600 19px var(--display);border:0;border-radius:999px;padding:10px 24px;cursor:pointer;background:#9c2f4f;color:#fff}
+#mv .mv-end .mv-replay{background:#fbf6ec;color:#9c2f4f;box-shadow:inset 0 0 0 1px #9c2f4f}
+#hero .hero-mv{background:none;color:#f6e7cc;box-shadow:inset 0 0 0 1px rgba(246,231,204,.6);font-size:18px;padding:9px 22px}
 </style>
 <title>A Storybook by Ursula Brambilla</title>
 <meta name="description" content="The (mostly) true story of Ursula Brambilla, told as a storybook.">
@@ -354,7 +372,13 @@ figure{margin:0}
 
 <div id="hero" role="dialog" aria-label="Opening: the storybook lies open and the pop-up of the journey rises">
   <div class="hero-top"><p>a pop-up storybook by</p><h1>Ursula Brambilla</h1></div>
-  <div class="hero-bottom"><button id="hero-enter" type="button">Open the story ›</button><small>Milan · Lugano · Zurich · Barcelona · San Francisco</small></div>
+  <div class="hero-bottom"><button id="hero-enter" type="button">Open the story ›</button><button class="hero-mv" type="button" data-mv-open>▶ Watch the music video</button><small>Milan · Lugano · Zurich · Barcelona · San Francisco</small></div>
+</div>
+<div id="mv" hidden role="dialog" aria-label="The music video: a train journey through Ursula's story">
+  <button class="mv-close" type="button">Close ✕</button>
+  <div class="mv-intro"><p>Who has never imagined being the star of their own music video?</p></div>
+  <div class="mv-cap" aria-live="polite"><small></small><strong></strong><span></span></div>
+  <div class="mv-end"><p>Shall we write the next chapter together?</p><button type="button" class="mv-story">Open the story ›</button><button class="mv-replay" type="button">↺ Watch again</button></div>
 </div>
 <div id="stage">
   <div class="topbar">
@@ -1191,6 +1215,7 @@ figure{margin:0}
 <script type="module" src="pop3d.js"></script>
 <script src="magicphoto.js"></script>
 <script type="module" src="hero.js"></script>
+<script type="module" src="musicvideo.js"></script>
 
 </body>
 </html>

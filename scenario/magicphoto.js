@@ -3,10 +3,9 @@
 (function(){
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var CLIPS = {
-    'cover.jpg': 'clips/portrait-travel.mp4',
     'lugano-afterwork.jpg': 'clips/lugano-magic.mp4',
     'zurich.jpg': 'clips/zurich.mp4',
-    'bcn-terrace.jpg': 'clips/bcn.mp4'
+    'bcn-terrace.jpg': 'clips/bcn-castle.mp4'
   };
   var css = document.createElement('style');
   css.textContent = '.mp-video,.mp-dust{position:absolute;pointer-events:none}.mp-video{opacity:0;transition:opacity .9s ease;object-fit:cover}' +
