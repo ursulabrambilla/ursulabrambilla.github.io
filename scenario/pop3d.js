@@ -465,7 +465,7 @@ SCENES.plushy = S => {
       e.position.set(lerp(3.6, .9, k), .35 + Math.sin(k*Math.PI)*.9, lerp(.2, -.05, k)); e.rotation.set(k*4, k*2, Math.sin(k*9)*.3); });
     members.forEach((m,i) => { const k = clamp((t - 5.6 - i*.18)/.5); m.visible = false; m.scale.setScalar(k > 0 ? Math.max(.001, easeBack(k)) : .001);
       m.position.y = k >= 1 ? Math.max(0, Math.sin((t - 7 - i*.2)*5))*.04 : 0; });
-    S.cam(lerp(-1, 0, ease(t, .6, 4)) + Math.sin(t*.3)*.12, 2.1, 5.4, lerp(-.8, 0, ease(t,.6,4)), .9, -.55);
+    S.cam(lerp(-1, 0, ease(t, .6, 4)) + Math.sin(t*.3)*.12, 2.2, 6.2, lerp(-.8, 0, ease(t,.6,4)), 1.05, -.6);
   }};
 };
 
