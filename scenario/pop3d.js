@@ -217,7 +217,7 @@ function stage(host){
   const world = new THREE.Group(); scene.add(world);
   const pieces = [], flats = [], pc = new THREE.Color(PAPER), tc = new THREE.Color();
   const mats = m => Array.isArray(m.material) ? m.material : [m.material];
-  const S = {scene, camera, world, hemi, sun, renderer, girl:null, girlX:-99, walkEnd:99, px:0, py:0,
+  const S = {scene, camera, world, hemi, sun, renderer, girl:null, girlX:-99, walkEnd:99, px:0, py:0, hx:0, hz:0, hoverT:0, hoverK:0,
     add(obj, x, z, opts={}){
       const pivot = new THREE.Group(); pivot.position.set(x, opts.y || 0, z); pivot.rotation.y = opts.ry || 0;
       const inner = new THREE.Group(); inner.add(obj); pivot.add(inner);
@@ -252,11 +252,18 @@ function stage(host){
         p.inner.visible = sk > 0;
         if(p.mode === 'hinge') p.inner.rotation.x = -Math.PI/2 * (1-e); else p.inner.scale.set(1, Math.max(.001,e), 1);
         p.meshes.forEach(m => { tc.copy(pc).lerp(new THREE.Color(m.userData.c || PAPER), wash); mats(m).forEach(mm => mm.color.copy(tc)); });
+        const near = rise >= 1 ? S.hoverK * Math.exp(-((p.pivot.position.x - S.hx)**2 + (p.pivot.position.z - S.hz)**2) / .45) : 0;
+        const was = p.w || 0; p.w = was + (near - was) * .18;
+        if(was < .45 && p.w >= .45 && window.__bookAudio && t - (S.lastRustle || 0) > .25){ S.lastRustle = t; window.__bookAudio.rustle(); }
+        p.inner.rotation.z = Math.sin(t*8 + p.pivot.position.x*3) * .05 * p.w; p.inner.position.y = .07 * p.w;
       });
+      S.hoverK += (S.hoverT - S.hoverK) * .1;
     },
     reset(){ pieces.forEach(p => p.t0 = null); }};
-  host.addEventListener('pointermove', e => { const r = host.getBoundingClientRect(); S.px = (e.clientX-r.left)/r.width - .5; S.py = (e.clientY-r.top)/r.height - .5; });
-  host.addEventListener('pointerleave', () => { S.px = S.py = 0; });
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane(new THREE.Vector3(0,1,0), -.35), hit = new THREE.Vector3();
+  host.addEventListener('pointermove', e => { const r = host.getBoundingClientRect(); S.px = (e.clientX-r.left)/r.width - .5; S.py = (e.clientY-r.top)/r.height - .5;
+    ndc.set(S.px*2, -S.py*2); ray.setFromCamera(ndc, camera); if(ray.ray.intersectPlane(plane, hit)){ S.hx = hit.x; S.hz = hit.z; } S.hoverT = 1; S.kick && S.kick(); });
+  host.addEventListener('pointerleave', () => { S.px = S.py = 0; S.hoverT = 0; });
   return S;
 }
 
@@ -523,6 +530,7 @@ SCENES.sf = S => {
   const g = S.putGirl({lower:'coat', bottom:'#c9a77c', top:'#c9a77c', belt:'#8a6446', legs:'#2f2522', props:['suitcase']});
   const plane = new THREE.Group(); const pw = cut([[0,0],[.22,.04],[0,.09]],'#ffffff',.01); pw.rotation.x = Math.PI/2; plane.add(pw);
   const pw2 = cut([[0,0],[.22,.04],[0,-.02]],'#f3ece4',.01); pw2.rotation.x = Math.PI/2 + .5; plane.add(pw2); plane.visible = false; S.world.add(plane);
+  const card = sign('Ursula Brambilla', 'ursulabrambilla@gmail.com', .62, 0); card.visible = false; card.traverse(o => { if(o.isMesh) o.castShadow = true; }); S.world.add(card);
   const path = walker([{x:-3.2,z:.85,t:.6},{x:-.1,z:.55,t:4}]); S.walkEnd = 4;
   return {end: 8, update(t){
     const p = path(t);
@@ -530,6 +538,8 @@ SCENES.sf = S => {
     g.root.rotation.y = p.dir != null ? p.dir : lerp(Math.PI/2, 0, ease(t, 4, 4.6));
     g.pose({t, moving:p.moving, wave: ease(t, 4.8, 5.2) * (1 - ease(t, 7, 7.4)), look: ease(t,5.3,5.8)*(1-ease(t,7,7.4))});
     g.props.suitcase.rotation.x = p.moving ? .3 : .05;
+    const ck = ease(t, 5.6, 6.3); card.visible = ck > 0; card.scale.setScalar(Math.max(.001, easeBack(clamp((t-5.6)/.7))));
+    card.position.set(g.root.position.x + .32, .62 + Math.sin(t*2)*.03, g.root.position.z + .12); card.rotation.set(-.15, Math.sin(t*1.3)*.15, Math.sin(t*1.7)*.05);
     const k = clamp((t - 5)/2.6); plane.visible = k > 0 && k < 1;
     plane.position.set(lerp(-2.8, 3.2, k), 1.3 + Math.sin(k*Math.PI*2)*.2, lerp(.3, -.4, k)); plane.rotation.set(Math.sin(k*9)*.2, -.3, Math.cos(k*Math.PI*2)*.25);
     S.cam(lerp(-1.2, 0, ease(t, .6, 4.5)) + Math.sin(t*.3)*.12, 2.1, 5.7, lerp(-1, 0, ease(t,.6,4.5)), 1, -.6);
@@ -560,16 +570,17 @@ function start(host){
   starting.set(host, p); return p;
 }
 async function play(host){
-  const L = await start(host); if(!L) return;
+  const L = await start(host); if(!L) return; L.visible = true;
   if(REDUCE){ L.draw(); return; }
   if(L.playing) return;
   if(L.t >= L.sc.end){ L.t = 0; L.S.reset(); }            // coming back to the page replays it
   L.playing = true; L.last = performance.now();
   const tick = now => { if(!L.playing) return; L.t += Math.min(.1, (now - L.last)/1000); L.last = now; L.draw();
-    if(L.t > L.sc.end + 4) { L.playing = false; return; } L.raf = requestAnimationFrame(tick); };
+    if(L.t > L.sc.end + 4 && L.S.hoverK < .01 && !L.S.hoverT) { L.playing = false; return; } L.raf = requestAnimationFrame(tick); };
+  L.S.kick = () => { if(!L.playing && !REDUCE && L.visible){ L.playing = true; L.last = performance.now(); L.raf = requestAnimationFrame(tick); } };
   L.raf = requestAnimationFrame(tick);
 }
-function pause(host){ const L = live.get(host); if(L){ L.playing = false; cancelAnimationFrame(L.raf); } }
+function pause(host){ const L = live.get(host); if(L){ L.visible = false; L.playing = false; cancelAnimationFrame(L.raf); } }
 function onVisible(list){ hosts.forEach(h => (list || []).includes(h.closest('section')) ? play(h) : pause(h)); }
 addEventListener('pages:visible', e => onVisible(e.detail));
 onVisible(window.__visiblePages);
