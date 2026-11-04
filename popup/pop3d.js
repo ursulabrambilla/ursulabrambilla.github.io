@@ -485,7 +485,7 @@ SCENES.sf = S => {
   const g = S.putGirl({lower:'coat', bottom:'#c9a77c', top:'#c9a77c', belt:'#8a6446', legs:'#2f2522', props:['suitcase']});
   const plane = new THREE.Group(); const pw = cut([[0,0],[.22,.04],[0,.09]],'#ffffff',.01); pw.rotation.x = Math.PI/2; plane.add(pw);
   const pw2 = cut([[0,0],[.22,.04],[0,-.02]],'#f3ece4',.01); pw2.rotation.x = Math.PI/2 + .5; plane.add(pw2); plane.visible = false; S.world.add(plane);
-  const card = sign('Ursula Brambilla', 'ursulabrambilla@gmail.com', .62, 0); card.visible = false; card.traverse(o => { if(o.isMesh) o.castShadow = true; }); S.world.add(card);
+  const card = new THREE.Group(); card.visible = false; card.traverse(o => { if(o.isMesh) o.castShadow = true; }); S.world.add(card);
   const path = walker([{x:-3.2,z:.85,t:.6},{x:-.1,z:.55,t:4}]); S.walkEnd = 4;
   return {end: 8, update(t){
     const p = path(t);
@@ -493,7 +493,7 @@ SCENES.sf = S => {
     g.root.rotation.y = p.dir != null ? p.dir : lerp(Math.PI/2, 0, ease(t, 4, 4.6));
     g.pose({t, moving:p.moving, wave: ease(t, 4.8, 5.2) * (1 - ease(t, 7, 7.4)), look: ease(t,5.3,5.8)*(1-ease(t,7,7.4))});
     g.props.suitcase.rotation.x = p.moving ? .3 : .05;
-    const ck = ease(t, 5.6, 6.3); card.visible = ck > 0; card.scale.setScalar(Math.max(.001, easeBack(clamp((t-5.6)/.7))));
+    card.visible = false; card.scale.setScalar(Math.max(.001, easeBack(clamp((t-5.6)/.7))));
     card.position.set(g.root.position.x + .32, .62 + Math.sin(t*2)*.03, g.root.position.z + .12); card.rotation.set(-.15, Math.sin(t*1.3)*.15, Math.sin(t*1.7)*.05);
     const k = clamp((t - 5)/2.6); plane.visible = k > 0 && k < 1;
     plane.position.set(lerp(-2.8, 3.2, k), 1.3 + Math.sin(k*Math.PI*2)*.2, lerp(.3, -.4, k)); plane.rotation.set(Math.sin(k*9)*.2, -.3, Math.cos(k*Math.PI*2)*.25);
