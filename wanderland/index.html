@@ -171,13 +171,26 @@ button{font:inherit;cursor:pointer}
 .cat.vanish .cat-body{opacity:0}
 .cat .cat-eyes{animation:catblink 5s infinite;transform-box:fill-box;transform-origin:center}
 @keyframes catblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
-#cat1{right:calc(50% - min(38vh,72vw)/2 - 13vh);top:calc(50% - 4vh);width:12vh;height:11vh}
-#cat1 .note1{position:absolute;left:-2vh;top:-5vh;white-space:nowrap;font-family:var(--hand);font-size:22px;color:#e39ad0;transform:rotate(-6deg)}
-#cat2{left:calc(50% + min(16vh,32vw)/2 + 2vh);top:calc(50% - 16vh);width:13vh;height:12vh;z-index:5}
-#cat2 .note1{position:absolute;left:10vh;top:-3vh;white-space:nowrap;font-family:var(--hand);font-size:22px;color:#e39ad0;transform:rotate(-4deg)}
-#cat3{left:calc(24vw + min(14vh,26vw) - 2vh);bottom:calc(9vh + 13vh);width:12vh;height:11vh;transition:left .6s ease}
-#cat3.back{left:calc(24vw - 11vh)}
-#cat3.back .bob{transform:scaleX(-1)}
+/* the cat only drops by now and then, peeking from a corner */
+#peek{position:fixed;width:clamp(90px,13vh,140px);height:clamp(84px,12vh,130px);z-index:60;opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1),opacity .5s ease}
+#peek.tl{left:0;top:84px;transform:translate(-110%,0) rotate(70deg)}
+#peek.tr{right:0;top:84px;transform:translate(110%,0) rotate(-70deg)}
+#peek.bl{left:0;bottom:0;transform:translate(-60%,60%) rotate(40deg)}
+#peek.br{right:0;bottom:110px;transform:translate(110%,0) rotate(-70deg)}
+#peek.on{opacity:1}
+#peek.on.tl{transform:translate(-38%,0) rotate(62deg)}
+#peek.on.tr{transform:translate(38%,0) rotate(-62deg)}
+#peek.on.bl{transform:translate(-14%,22%) rotate(28deg)}
+#peek.on.br{transform:translate(38%,0) rotate(-62deg)}
+.catnote{position:fixed;z-index:61;pointer-events:none;white-space:nowrap;font-family:var(--hand);font-size:21px;color:#e39ad0;opacity:0;transition:opacity .5s ease;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.catnote.on{opacity:1}
+.dframe{z-index:1}
+#behind{position:absolute;top:22%;width:clamp(80px,11vh,120px);height:clamp(74px,10vh,110px);z-index:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+#behind.sl{left:0;transform:translateX(10%) rotate(0deg)}
+#behind.sr{right:0;transform:translateX(-10%) rotate(0deg)}
+#behind.on.sl{transform:translateX(-72%) rotate(-14deg)}
+#behind.on.sr{transform:translateX(72%) rotate(14deg)}
+#behind.gone .cat-grin,#peek.gone .cat-grin{opacity:0;transition:opacity 1s ease}
 .cap-hint{background:none;border:0;color:#888;font-size:16px;padding:0;cursor:pointer}
 .cap-msg.cat-say{color:#9c3f86;font-family:var(--hand);font-size:20px}
 
@@ -300,10 +313,7 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
   .track{gap:22vw;padding-left:60vw}
   .topbar .mark{display:none}
   .title .sub{font-size:10px;letter-spacing:.18em;padding:0 24px;margin-bottom:12px;line-height:1.5}
-  #cat1{right:6vw;top:calc(50% + 17vh)}
-  #cat1 .note1{left:-30vw;top:3vh}
   .hud{font-size:18px}
-  #cat2 .note1{left:-20vw;top:-4vh}
   .chapter .back{box-shadow:0 4px 14px rgba(0,0,0,.25)}
 }
 @media (max-width:600px){
@@ -484,7 +494,6 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <p class="plaque" id="plaque">“Madame Bovary, c’est moi.”<small>half Ingres · half Ursula · oil on daydreams</small></p>
     <div id="u1"></div>
     <div class="oops" id="oops">oops —</div>
-    <div class="cat vanish" id="cat1"><div class="bob"></div><span class="note1">we’re all mad here.</span></div>
     <div class="hint" id="hint">scroll to fall in <span>↓</span></div>
     <div class="blackout" id="blackout"></div>
   </div>
@@ -496,7 +505,6 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <div id="rings"></div>
     <div id="objs"></div>
     <div id="u2" class="falling"></div>
-    <div class="cat" id="cat2"><div class="bob"></div><span class="note1">relax. it’s a long way down.</span></div>
     <div class="caption" data-at="0.02">Once upon a time, in a city of fog, aperitivo<br>and very serious shoes…</div>
     <div class="caption" data-at="0.24">…a girl was shown what a proper life looks like.<br><em>In black and white.</em></div>
     <div class="caption" data-at="0.46">She is One, No One and One Hundred Thousand.<span class="hand">(Pirandello said it first.)</span></div>
@@ -513,7 +521,6 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <div class="intro-card">The Hall of Doors.<span class="hand">every painting is a door. hold → (or the arrow keys) to walk. tap a painting to go straight to it.</span></div>
   </div>
   <div id="u3"><div class="flip"></div><div class="shadow"></div></div>
-  <div class="cat" id="cat3"><div class="bob"></div></div>
   <div class="speech" id="speech"></div>
   <div class="walkpad" aria-label="Walk"><button data-dir="-1" aria-label="Walk left">←</button><button data-dir="1" aria-label="Walk right">→</button></div>
 </section>
@@ -668,7 +675,44 @@ const $ = s => document.querySelector(s);
 const tpl = $('#ursulaTpl');
 const mountU = el => el.appendChild(tpl.content.cloneNode(true));
 mountU($('#u1')); mountU($('#u2')); mountU($('#u3 .flip'));
-const catTpl = $('#catTpl'); ['#cat1','#cat2','#cat3'].forEach(c=>$(c+' .bob').appendChild(catTpl.content.cloneNode(true)));
+const catTpl = $('#catTpl');
+/* Cheshire cat: every so often it peeks from a corner of the screen or from behind a painting,
+   grins, fades to just the grin, and is gone */
+(function(){
+  const mk = id => { const el=document.createElement('div'); el.id=id; el.className='cat vanish';
+    el.innerHTML='<div class="bob"></div>'; el.querySelector('.bob').appendChild(catTpl.content.cloneNode(true)); return el; };
+  const pk = mk('peek'); document.body.appendChild(pk);
+  const bh = mk('behind');
+  const note = document.createElement('span'); note.className='catnote'; document.body.appendChild(note);
+  const lines = ['we’re all mad here.','psst. keep walking.','every door is a way in.','i was never here.','curiouser and curiouser.','try the next painting.'];
+  let lastC='';
+  const say = (x,y,alignRight)=>{ note.textContent=lines[Math.random()*lines.length|0];
+    note.style.left = alignRight ? 'auto' : x+'px'; note.style.right = alignRight ? (innerWidth-x)+'px' : 'auto';
+    note.style.top = y+'px'; note.classList.add('on'); };
+  function seq(el, cls){
+    el.className='cat vanish '+cls;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ el.classList.add('on'); el.classList.remove('vanish'); }));
+    setTimeout(()=>{ const r=el.getBoundingClientRect(); const right = r.left+r.width/2 > innerWidth/2;
+      const y = r.top+r.height/2 < innerHeight/2 ? r.bottom+6 : r.top-34;
+      say(right ? r.left : r.right, Math.max(8,Math.min(innerHeight-40,y)), right); }, 900);
+    setTimeout(()=>{ note.classList.remove('on'); el.classList.add('vanish'); }, 4200);
+    setTimeout(()=>el.classList.add('gone'), 5600);
+    setTimeout(()=>{ el.className='cat vanish '+cls; later(); }, 6800);
+  }
+  function visibleDoor(){
+    const ds=[...document.querySelectorAll('.door')].filter(d=>{const r=d.querySelector('.dframe').getBoundingClientRect();
+      return r.left>40 && r.right<innerWidth-40 && r.top>0 && r.bottom<innerHeight; });
+    return ds.length ? ds[Math.random()*ds.length|0] : null;
+  }
+  function show(){
+    if(document.hidden || document.querySelector('.chapter.open')) return later();
+    const door = Math.random()<.6 ? visibleDoor() : null;
+    if(door){ door.insertBefore(bh, door.querySelector('.dframe')); seq(bh, Math.random()<.5?'sl':'sr'); return; }
+    let c; do{ c=['tl','tr','bl','br'][Math.random()*4|0]; }while(c===lastC); lastC=c; seq(pk,c);
+  }
+  function later(){ setTimeout(show, 16000 + Math.random()*16000); }
+  setTimeout(show, 7000);
+})();
 gsap.registerPlugin(ScrollTrigger);
 
 /* ===== 1 · portrait ===== */
@@ -680,9 +724,6 @@ crack.style.strokeDasharray = cl; crack.style.strokeDashoffset = cl;
 
 gsap.timeline({scrollTrigger:{trigger:'#portrait',start:'top top',end:'bottom bottom',scrub:.7}})
   .to('#hint',{opacity:0,duration:.2})
-  .call(()=>$('#cat1').classList.add('vanish'),null,0)
-  .call(()=>$('#cat1').classList.remove('vanish'),null,.15)
-  .to('#cat1 .note1',{opacity:0,duration:.2},.5)
   .to(crack,{strokeDashoffset:0,duration:1})
   .to('#pframe',{x:3,duration:.05,repeat:5,yoyo:true},'<.6')
   .to('#halfL',{xPercent:-16,rotation:-8,transformOrigin:'0% 100%',duration:1},'+=.1')
@@ -694,7 +735,6 @@ gsap.timeline({scrollTrigger:{trigger:'#portrait',start:'top top',end:'bottom bo
   .call(()=>$('#u1').classList.remove('falling'),null,'<')
   .to('#u1',{y:'75vh',rotation:35,duration:1.2,ease:'power2.in',onStart(){$('#u1').classList.add('falling')},onReverseComplete(){$('#u1').classList.remove('falling')}},'+=.2')
   .to('#oops',{opacity:0,duration:.3},'<')
-  .to('#cat1',{y:'-30vh',opacity:0,duration:.8},'<')
   .to('#pframe',{scale:4,opacity:0,duration:1.2,ease:'power2.in'},'<')
   .to('#blackout',{opacity:1,duration:.5},'-=.5');
 
@@ -730,7 +770,6 @@ function renderFall(p){
   objEls.forEach(o=>{ const t=(p-o.s)/.3; const y = vh*1.15 - t*(vh*1.6); const sc=.6+o.d*.6;
     o.el.style.transform=`translate(${o.x/100*vw}px,${y}px) rotate(${o.rot*t}deg) scale(${sc})`; o.el.style.opacity=(t>-0.1&&t<1.1)?1:0; });
   $('#u2').style.transform=`rotate(${Math.sin(p*18)*14}deg) translateY(${Math.sin(p*9)*10}px)`;
-  $('#cat2').style.transform=`translate(${Math.sin(p*7)*20}px,${Math.cos(p*5)*16}px)`; $('#cat2').classList.toggle('vanish', (p>.3&&p<.42)||(p>.62&&p<.74)); $('#cat2 .note1').style.opacity = p<.2?1:0;
   caps.forEach(c=>{ const a=+c.dataset.at, t=(p-a)/.2; const o = t<0||t>1?0:Math.min(1,t*5,(1-t)*5); c.style.opacity=o; c.style.transform=`translateY(${(1-t)*20}px)`; });
   $('#whiteout').style.opacity = Math.max(0,(p-.9)/.1);
 }
@@ -762,14 +801,12 @@ const doors = [...document.querySelectorAll('.door')];
 $('#litTotal').textContent = DOORS.length;
 const u3 = $('#u3'), speech = $('#speech');
 const lit = new Set(); let activeIdx = -1; let walkTimer;
-let lastX = 0; const cat3 = $('#cat3'); let idleTimer;
+let lastX = 0;
 function updateHall(){
   // walking + direction, driven by the (smoothed) track position
   const x = gsap.getProperty(track,'x'); const dx = x - lastX; lastX = x;
   if (Math.abs(dx) < .3) return;
   u3.classList.add('walking'); u3.classList.toggle('back', dx>0);
-  cat3.classList.toggle('back', dx>0); cat3.classList.remove('vanish');
-  clearTimeout(idleTimer); idleTimer = setTimeout(()=>cat3.classList.add('vanish'),3500);
   clearTimeout(walkTimer); walkTimer = setTimeout(()=>u3.classList.remove('walking'),140);
   // nearest door to Ursula
   const ux = u3.getBoundingClientRect(); const cx = ux.left + ux.width/2;
