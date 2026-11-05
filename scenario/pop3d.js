@@ -227,6 +227,102 @@ function clipPlane(src, w, h){
     reset(){ if(on){ on = false; ACTIVE = Math.max(0, ACTIVE - 1); } v.pause(); mesh.visible = false; mesh.material.opacity = 0; }};
 }
 
+// ---------------------------------------------------------------- the story train: she rides inside, gets off at every chapter
+function inked(g){ const ls = []; g.traverse(o => { if(o.isMesh && !o.userData.noink){ const l = new THREE.LineSegments(new THREE.EdgesGeometry(o.geometry, 28), new THREE.LineBasicMaterial({color:INK, transparent:true, opacity:.55}));
+  l.position.copy(o.position); l.rotation.copy(o.rotation); l.scale.copy(o.scale); ls.push([o.parent, l]); o.castShadow = true; } }); ls.forEach(([p,l]) => p.add(l)); return g; }
+function makeTrain(key){
+  const g = new THREE.Group(), D = .5, F = D/2 - .015, CREAM = '#f3e6cf';
+  const glass = () => { const m = new THREE.Mesh(new THREE.PlaneGeometry(1,1), new THREE.MeshBasicMaterial({color:'#cfe3ea', transparent:true, opacity:.22, depthWrite:false})); m.userData.noink = true; return m; };
+  const wheels = (c, L) => { for(const x of [-L/2+.22, -L/2+.42, L/2-.42, L/2-.22]){ const w = new THREE.Mesh(new THREE.CylinderGeometry(.075,.075,.04,16), mat(INK)); w.rotation.x = Math.PI/2; w.position.set(x,.08,D/2-.02); c.add(w); } };
+  // the carriage she rides in: a real window band and a sliding door in the middle (door at x = 0)
+  const car = new THREE.Group(), L = 1.7;
+  car.add(box(L,.06,D-.08,INK,0,.05)); wheels(car, L);
+  car.add(box(L,.03,D,'#e9d9c2',0,.11));
+  car.add(box(L,.75,.03,CREAM,0,.14,-D/2+.015));
+  [-1,1].forEach(sd => car.add(box(.03,.75,D,BERRY,sd*L/2,.14)));
+  [-1,1].forEach(sd => car.add(box(L/2-.16,.26,.03,BERRY,sd*(L/4+.08),.14,F)));
+  car.add(box(L,.09,.03,BERRY,0,.86,F));
+  car.add(box(L+.08,.06,D+.08,CREAM,0,.95)); car.add(box(L-.2,.05,D-.12,'#e9d9c2',0,1.01));
+  [-L/2+.025,-.17,.17,L/2-.025].forEach(x => car.add(box(.05,.46,.03,BERRY,x,.4,F)));
+  [-1,1].forEach(sd => car.add(box(L/2-.16,.022,.035,GOLD,sd*(L/4+.08),.36,F+.005)));
+  [-1,1].forEach(sd => { const w = glass(); w.scale.set(L/2-.22,.44,1); w.position.set(sd*(L/4+.08),.63,F+.02); car.add(w); });
+  const door = new THREE.Group(); door.add(box(.32,.72,.02,'#e7c98a',0,.14)); const dw = glass(); dw.scale.set(.18,.26,1); dw.position.set(0,.66,.012); door.add(dw);
+  door.add(box(.03,.03,.02,INK,.11,.45,.012)); door.position.z = F - .03; car.add(door);
+  const step = box(.36,.03,.12,'#8a6446',0,.1,D/2+.06); car.add(step);
+  // the engine, in front
+  const loco = new THREE.Group(), LL = 1.25; loco.add(box(LL,.06,D-.08,INK,0,.05)); wheels(loco, LL);
+  loco.add(box(LL-.3,.5,D,BERRY,-.15,.11)); loco.add(box(.5,.38,D,BERRY,-.25,.61));
+  loco.add(box(.58,.05,D+.08,CREAM,-.25,.99)); const lw = glass(); lw.scale.set(.3,.2,1); lw.position.set(-.25,.82,D/2+.01); loco.add(lw);
+  loco.add(cyl(.17,.62,'#5a3b2c',.35,.18,0,18)); loco.children[loco.children.length-1].rotation.z = Math.PI/2; loco.children[loco.children.length-1].position.set(.32,.36,0);
+  loco.add(cyl(.06,.24,INK,.42,.52,0,10)); loco.add(cyl(.1,.05,INK,.42,.76,0,10));
+  loco.add(box(LL-.3,.022,.035,GOLD,-.15,.36,D/2+.005));
+  const lamp = ball(.05,'#f3d38c',.66,.36,0); lamp.material.emissive = new THREE.Color('#8a6a20'); loco.add(lamp);
+  loco.position.x = L/2 + LL/2 + .08;
+  // a second carriage behind, with other travellers' silhouettes
+  const car2 = new THREE.Group(); car2.add(box(L,.06,D-.08,INK,0,.05)); wheels(car2, L); car2.add(box(L,.75,D,BERRY,0,.11)); car2.add(box(L+.08,.06,D+.08,CREAM,0,.92));
+  for(let i=0;i<4;i++){ car2.add(box(.28,.3,.01,'#f6e3b4',-.6+i*.4,.5,D/2+.006)); car2.add(box(.28,.022,.012,GOLD,-.6+i*.4,.36,D/2+.008)); }
+  [-.6,.2].forEach((x,i) => { const h = ball(.07,i ? '#5a3b2c' : '#2b3550',x,.62,D/2+.012); h.scale.z = .2; h.userData.noink = true; car2.add(h); const b = box(.14,.1,.01,i ? '#5a3b2c' : '#2b3550',x,.5,D/2+.012); b.userData.noink = true; car2.add(b); });
+  car2.position.x = -L - .08;
+  [car, loco, car2].forEach(c => { inked(c); g.add(c); });
+  [L/2+.04, -L/2-.04].forEach(x => g.add(box(.08,.04,.04,INK,x,.12)));
+  // her, sitting by the window
+  const {m:rider} = artPlane('girl-' + key, .82); rider.position.set(-.45, .4, -.05); g.add(rider);
+  // puffs from the chimney
+  const puffs = [0,1,2,3,4].map(i => { const p = new THREE.Mesh(new THREE.SphereGeometry(.1,12,10), new THREE.MeshStandardMaterial({color:'#ffffff', transparent:true, opacity:0, roughness:1})); p.userData.noink = true; g.add(p); return p; });
+  return {g, rider, door, L,
+    tick(t, moving){ puffs.forEach((p,i) => { const k = ((t*.9 + i/5) % 1); p.position.set(loco.position.x + .42 - k*(moving ? 1.2 : .25), 1.0 + k*.7, 0); p.scale.setScalar(.6 + k*1.6); p.material.opacity = (moving ? .75 : .35) * Math.sin(k*Math.PI); }); },
+    open(k){ door.position.x = -.33*k; },
+    // she walks to the door, then steps down to (ex, ez) in train coordinates
+    ride(k1, k2, ex, ez, t){ const w = smooth(k1), s = smooth(k2);
+      rider.visible = k2 < 1;
+      rider.position.x = lerp(-.45, 0, w) + (ex - 0)*s;
+      rider.position.z = lerp(-.05, ez, s);
+      rider.position.y = .4 + Math.sin(s*Math.PI)*.16 + (k1 > 0 && k1 < 1 ? Math.abs(Math.sin(t*10))*.03 : 0);
+      rider.rotation.z = (k1 > 0 && k1 < 1) || (s > 0 && s < 1) ? Math.sin(t*10)*.06 : 0;
+      rider.scale.x = k1 > 0 && k1 < 1 ? -1 : 1; }};
+}
+const STATION = {
+  duomo:   ['Milano', 'Chapter I · where it all begins'],
+  montage: ['Campus Express', 'Milan · Boston · Antwerp'],
+  plushy:  ['The Pinewood', 'Chapter VIII · a cabin in the woods'],
+  didit:   ['Barcelona', 'Chapter IX · launch night'],
+  sf:      ['San Francisco', 'Epilogue · end of the line, for now'],
+};
+// before each chapter: the train pulls in, she gets off where the chapter's walk begins, the train leaves and the page pops up
+function withTrain(S, name, sc){
+  const PRE = 3.4;
+  sc.update(0); const x0 = S.girl.root.position.x, z0 = S.girl.root.position.z, tz = z0 - .62;
+  const T = makeTrain(SPRITE_FOR[name]); T.g.position.set(-99, 0, tz); S.world.add(T.g);
+  // rails stay on the page: the line runs through the whole book
+  const rails = new THREE.Group(); [-.13,.13].forEach(dz => rails.add(box(16,.012,.025,'#8b7b6e',0,0,dz)));
+  for(let i=0;i<54;i++) rails.add(box(.07,.008,.38,'#c9b49a',-8+i*.3,0,0));
+  rails.position.set(x0, 0, tz); rails.traverse(o => { if(o.isMesh) o.receiveShadow = true; }); S.world.add(rails);
+  const [l1, l2] = STATION[name]; const st = inked(sign(l1, l2, 1.25, 1.12)); const stp = new THREE.Group(); stp.add(st); stp.position.set(x0 + .5, 0, tz - .5); S.world.add(stp);
+  const camP = new THREE.Vector3(), camQ = new THREE.Quaternion(), preP = new THREE.Vector3(), preQ = new THREE.Quaternion(), look = new THREE.PerspectiveCamera();
+  return {end: sc.end + PRE, pre: PRE, update(t){
+    const ts = t - PRE; sc.update(Math.max(ts, 0));
+    if(t < PRE) S.girl.root.visible = false;
+    if(ts < .02) S.girlX = -99;
+    // the train: brakes into the station, waits, pulls away
+    const arr = clamp(t/2), dep = clamp((t - PRE - .3)/2.2);
+    const x = dep > 0 ? x0 + 11*dep*dep : x0 - 9*(1-arr)*(1-arr);
+    T.g.position.x = x; T.g.visible = dep < 1;
+    T.tick(t, arr < 1 || dep > 0);
+    T.g.position.y = (arr < 1 || dep > 0) ? Math.abs(Math.sin(t*14))*.006 : 0;
+    T.open(ease(t, 2.05, 2.4) * (1 - ease(t, PRE, PRE + .3)));
+    T.ride(clamp((t - 2.1)/.5), clamp((t - 2.65)/.65), 0, z0 - tz, t);
+    if(dep > 0) T.rider.visible = false;
+    // the station board folds up, then down again once she is off
+    const up = easeBack(clamp((t - .4)/.7)) * (1 - smooth(clamp((t - PRE - .9)/.6)));
+    stp.visible = up > .001; stp.rotation.x = -Math.PI/2 * (1 - up);
+    // camera: watch the platform, then glide into the chapter's own view
+    camP.copy(S.camera.position); camQ.copy(S.camera.quaternion);
+    preP.set(x0 + .3 + S.px*.3, 1.7 + S.py*.12, tz + 5.6); look.position.copy(preP); look.lookAt(x0 + .2, .6, tz); preQ.copy(look.quaternion);
+    const b = ease(t, PRE - .1, PRE + 1.6);
+    S.camera.position.lerpVectors(preP, camP, b); S.camera.quaternion.slerpQuaternions(preQ, camQ, b);
+  }};
+}
+
 // ---------------------------------------------------------------- one stage
 function stage(host){
   let renderer;
@@ -270,7 +366,7 @@ function stage(host){
     run(t){
       flats.forEach(f => { const k = clamp((t - f.at)/.5); f.m.material.opacity = k; f.m.material.color.copy(pc).lerp(new THREE.Color(f.m.userData.c), k); });
       pieces.forEach(p => {
-        if(p.t0 == null){
+        if(p.t0 == null && t >= 0){
           if(p.at != null && t >= p.at) p.t0 = p.at;
           else if(p.near != null && (S.girlX > p.near - .9 || t > S.walkEnd)) p.t0 = Math.min(t, S.walkEnd);
         }
@@ -444,7 +540,6 @@ SCENES.accenture = S => {
   S.flat(2.4,.7,-2.2,-.45,0,'#8fb7c4',.4);
   for(let i=0;i<26;i++) S.flat(.06,.32,-4+i*.32,.35,0,'#8a6446',.3+i*.01);
   S.flat(8.4,.05,0,.27,0,'#5d5d5d',.5); S.flat(8.4,.05,0,.43,0,'#5d5d5d',.5);
-  [['Zurich',-2.4],['Bern',-.2],['Lugano',2]].forEach(([n,x],i) => S.add(sign(n, '', .7, .2), x, .02, {at: .9 + i*.5}));
   const office = new THREE.Group(), w = 1.1, h = 1, d = .5; office.add(box(w,h,d,'#e9e4ea'));
   for(let r=0;r<3;r++) office.add(box(w-.16,.1,.01,'#6b5d86',0,.3+r*.22,d/2+.006)); office.add(box(.26,.28,.02,'#4b3f63',0,0,d/2+.012));
   const osign = sign('Accenture Song', 'Switzerland · from December 2021', 1.05, 0); osign.position.set(0, h+.04, .02); office.add(osign);
@@ -452,23 +547,26 @@ SCENES.accenture = S => {
   S.add(tree(.45,'#5f8a5c'), 2.6, -.4, {mode:'grow', at:1.8}); S.add(tree(.4,'#5f8a5c'), 4.1, -.3, {mode:'grow', at:1.9});
   const boat = new THREE.Group(); boat.add(cut([[-.22,0],[.22,0],[.16,-.07],[-.16,-.07]],'#c8553d',.08)); boat.add(cut([[0,0],[0,.38],[.2,0]],'#ffffff',.02)); boat.position.y = .07;
   S.add(boat, -2.4, -.45, {mode:'grow', at:1.2, ry:.3});
-  const train = new THREE.Group(); [0,1,2].forEach(i => { const c = new THREE.Group(); c.add(box(.8,.3,.28,'#c8303a',0,.04)); c.add(box(.82,.04,.3,'#f6efe4',0,.34));
-    for(let j=0;j<3;j++) c.add(box(.14,.1,.01,'#f6efe4',-.25+j*.25,.17,.145)); c.add(box(.8,.04,.24,'#3a2a22')); c.position.x = -i*.86; train.add(c); });
-  train.traverse(o => { if(o.isMesh) o.castShadow = true; }); train.position.set(-6, 0, .35); S.world.add(train);
+  [['Zurich',-2.15],['Bern',.05],['Lugano',2.25]].forEach(([n,x],i) => S.add(sign(n, '', .7, 1.12), x, -.2, {at: .9 + i*.5}));
+  const T = makeTrain('work'); T.g.position.set(-8, 0, .35); S.world.add(T.g);
   const g = S.putGirl({lower:'trousers', bottom:'#2b3550', top:'#2b3550', legs:'#2b3550', collar:'#ffffff', props:['briefcase'], shoes:'#1f1f24'});
-  const tk = [[-6,0],[-1.6,2],[-1.6,2.5],[.6,3.6],[.6,4.1],[2.8,5.2],[2.8,99]];
-  const trainX = t => { for(let i=0;i<tk.length-1;i++){ const [a,ta] = tk[i], [b,tb] = tk[i+1]; if(t <= tb) return lerp(a, b, smooth(clamp((t-ta)/(tb-ta)))); } return 2.8; };
-  const path = walker([{x:2.55,z:.62,t:5.6},{x:3.4,z:-.2,t:6.9},{x:3.4,z:-.2,t:7.3}]); S.walkEnd = 6.9;
-  return {end: 9.5, update(t){
-    train.position.x = trainX(t);
-    const on = t > 5.4, p = path(t);
+  // the train stops in Zurich and Bern; in Lugano she gets off
+  const tk = [[-8,0],[-2.4,2],[-2.4,2.6],[-.2,3.7],[-.2,4.3],[2,5.4],[2,6.7],[13,8.9]];
+  const trainX = t => { for(let i=0;i<tk.length-1;i++){ const [a,ta] = tk[i], [b,tb] = tk[i+1]; if(t <= tb) return lerp(a, b, i === tk.length-2 ? clamp((t-ta)/(tb-ta))**2 : smooth(clamp((t-ta)/(tb-ta)))); } return 13; };
+  const path = walker([{x:2,z:.98,t:8},{x:3.4,z:-.2,t:9.3},{x:3.4,z:-.2,t:9.7}]); S.walkEnd = 9.3;
+  return {end: 12, update(t){
+    const tx = trainX(t); T.g.position.x = tx; T.g.visible = tx < 12;
+    const moving = !((t > 2 && t < 2.6) || (t > 3.7 && t < 4.3) || (t > 5.4 && t < 6.7)); T.tick(t, moving);
+    T.open(ease(t, 5.45, 5.75) * (1 - ease(t, 6.4, 6.65)));
+    T.ride(clamp((t - 5.5)/.45), clamp((t - 6)/.6), 0, .63, t);
+    const on = t > 6.6, p = path(t);
     g.root.visible = on; g.root.position.set(p.x, 0, p.z); S.girlX = on ? p.x : -99;
-    g.root.rotation.y = p.dir != null ? p.dir : (t > 6.9 ? lerp(Math.PI, 0, ease(t, 7.3, 7.7)) : .6);
-    const enter = ease(t, 8.6, 9.3); g.fade(1 - enter);
-    if(t > 8.5){ g.root.rotation.y = Math.PI; g.root.position.z = -.2 - enter*.25; }
-    g.pose({t, moving:p.moving, wave: ease(t, 7.7, 8) * (1 - ease(t, 8.3, 8.5))});
-    const fx = THREE.MathUtils.clamp(t < 5.4 ? train.position.x : p.x, -2, 2.6);
-    S.cam(fx*.6 + Math.sin(t*.3)*.1, 2.2, 5.4, fx*.6, .5, -.45);
+    g.root.rotation.y = p.dir != null ? p.dir : (t > 9.3 ? lerp(Math.PI, 0, ease(t, 9.7, 10.1)) : .6);
+    const enter = ease(t, 11, 11.7); g.fade(1 - enter);
+    if(t > 10.9){ g.root.rotation.y = Math.PI; g.root.position.z = -.2 - enter*.25; }
+    g.pose({t, moving:p.moving, wave: ease(t, 6.9, 7.2) * (1 - ease(t, 7.7, 7.9)) + ease(t, 10.1, 10.4) * (1 - ease(t, 10.7, 10.9))});
+    const fx = THREE.MathUtils.clamp(t < 6.6 ? tx : p.x, -2, 2.6);
+    S.cam(fx*.6 + Math.sin(t*.3)*.1, 2.2, 5.6, fx*.6, .5, -.45);
   }};
 };
 
@@ -586,9 +684,10 @@ function start(host){
   if(starting.has(host)) return starting.get(host);
   const p = ready.then(() => {
     const S = stage(host); if(!S){ host.classList.add('nogl'); return null; } S.spriteKey = SPRITE_FOR[host.dataset.scene];
-    const sc = SCENES[host.dataset.scene](S);
+    let sc = SCENES[host.dataset.scene](S);
+    if(STATION[host.dataset.scene]) sc = withTrain(S, host.dataset.scene, sc);
     const L = {S, sc, t:0, playing:false, raf:0, last:0};
-    L.draw = () => { S.run(L.t); sc.update(L.t); S.renderer.render(S.scene, S.camera); };
+    L.draw = () => { S.run(L.t - (sc.pre || 0)); sc.update(L.t); S.renderer.render(S.scene, S.camera); };
     const size = () => { const w = host.clientWidth, h = host.clientHeight; if(!w || !h) return;
       const k = (host.getBoundingClientRect().width / w) || 1;
       S.renderer.setPixelRatio(Math.min(2.5, (devicePixelRatio || 1) * Math.max(1, k))); S.renderer.setSize(w, h, false);
