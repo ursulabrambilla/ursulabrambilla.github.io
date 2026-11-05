@@ -186,7 +186,7 @@ button{font:inherit;cursor:pointer}
 .chapter.open{display:block}
 body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .chapter .wrap{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:center;padding:12vh 6vw 8vh}
-.chapter .art{position:relative;justify-self:center}
+.chapter .art{position:sticky;top:12vh;align-self:start;justify-self:center}
 .chapter .art .dframe{filter:none}
 .chapter .art img{max-height:72vh;max-width:42vw;width:auto}
 .chapter .num{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:600}
@@ -207,6 +207,7 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .grid-mondrian{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:6px;background:#111;padding:6px;margin:16px 0}
 .grid-mondrian div{background:#f4f1ea;padding:12px;font-size:13px;line-height:1.4}
 .grid-mondrian div b{display:block;font-family:var(--serif);font-weight:400;font-size:20px}
+.grid-mondrian .full{grid-column:1/-1}
 .grid-mondrian .r{background:#d42a1d;color:#fff}.grid-mondrian .b{background:#1f3fa0;color:#fff}.grid-mondrian .y{background:#f1c40f}
 
 /* ---------- captcha game (Didit chapter) ---------- */
@@ -239,6 +240,37 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .verified.on{display:flex}
 .verified i{font-style:normal;flex:0 0 34px;height:34px;border-radius:50%;background:#188038;color:#fff;display:grid;place-items:center;font-size:18px}
 
+/* ---------- her work inside chapters: hung like exhibits ---------- */
+.work{margin:30px 0 10px}
+.work h4{font-family:var(--hand);font-weight:700;font-size:30px;color:var(--red);margin-bottom:14px;transform:rotate(-1.5deg);display:inline-block}
+.xhead{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.05;margin:34px 0 10px;padding-top:18px;border-top:1px solid rgba(0,0,0,.15)}
+.work > .xhead:first-child{margin-top:0;border-top:0;padding-top:0}
+.xtext{margin-bottom:6px}
+.ex{margin:22px 0 30px}
+.gilt{display:inline-block;max-width:100%;vertical-align:top;padding:12px;background:linear-gradient(135deg,#8b7a4f,#e6d39b 28%,#7a6638 52%,#d8c287 78%,#6e5a2f);box-shadow:0 18px 36px rgba(0,0,0,.22),inset 0 0 0 2px rgba(0,0,0,.3)}
+.gilt img,.gilt video{display:block;width:auto;max-width:100%;height:auto;max-height:70vh;background:#111;box-shadow:inset 0 0 0 1px rgba(0,0,0,.4)}
+.ex img{cursor:zoom-in}
+.gilt.block{display:block}
+.yt{position:relative;aspect-ratio:16/9;background:#111}
+.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.plaque2{display:table;margin-top:14px;background:#faf8f3;border:1px solid #d9d4c8;padding:9px 13px;box-shadow:0 2px 6px rgba(0,0,0,.08);max-width:100%}
+.plaque2 b{display:block;font-family:var(--serif);font-weight:400;font-size:19px;line-height:1.15;color:#111}
+.plaque2 span{display:block;font-size:12.5px;line-height:1.4;color:#555;margin-top:2px}
+.ex.letter{margin:16px 0 22px}
+.ex.letter .mat{padding:14px;background:#fbfaf6;border:7px solid #2a241f;box-shadow:0 10px 24px rgba(0,0,0,.16)}
+.ex.letter .mat img{display:block;width:100%;height:auto}
+.ex.letter .quote{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.25;margin-top:10px;color:#222}
+.vid{position:relative;cursor:pointer}
+.vid .sound{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;padding:5px 9px;border-radius:999px;font-family:var(--sans)}
+.vid.on .sound{background:var(--red)}
+.vid.on .sound::after{content:' · on'}
+.lightbox{position:fixed;inset:0;z-index:95;background:rgba(10,10,10,.88);display:none;place-items:center;padding:4vh 4vw;cursor:zoom-out}
+.lightbox.open{display:grid}
+.lightbox img{max-width:92vw;max-height:80vh;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lightbox p{color:#eee;font-family:var(--hand);font-size:24px;text-align:center;margin-top:12px;max-width:700px}
+.chapter .body a{color:inherit}
+.chapter .body .cta a{color:#fff}
+.chapter .body .cta a.alt{color:var(--ink)}
 /* ---------- short version ---------- */
 .short{position:fixed;inset:0;z-index:75;background:rgba(10,10,10,.6);backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
 .short.open{display:grid}
@@ -262,6 +294,8 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 
 @media (max-width:760px){
   .chapter .wrap{grid-template-columns:1fr;padding-top:76px}
+  .chapter .art{position:relative;top:0}
+  .wgrid{gap:14px 10px}
   .chapter .art img{max-width:80vw;max-height:48vh}
   .track{gap:22vw;padding-left:60vw}
   .topbar .mark{display:none}
@@ -491,6 +525,7 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <p>Moving to San Francisco. Looking for roles in marketing, events, business design and strategy, ideally somewhere that lets people switch colours on.</p>
     <div class="cta">
       <a href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">Hand me a brush ✉</a>
+      <a class="alt" href="mailto:ursulabrambilla@gmail.com">ursulabrambilla@gmail.com</a>
       <a class="alt" href="#" id="openShort2">The short version</a>
     </div>
   </div>
@@ -504,6 +539,8 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <div><div class="num" id="chNum"></div><h2 id="chTitle"></h2><div class="body" id="chBody"></div></div>
   </div>
 </div>
+
+<div class="lightbox" id="lightbox"><img id="lbImg" alt=""><p id="lbCap"></p></div>
 
 <!-- short version -->
 <div class="short" id="short">
@@ -574,37 +611,57 @@ const DOORS = [
   credit:'Johannes Vermeer, Girl with a Pearl Earring, c. 1665 · Mauritshuis', say:'the lips were red before anything else.',
   body:`<p>While studying at MIP in 2021 I entered the L’Oréal Brandstorm challenge with girls from another university I had met online. We had never been in the same room.</p>
   <div class="stat"><div>6/280<small>finalists in Italy</small></div><div>3<small>months with a L’Oréal marketing manager</small></div></div>
-  <p>We did not win (the crown, leaving 👑). But we built a <b>Virtual Make-up Masterclass</b> and pitched it to the L’Oréal Italy Board. Customer experience design, before I knew it would become my job.</p>`},
- {n:'III', place:'Creative explorations', title:'A little creative detour', art:'assets/art/vertumnus.jpg', ratio:960/1182,
-  credit:'Giuseppe Arcimboldo, Vertumnus, 1591 · Skokloster Castle', say:'no brief. no client. just curiosity.',
-  body:`<p>After Brandstorm I wasn’t ready to leave the beauty world behind, so I started playing with advertising ideas for brands I loved.</p><p>No briefs, no clients, no expectations. Just curiosity and a little creative freedom, like a portrait made of whatever is lying around.</p><span class="note">Urban Decay · Newport Beach &nbsp; Maybelline · Upper East Side</span>`},
- {n:'IV', place:'Tell-Me', title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
+  <p>We did not win. But we built a <b>Virtual Make-up Masterclass</b> and pitched it to the L’Oréal Italy Board. Customer experience design, before I knew it would become my job.</p>`,
+  noTitle:true, work:[{img:'team.jpg',title:'Team 5 · “Red lipstick speaks louder”',cap:'Ursula Brambilla, Ilaria Senatore and Yasmine Rachyd, with our L’Oréal mentor Chiara Bernardini.'}]},
+ {n:'III', place:'Tell-Me', title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
   credit:'Caspar David Friedrich, Wanderer above the Sea of Fog, c. 1818 · Hamburger Kunsthalle', say:'a travel app. lovely view. lots of fog.',
-  body:`<p>Growth marketer for a travel and lifestyle app where recommendations come from friends you trust. I sharpened the value proposition and the go-to-market, and ran digital PR before launch.</p><p>It was a lovely idea. The market didn’t agree.</p><span class="note">lesson: fall in love with the problem, not the product.</span>`},
- {n:'V', place:'SLB Coaching Academy', title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
+  body:`<p>Growth marketer for a travel and lifestyle app where recommendations come from friends you trust. I sharpened the value proposition and the go-to-market, and ran digital PR before launch.</p><p>It was a lovely idea. The market didn’t agree.</p><span class="note">lesson: fall in love with the problem, not the product.</span>`,
+  work:[{img:'tellme.jpg',title:'Tell-Me',cap:'“Travel the world with TellMe”'}]},
+ {n:'IV', place:'SLB Coaching Academy', title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
   credit:'Vincent van Gogh, The Bedroom, 1888 · Van Gogh Museum', say:'styling, interiors, a pinch of feng shui.',
-  body:`<p>Content producer for SLB Coaching Academy: full course programmes for business owners in beauty, fashion and lifestyle, mixing personal styling, interior design and a pinch of feng shui.</p><span class="note">Van Gogh would have moved the bed.</span>`},
- {n:'VI', place:'Accenture Song', title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
+  body:`<p>Content producer for SLB Coaching Academy: full course programmes for business owners in beauty, fashion and lifestyle, mixing personal styling, interior design and a pinch of feng shui.</p><span class="note">Van Gogh would have moved the bed.</span>`,
+  noTitle:true, work:[{img:'slb.jpg',title:'Colours, magazines and a pen',cap:'Fashion magazines, colour swatches and a style guide: course material in the making.'},{video:'slb.mp4',poster:'slb.jpg',title:'Course material in the making',cap:'Video.'}]},
+ {n:'V', place:'Accenture Song', title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
   credit:'Piet Mondrian, Composition II in Red, Blue and Yellow, 1930', say:'swiss precision. five projects. one grid.',
   body:`<p>In December 2021 I joined Accenture Song in Switzerland. Different projects, different roles. Each one taught me a new language.</p>
-  <div class="grid-mondrian"><div class="r"><b>Scrum Master · Bern</b>National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.</div><div><b>BA · Zurich</b>Product content (PIM) for a skincare multinational.</div><div class="y"><b>Delivery Lead</b>Sales portal × Oracle Eloqua, end-to-end data flows.</div><div class="b"><b>BA · Lugano</b>Consumer app rolled out to 30+ countries.</div><div><b>BA · Lugano</b>Omnichannel order flows, SAP to Hybris.</div><div><b>+ events</b>Leadership events for 30+ leaders, budgets up to CHF 30k.</div></div>
-  <span class="note">some identities you find. some you rent for €0.35 a minute.</span>`},
- {n:'VII', place:'The Plushy Society', title:'The Plushy Society', art:BALLOON, ratio:600/760,
+  <div class="grid-mondrian"><div class="r"><b>Scrum Master · Bern</b>National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.</div><div><b>BA · Zurich</b>Product content (PIM) for a skincare multinational.</div><div class="y"><b>Delivery Lead</b>Sales portal × Oracle Eloqua, end-to-end data flows.</div><div class="b"><b>BA · Lugano</b>Consumer app rolled out to 30+ countries.</div><div><b>BA · Lugano</b>Omnichannel order flows, SAP to Hybris.</div><div><b>+ events</b>Leadership events for 30+ leaders, budgets up to CHF 30k.</div><div class="full r"><b>Pre-sales · RFP / RFI</b>Responses to RFPs and RFIs for clients, plus the business cases behind them.</div></div>`},
+ {n:'VI', place:'The Plushy Society', title:'The Plushy Society', art:BALLOON, ratio:600/760,
   credit:'after Banksy · an homage, redrawn', say:'I wrote them a book. then built them a world.',
   body:`<p>I wrote a book full of plushies with jobs they’re bad at, dreams they’re brave about and loves they fumble beautifully. Then they needed somewhere to live. So I built them a world.</p>
-  <p><b>theplushysociety.com</b>: describe your plushy and it comes to life. It explores, exchanges letters, writes to its human.</p>
+  <p><a href="https://theplushysociety.com" target="_blank" rel="noopener"><b>theplushysociety.com ↗</b></a>: describe your plushy and it comes to life. It explores, exchanges letters, writes to its human.</p>
   <div class="stat"><div>50<small>members, month one</small></div><div>50+<small>plushies alive</small></div><div>1<small>founder (me)</small></div></div>
-  <p>Designed, built and launched on my own with Next.js, Supabase and Claude.</p>`},
- {n:'VIII', place:'Didit · YC W26', title:'Prove you’re human', art:APPLE, ratio:600/760,
+  <p>Designed, built and launched on my own with Next.js, Supabase and Claude.</p>`,
+  work:[{video:'gulino.mp4',title:'Meet the founder',cap:'Gulino, polar bear and CEO. Edited by me.'},
+        {head:'Letters from the members'},
+        {letter:'letter1.jpg',cap:'“a safe and fun place for stuffie lovers like myself”'},{letter:'letter2.jpg',cap:'“very warm, cosy, safe and friendly”'},{letter:'letter3.jpg',cap:'“a feeling of being less alone in the world”'}],
+  after:`<span class="note">customer discovery, but with teddy bears.</span>`},
+ {n:'VII', place:'Didit · YC W26', title:'Prove you’re human', art:APPLE, ratio:600/760,
   credit:'after Magritte · an homage, redrawn', say:'they verify identities. fitting, for me.',
-  body:`<p>Didit verifies who people are. I make sure people want to know about it.</p>
-  <ul><li>Barcelona office launch event, end to end</li><li>Product demo video</li><li>Social content</li><li>SiGMA Rome</li></ul>
-  <p>Before you go on, a quick security check. You know how it is.</p>
-  <div id="captcha"></div>`, game:true},
+  body:`<p>At the end of summer 2026 I went to Barcelona as a contractor for Didit, a Y Combinator (W26) startup building identity and fraud infrastructure, to work in marketing and events.</p>
+  <ul><li><b>An event, end to end:</b> the office launch “Building, Raising &amp; Scaling in the AI Era”. Concept, production, guest list, landing page, invites, a guest-tracking web app, and a panel I moderated with a VC and founders.</li><li><b>A product demo</b> of Didit’s identity verification, turned into a social video.</li><li><b>Social content</b> for Didit’s channels.</li><li><b>SiGMA Rome:</b> arranged Didit’s presence at the event.</li></ul>`,
+  work:[{yt:'ksi8eAmbTTc',title:'Didit’s first event in Barcelona',cap:'AI-native companies and fundraising in SF vs EU. The panel I moderated, with a VC and founders.'},
+        {video:'didit-event.mp4',poster:'didit-event.jpg',title:'Launch night',cap:'“Building, Raising &amp; Scaling in the AI Era”, Barcelona.'}],
+  after:`<p>Before you go on, a quick security check. You know how it is.</p><div id="captcha"></div>`, game:true},
  {n:'∞', place:'Epilogue', title:'The next chapter', art:BLANK, ratio:600/760,
   credit:'Ursula Brambilla, Untitled (San Francisco), work in progress', say:'this one isn’t painted yet.',
-  body:`<p>Moving to San Francisco. Looking for roles in marketing, events, business design and strategy.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p><span class="note">bring your own brush.</span>`},
+  body:`<p>Every identity evolves, and mine is packing again. Next stop: San Francisco.</p><p>I’m looking for roles in the U.S. in marketing, events, business design and strategy.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p>`,
+  noTitle:true, work:[{img:'cover.jpg',title:'The heroine of this story',cap:'Ursula Brambilla. Photograph.'}],
+  after:`<div class="cta" style="justify-content:flex-start;margin-top:8px"><a href="mailto:ursulabrambilla@gmail.com">ursulabrambilla@gmail.com</a><a class="alt" href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">LinkedIn ↗</a></div><span class="note">shall we write it together?</span>`},
 ];
+const W = 'assets/work/';
+function workHTML(d){
+  if(!d.work) return '';
+  const plaque = w=>`<figcaption class="plaque2">${w.title?`<b>${w.title}</b>`:''}<span>${w.cap||''}</span></figcaption>`;
+  const item = w=>{
+    if(w.head) return `<h5 class="xhead">${w.head}</h5>`;
+    if(w.text) return `<div class="xtext">${w.text}</div>`;
+    if(w.letter) return `<figure class="ex letter"><div class="mat"><img src="${W+w.letter}" alt="${w.cap.replace(/"/g,'&quot;')}" loading="lazy"></div><figcaption class="quote">${w.cap}</figcaption></figure>`;
+    if(w.yt) return `<figure class="ex"><div class="gilt block"><div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${w.yt}?rel=0&modestbranding=1&playsinline=1" title="${w.title.replace(/"/g,'&quot;')}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div></div>${plaque(w)}</figure>`;
+    if(w.video) return `<figure class="ex"${w.optional?' data-optional':''}><div class="gilt"><div class="vid"><video src="${W+w.video}"${w.poster?` poster="${W+w.poster}"`:''} muted loop playsinline preload="metadata"></video><span class="sound">🔊 tap for sound</span></div></div>${plaque(w)}</figure>`;
+    return `<figure class="ex"><div class="gilt"><img src="${W+w.img}" alt="${(w.title||w.cap).replace(/"/g,'&quot;')}" loading="lazy"></div>${plaque(w)}</figure>`;
+  };
+  return `<div class="work">${d.noTitle?'':`<h4>${d.workTitle||'What I made'}</h4>`}${d.work.map(item).join('')}</div>`;
+}
 
 /* ===== helpers ===== */
 const $ = s => document.querySelector(s);
@@ -702,6 +759,7 @@ const sp = document.createElement('div'); sp.className='end-spacer'; track.appen
 document.addEventListener('pointermove',e=>{$('#cursor').style.transform=`translate(${e.clientX}px,${e.clientY}px)`;});
 
 const doors = [...document.querySelectorAll('.door')];
+$('#litTotal').textContent = DOORS.length;
 const u3 = $('#u3'), speech = $('#speech');
 const lit = new Set(); let activeIdx = -1; let walkTimer;
 let lastX = 0; const cat3 = $('#cat3'); let idleTimer;
@@ -757,12 +815,24 @@ document.querySelectorAll('.walkpad button').forEach(b=>{
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,()=>{ b.classList.remove('on'); stopWalk(); }));
 });
 
+
+/* ===== her work: lightbox for images, tap-for-sound videos ===== */
+function wireWork(root){
+  root.querySelectorAll('[data-optional] video').forEach(v=>v.addEventListener('error',()=>v.closest('figure').remove()));
+  root.querySelectorAll('.ex img').forEach(im=>im.onclick=()=>{ $('#lbImg').src=im.src; $('#lbCap').textContent=im.alt; $('#lightbox').classList.add('open'); });
+  const vids=[...root.querySelectorAll('.vid video')];
+  vids.forEach(v=>{
+    v.play().catch(()=>{});
+    v.parentElement.onclick=()=>{ const on=v.muted; vids.forEach(o=>{o.muted=true;o.parentElement.classList.remove('on');}); v.muted=!on; if(on){v.currentTime=0;v.play();v.parentElement.classList.add('on');} };
+  });
+}
 /* ===== chapter overlay ===== */
 const ch = $('#chapter');
 function openChapter(i,e){
   const d = DOORS[i];
   $('#chArt').src = d.art; $('#chArt').alt = d.credit; $('#chCredit').textContent = d.credit;
-  $('#chNum').textContent = `Chapter ${d.n} · ${d.place}`; $('#chTitle').textContent = d.title; $('#chBody').innerHTML = d.body;
+  $('#chNum').textContent = `Chapter ${d.n} · ${d.place}`; $('#chTitle').textContent = d.title; $('#chBody').innerHTML = d.body + workHTML(d) + (d.after||'');
+  wireWork($('#chBody'));
   const x = e && e.clientX ? e.clientX : innerWidth/2, y = e && e.clientY ? e.clientY : innerHeight/2;
   ch.classList.add('open'); ch.scrollTop = 0; document.body.style.overflow='hidden'; document.body.classList.add('ch-open');
   gsap.fromTo(ch,{clipPath:`circle(0px at ${x}px ${y}px)`},{clipPath:`circle(150vmax at ${x}px ${y}px)`,duration:1,ease:'power3.inOut'});
@@ -771,10 +841,14 @@ function openChapter(i,e){
   if(d.game) initCaptcha($('#captcha'));
 }
 function closeChapter(){
+  $('#chBody').querySelectorAll('iframe').forEach(f=>f.remove());
+  $('#chBody').querySelectorAll('video').forEach(v=>{v.pause();v.muted=true;});
   gsap.to(ch,{clipPath:`circle(0px at 50% 50%)`,duration:.6,ease:'power3.in',onComplete:()=>{ch.classList.remove('open');document.body.style.overflow='';document.body.classList.remove('ch-open');}});
 }
 $('#closeChapter').onclick = closeChapter;
+$('#lightbox').onclick = ()=>$('#lightbox').classList.remove('open');
 addEventListener('keydown',e=>{
+  if(e.key==='Escape' && $('#lightbox').classList.contains('open')){ $('#lightbox').classList.remove('open'); return; }
   if(e.key==='Escape'){ if(ch.classList.contains('open')) closeChapter(); $('#short').classList.remove('open'); }
   if(e.key==='Enter' && activeIdx>-1 && !ch.classList.contains('open')) openChapter(activeIdx);
 });
@@ -848,11 +922,11 @@ function initCaptcha(root){
 
 /* ===== short version ===== */
 const SHORT = [
-  [7,'Didit YC W26','Barcelona · Marketing & events','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
-  [6,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 50 members in the first month.'],
-  [5,'Accenture Song','Switzerland','BA, Product Owner, Scrum Master and Delivery Lead on five projects. Leadership events for 30+ leaders.'],
-  [3,'Tell-Me','Growth marketer','Value proposition, go-to-market and digital PR for a travel startup.'],
-  [4,'SLB Coaching Academy','Content producer','Course programmes for beauty, fashion and lifestyle business owners.'],
+  [6,'Didit YC W26','Barcelona · Marketing & events','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
+  [5,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 50 members in the first month.'],
+  [4,'Accenture Song','Switzerland','BA, Product Owner, Scrum Master and Delivery Lead on five projects. Pre-sales (RFP/RFI) for clients. Leadership events for 30+ leaders.'],
+  [2,'Tell-Me','Growth marketer','Value proposition, go-to-market and digital PR for a travel startup.'],
+  [3,'SLB Coaching Academy','Content producer','Course programmes for beauty, fashion and lifestyle business owners.'],
   [1,'L’Oréal Brandstorm','Finalist','6 finalists out of 280 teams in Italy, then a pitch to the L’Oréal Italy Board.'],
 ];
 $('#shortList').innerHTML = SHORT.map(([i,t,r,p])=>`<div class="row" data-i="${i}"><b>${t}</b><span>${r}</span><p>${p}</p></div>`).join('');
