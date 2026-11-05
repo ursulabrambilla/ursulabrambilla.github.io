@@ -282,8 +282,6 @@ function makeTrain(key){
       rider.scale.x = k1 > 0 && k1 < 1 ? -1 : 1; }};
 }
 const STATION = {
-  duomo:   ['Milano', 'Chapter I · where it all begins'],
-  montage: ['Campus Express', 'Milan · Boston · Antwerp'],
   plushy:  ['The Pinewood', 'Chapter VIII · a cabin in the woods'],
   didit:   ['Barcelona', 'Chapter IX · launch night'],
   sf:      ['San Francisco', 'Epilogue · end of the line, for now'],
@@ -714,3 +712,5 @@ function onVisible(list){ hosts.forEach(h => (list || []).includes(h.closest('se
 addEventListener('pages:visible', e => onVisible(e.detail));
 onVisible(window.__visiblePages);
 if(STILL) hosts.forEach(play);
+
+export { makeTrain, artTex };
