@@ -80,6 +80,30 @@ button{font:inherit;color:inherit}
 .leaf.turning .shade{animation:shade 1.15s ease}
 @keyframes shade{0%,100%{opacity:0}45%{opacity:1}}
 
+/* ---------- the little story train ---------- */
+.page-train{position:absolute;left:0;right:0;bottom:3.8%;height:14%;z-index:100;pointer-events:none;opacity:0;overflow:visible;--train-duration:1150ms}
+.page-train::before{content:"";position:absolute;left:-2%;right:-2%;bottom:12%;height:7px;opacity:0;
+  background:
+    linear-gradient(to bottom,transparent 0 1px,#79685b 1px 2px,transparent 2px 5px,#79685b 5px 6px,transparent 6px),
+    repeating-linear-gradient(90deg,transparent 0 12px,#b89f83 12px 16px,transparent 16px 25px);
+  transform:scaleX(.05);transform-origin:center;filter:drop-shadow(0 2px 1px rgba(65,40,25,.22))}
+.train-runner{position:absolute;left:0;bottom:13%;width:28%;min-width:118px;max-width:250px;transform:translateX(-115%);filter:drop-shadow(0 5px 4px rgba(50,28,18,.28))}
+.train-runner svg{display:block;width:100%;height:auto;overflow:visible}
+.train-runner .wheel{transform-box:fill-box;transform-origin:center}
+.train-runner .steam{opacity:0;transform-box:fill-box;transform-origin:center}
+#book.train-forward .page-train,#book.train-back .page-train{animation:train-layer var(--train-duration) linear both}
+#book.train-forward .page-train::before,#book.train-back .page-train::before{animation:train-rails var(--train-duration) ease both}
+#book.train-forward .train-runner{animation:train-forward var(--train-duration) cubic-bezier(.32,.04,.62,.98) both}
+#book.train-back .train-runner{animation:train-back var(--train-duration) cubic-bezier(.32,.04,.62,.98) both}
+#book.train-forward .wheel,#book.train-back .wheel{animation:train-wheel .32s linear infinite}
+#book.train-forward .steam,#book.train-back .steam{animation:train-steam .9s ease-out infinite;animation-delay:var(--p,0s)}
+@keyframes train-layer{0%,100%{opacity:0}7%,91%{opacity:1}}
+@keyframes train-rails{0%,100%{opacity:0;transform:scaleX(.05)}12%,86%{opacity:.78;transform:scaleX(1)}}
+@keyframes train-forward{0%{transform:translateX(-115%)}100%{transform:translateX(465%)}}
+@keyframes train-back{0%{transform:translateX(465%) scaleX(-1)}100%{transform:translateX(-115%) scaleX(-1)}}
+@keyframes train-wheel{to{transform:rotate(360deg)}}
+@keyframes train-steam{0%{opacity:0;transform:translate(0,3px) scale(.45)}28%{opacity:.65}100%{opacity:0;transform:translate(-18px,-24px) scale(1.3)}}
+
 /* ---------- paper ---------- */
 .page{position:absolute;inset:0;background-color:var(--paper);color:var(--ink);
   background-image:
@@ -341,6 +365,7 @@ figure{margin:0}
   .leaf,.leaf.flipped,#book{transition-duration:.01s!important}
   .w,.magic,.draw,.madonnina{transition:none!important}
   .foil,.kb,.hint,.pinch{animation:none!important}
+  .page-train{display:none!important}
 }
 .pop3d{position:relative;width:96%;aspect-ratio:var(--ar,1.55);margin:-.2em auto 0;flex:none}
 .pop3d.nogl:not([data-scene="duomo"]){display:none}
@@ -797,6 +822,36 @@ figure{margin:0}
     var sh = document.createElement('div'); sh.className = 'shade'; f.appendChild(sh);
     return f;
   }
+  function makePageTrain(){
+    var tr = document.createElement('div'); tr.className = 'page-train'; tr.setAttribute('aria-hidden','true');
+    tr.innerHTML = '<div class="train-runner"><svg viewBox="0 0 260 92" focusable="false">' +
+      '<g fill="none" stroke="#43342a" stroke-width="2.2" stroke-linejoin="round">' +
+        '<circle class="steam" style="--p:0s" cx="191" cy="14" r="8" fill="#fffdf8" stroke="none"/>' +
+        '<circle class="steam" style="--p:-.3s" cx="200" cy="11" r="6" fill="#fffdf8" stroke="none"/>' +
+        '<circle class="steam" style="--p:-.6s" cx="207" cy="9" r="4.5" fill="#fffdf8" stroke="none"/>' +
+        '<rect x="5" y="31" width="119" height="39" rx="5" fill="#f3e6cf"/>' +
+        '<path d="M5 61h119v9H5zM5 31h119v7H5z" fill="#9c2f4f"/>' +
+        '<path d="M32 38v23M62 38v23M92 38v23"/>' +
+        '<path d="M13 42h13v13H13zm25 0h18v13H38zm30 0h18v13H68zm30 0h18v13H98z" fill="#cfe3ea"/>' +
+        '<path d="M65 42v13" stroke="#c9a868"/>' +
+        '<circle cx="73" cy="48" r="4" fill="#7d3e4e" stroke="none"/>' +
+        '<path d="M69 55q4-6 8 0" fill="#b56476" stroke="none"/>' +
+        '<path d="M124 61h12"/>' +
+        '<path d="M136 39h72l21 20v11h-93z" fill="#9c2f4f"/>' +
+        '<path d="M146 25h42v36h-42z" fill="#b56476"/>' +
+        '<path d="M153 32h27v18h-27z" fill="#cfe3ea"/>' +
+        '<path d="M190 47h18l16 14h-34z" fill="#f3e6cf"/>' +
+        '<path d="M197 19h13v28h-13zM193 15h21v6h-21z" fill="#43342a"/>' +
+        '<path d="M229 59h17v11h-17z" fill="#f3e6cf"/>' +
+        '<circle cx="244" cy="59" r="4" fill="#f3d38c"/>' +
+        '<path d="M139 55h86" stroke="#c9a868" stroke-width="3"/>' +
+        '<g class="wheel"><circle cx="22" cy="73" r="10" fill="#43342a"/><path d="M22 65v16M14 73h16" stroke="#f3e6cf"/></g>' +
+        '<g class="wheel"><circle cx="105" cy="73" r="10" fill="#43342a"/><path d="M105 65v16M97 73h16" stroke="#f3e6cf"/></g>' +
+        '<g class="wheel"><circle cx="158" cy="73" r="11" fill="#43342a"/><path d="M158 64v18M149 73h18" stroke="#f3e6cf"/></g>' +
+        '<g class="wheel"><circle cx="211" cy="73" r="11" fill="#43342a"/><path d="M211 64v18M202 73h18" stroke="#f3e6cf"/></g>' +
+      '</g></svg></div>';
+    return tr;
+  }
   function decorate(pg, idx, sideClass){
     pg.querySelectorAll('.run,.folio').forEach(function(e){ e.remove(); });
     var run = pg.getAttribute('data-run');
@@ -826,6 +881,7 @@ figure{margin:0}
       leaf._pages = [pair[0], pair[1]];
       bookEl.appendChild(leaf); leaves.push(leaf);
     });
+    bookEl.appendChild(makePageTrain());
     pages.forEach(function(p, i){ decorate(p, i); });
   }
   function pageLeafIndex(j){ return single ? j + 1 : Math.floor(j/2) + 1; }
@@ -1030,10 +1086,21 @@ figure{margin:0}
     document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
   });
 
-  function turn(dir){
+  function runPageTrain(dir, duration){
+    if (reduce) return;
+    var tr = bookEl.querySelector('.page-train'); if (!tr) return;
+    clearTimeout(bookEl._trainT);
+    bookEl.classList.remove('train-forward','train-back');
+    tr.style.setProperty('--train-duration', (duration || 1150) + 'ms');
+    void bookEl.offsetWidth;
+    bookEl.classList.add(dir > 0 ? 'train-forward' : 'train-back');
+    bookEl._trainT = setTimeout(function(){ bookEl.classList.remove('train-forward','train-back'); }, (duration || 1150) + 40);
+  }
+  function turn(dir, skipTrain){
     var N = leaves.length, max = single ? N - 1 : N;
     var next = cur + dir;
     if (next < 0 || next > max) return;
+    if (!skipTrain) runPageTrain(dir, 1150);
     var leaf = dir > 0 ? leaves[cur] : leaves[cur - 1];
     leaf.classList.add('turning'); leaf.style.zIndex = N + 5;
     clearTimeout(leaf._t);
@@ -1045,7 +1112,8 @@ figure{margin:0}
   function go(target){
     var steps = target - cur; if (!steps) return;
     var dir = steps > 0 ? 1 : -1, n = Math.abs(steps), i = 0;
-    (function step(){ turn(dir); if (++i < n) setTimeout(step, reduce ? 0 : 170); })();
+    runPageTrain(dir, Math.min(2600, Math.max(1150, n * 170 + 450)));
+    (function step(){ turn(dir, true); if (++i < n) setTimeout(step, reduce ? 0 : 170); })();
   }
 
   /* ---------- reveal (ink + magic) ---------- */
