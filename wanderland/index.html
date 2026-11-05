@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ursula in Wanderland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+@property --r { syntax: '<length>'; inherits: true; initial-value: 0px; }
+:root{
+  --ink:#141414; --paper:#efece6; --wall:#cbc8c2; --red:#d7263d; --gold:#b89a5a;
+  --serif:'Instrument Serif', Georgia, serif; --hand:'Caveat', cursive; --sans:'Inter', system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#0c0c0c}
+body{font-family:var(--sans);color:var(--ink);background:#0c0c0c;overflow-x:hidden}
+img{display:block}
+button{font:inherit;cursor:pointer}
+
+/* ---------- film grain over everything ---------- */
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:90;opacity:.13;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation:grain .5s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-1%,3%)}100%{transform:translate(3%,-1%)}}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:89;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.45) 100%)}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;justify-content:space-between;align-items:center;padding:18px 24px;pointer-events:none;mix-blend-mode:difference;color:#fff}
+.topbar .mark{font-family:var(--serif);font-size:20px;font-style:italic}
+.topbar .actions{display:flex;gap:10px;pointer-events:auto}
+.pill{border:1px solid currentColor;background:transparent;color:inherit;border-radius:999px;padding:8px 14px;font-size:13px;letter-spacing:.01em}
+.pill:hover{background:#fff;color:#000}
+.hud{white-space:nowrap;position:fixed;left:50%;transform:translateX(-50%);top:62px;z-index:80;font-family:var(--hand);font-size:22px;color:#fff;mix-blend-mode:difference;opacity:0;transition:opacity .4s}
+.hud.on{opacity:1}
+
+/* ---------- the cartoon heroine ---------- */
+.ursula{width:100%;height:100%;overflow:visible}
+.ursula .arm,.ursula .leg,.ursula .skirt{transform-box:fill-box;transform-origin:50% 0}
+.ursula .arm,.ursula .leg{transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.walking .legL{animation:swingA .46s ease-in-out infinite alternate}
+.walking .legR{animation:swingB .46s ease-in-out infinite alternate}
+.walking .armL{animation:swingB .46s ease-in-out infinite alternate}
+.walking .armR{animation:swingA .46s ease-in-out infinite alternate}
+.walking .bodyg{animation:bob .23s ease-in-out infinite alternate}
+@keyframes swingA{from{transform:rotate(24deg)}to{transform:rotate(-24deg)}}
+@keyframes swingB{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+.falling .armL{transform:rotate(152deg)}
+.falling .armR{transform:rotate(-152deg)}
+.falling .legL{transform:rotate(20deg)}
+.falling .legR{transform:rotate(-26deg)}
+.falling .skirt{transform:scale(1.32,.78)}
+.falling .bodyg{animation:flail .9s ease-in-out infinite alternate}
+@keyframes flail{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+.ursula .hairback{transform-box:fill-box;transform-origin:50% 14%;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.walking .hairback{animation:sway .46s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+.falling .hairback{transform:scaleY(-.45);animation:whoosh .5s ease-in-out infinite alternate}
+@keyframes whoosh{from{transform:scaleY(-.42) skewX(-5deg)}to{transform:scaleY(-.5) skewX(5deg)}}
+.ursula .blink{animation:blink 4s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.ursula .blink{transform-box:fill-box;transform-origin:center}
+
+/* ---------- 1. portrait ---------- */
+#portrait{height:340vh;position:relative;background:#1a1918}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden}
+#portrait .stage{display:grid;place-items:center;background:
+  radial-gradient(ellipse at 50% 40%,#3a3835 0%,#1a1918 70%)}
+.wallpaper{position:absolute;inset:0;opacity:.07;background-image:
+  radial-gradient(circle at 25% 25%,#fff 2px,transparent 3px),radial-gradient(circle at 75% 75%,#fff 2px,transparent 3px);background-size:46px 46px}
+.title{position:absolute;top:9vh;left:0;right:0;text-align:center;color:#eee;font-family:var(--serif);font-weight:400;
+  font-size:clamp(44px,8.2vw,128px);line-height:.9;letter-spacing:-.02em;z-index:5}
+.title .sub{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.32em;text-transform:uppercase;opacity:.6;margin-bottom:14px}
+.title .swap{position:relative;display:inline-block}
+.title .swap .o{opacity:.5}
+.title .swap svg{position:absolute;left:-10%;top:42%;width:120%;height:30%;overflow:visible}
+.title .swap .a{position:absolute;left:50%;top:-.62em;transform:translateX(-50%) rotate(-8deg);font-family:var(--hand);color:var(--red);font-size:.7em}
+.pframe{position:relative;width:min(38vh,72vw);aspect-ratio:1/1.12;margin-top:16vh;z-index:3;
+  padding:18px;background:linear-gradient(135deg,#8d8a83,#d9d6cf 30%,#6d6a64 55%,#c9c6bf 80%,#77746e);
+  box-shadow:0 40px 80px rgba(0,0,0,.6),inset 0 0 0 3px rgba(0,0,0,.35)}
+.pframe .inner{position:relative;width:100%;height:100%;background:#000;box-shadow:inset 0 0 0 2px rgba(0,0,0,.6)}
+.hole{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#000 0%,#000 40%,#0b0b0b 100%)}
+.hole::after{content:'';position:absolute;left:50%;top:50%;width:30%;height:30%;transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(215,38,61,.35),transparent 70%);filter:blur(10px)}
+.half{position:absolute;inset:0;background-size:cover;background-position:52% 30%;will-change:transform}
+.half.L{clip-path:polygon(0 0,54% 0,51% 14%,56% 27%,50% 41%,55% 55%,49% 70%,54% 84%,50% 100%,0 100%);filter:grayscale(1) contrast(1.08)}
+.half.R{clip-path:polygon(54% 0,100% 0,100% 100%,50% 100%,54% 84%,49% 70%,55% 55%,50% 41%,56% 27%,51% 14%)}
+.half.R.placeholder{filter:grayscale(1) contrast(1.12) brightness(.92)}
+.crack{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2;pointer-events:none}
+.plaque{position:relative;margin-top:22px;color:#cfccc6;font-family:var(--serif);font-size:clamp(18px,2.2vw,26px);font-style:italic;z-index:3;text-align:center}
+.plaque small{display:block;font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:.5;margin-top:6px}
+#u1{position:absolute;left:50%;top:50%;width:min(15vh,30vw);height:min(29vh,58vw);margin-left:calc(min(15vh,30vw)/-2);margin-top:-12vh;z-index:6;transform:scale(0);pointer-events:none}
+.hint{position:absolute;bottom:4vh;left:0;right:0;text-align:center;color:#bbb;font-family:var(--hand);font-size:24px;z-index:5}
+.hint span{display:inline-block;animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(6px)}}
+.oops{position:absolute;left:58%;top:30%;z-index:7;font-family:var(--hand);font-size:34px;color:var(--red);opacity:0;transform:rotate(-10deg)}
+.blackout{position:absolute;inset:0;background:#0c0c0c;opacity:0;z-index:5;pointer-events:none}
+
+/* ---------- 2. the fall ---------- */
+#fall{height:520vh;position:relative;background:#0c0c0c}
+#fall .stage{background:#0c0c0c}
+.ring{position:absolute;left:50%;top:50%;width:60vmin;height:60vmin;margin:-30vmin 0 0 -30vmin;border-radius:50%;
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 18px rgba(255,255,255,.015)}
+.obj{position:absolute;left:0;top:0;will-change:transform;filter:grayscale(1) brightness(1.1)}
+.obj.keep{filter:none}
+.obj svg{width:100%;height:100%;overflow:visible}
+#u2{position:absolute;left:50%;top:50%;width:min(16vh,32vw);height:min(31vh,62vw);margin:calc(min(31vh,62vw)/-2) 0 0 calc(min(16vh,32vw)/-2);z-index:4}
+.caption{position:absolute;left:0;right:0;bottom:12vh;text-align:center;color:#eee;font-family:var(--serif);font-size:clamp(22px,3.2vw,44px);
+  line-height:1.15;padding:0 8vw;opacity:0;z-index:5}
+.caption em{color:var(--red);font-style:italic}
+.caption .hand{font-family:var(--hand);font-size:.8em;color:#aaa;display:block;margin-top:8px}
+.whiteout{position:absolute;inset:0;background:var(--wall);opacity:0;z-index:8;pointer-events:none}
+
+/* ---------- 3. the hall of doors ---------- */
+#hall{position:relative;height:100vh;overflow:hidden;background:var(--wall)}
+.wall{position:absolute;inset:0 0 22vh 0;background:
+  linear-gradient(180deg,#c3c0ba 0%,#d3d0ca 60%,#bdbab4 100%)}
+.wall::before{content:'';position:absolute;left:0;right:0;bottom:0;height:9vh;background:repeating-linear-gradient(90deg,#b4b1ab 0 2px,transparent 2px 120px),linear-gradient(#c6c3bd,#b9b6b0);border-top:3px solid #a9a6a0}
+.floor{position:absolute;left:-50%;right:-50%;bottom:0;height:22vh;perspective:600px;overflow:hidden}
+.floor .tiles{position:absolute;left:0;right:0;top:0;height:300%;transform-origin:top;transform:rotateX(62deg);
+  background:conic-gradient(#151515 25%,#f0eeea 0 50%,#151515 0 75%,#f0eeea 0) 0 0/90px 90px}
+.track{position:absolute;left:0;top:0;height:78vh;display:flex;align-items:flex-start;padding-top:max(96px,13vh)!important;gap:16vw;padding:0 34vw 0 44vw;will-change:transform}
+.intro-card{flex:0 0 auto;margin-top:12vh;width:min(420px,70vw);font-family:var(--serif);font-size:clamp(26px,3vw,40px);line-height:1.1}
+.intro-card .hand{display:block;font-family:var(--hand);color:var(--red);font-size:.75em;margin-top:14px;transform:rotate(-2deg)}
+.door{flex:0 0 auto;position:relative;display:flex;flex-direction:column;align-items:center}
+.dframe{position:relative;padding:14px;background:linear-gradient(135deg,#8b7a4f,#e6d39b 28%,#7a6638 52%,#d8c287 78%,#6e5a2f);
+  box-shadow:0 26px 50px rgba(0,0,0,.35),inset 0 0 0 2px rgba(0,0,0,.3);filter:grayscale(1);transition:filter 1.4s ease}
+.door.lit .dframe{filter:none}
+.canvas{position:relative;height:min(40vh,62vw);overflow:hidden;background:#222;cursor:none}
+.canvas img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.canvas .g{filter:grayscale(1) contrast(1.05)}
+.canvas .c{opacity:0;transition:opacity 1.6s ease}
+.door.lit .canvas .c{opacity:1}
+.canvas .brush{-webkit-mask-image:radial-gradient(circle var(--r) at var(--mx,50%) var(--my,50%),#000 60%,transparent 100%);
+  mask-image:radial-gradient(circle var(--r) at var(--mx,50%) var(--my,50%),#000 60%,transparent 100%);transition:--r .35s ease}
+.canvas:hover{--r:90px}
+.canvas .accent{-webkit-mask-image:var(--accent);mask-image:var(--accent)}
+.knob{position:absolute;right:-7px;top:55%;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff3c4,#b8913a 60%,#5e4718);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.label{margin-top:16px;text-align:center;font-size:12px;letter-spacing:.06em;color:#3b3a37}
+.label b{display:block;font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:0;color:#111;margin-bottom:3px}
+.enter{position:absolute;z-index:3;left:50%;top:calc(min(20vh,31vw) + 14px);transform:translate(-50%,calc(-50% + 10px));opacity:0;pointer-events:none;
+  background:var(--red);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:500;white-space:nowrap;
+  transition:.35s cubic-bezier(.3,1.5,.5,1);box-shadow:0 8px 20px rgba(215,38,61,.35)}
+.door.active .enter{opacity:1;transform:translate(-50%,-50%);pointer-events:auto}
+#u3{position:absolute;left:24vw;bottom:9vh;width:min(14vh,26vw);height:min(27vh,50vw);z-index:6;pointer-events:none}
+#u3 .flip{width:100%;height:100%;transition:transform .2s}
+#u3.back .flip{transform:scaleX(-1)}
+.shadow{position:absolute;left:10%;right:10%;bottom:-4px;height:10px;border-radius:50%;background:rgba(0,0,0,.25);filter:blur(3px)}
+.cursor{position:fixed;left:0;top:0;width:28px;height:28px;margin:-14px 0 0 -14px;pointer-events:none;z-index:85;opacity:0;transition:opacity .2s}
+.cursor.on{opacity:1}
+.speech{position:absolute;left:calc(24vw + min(14vh,26vw) + 10vh);bottom:calc(9vh + 15vh);z-index:7;background:#fff;border:2px solid #111;
+  border-radius:16px;padding:8px 12px;font-family:var(--hand);font-size:22px;max-width:240px;opacity:0;transform:scale(.8);transform-origin:0 100%;transition:.3s}
+.speech.on{opacity:1;transform:scale(1)}
+.end-spacer{flex:0 0 1px}
+
+/* ---------- the Cheshire cat ---------- */
+.cat{position:absolute;pointer-events:none;z-index:7}
+.catsvg{width:100%;height:100%;overflow:visible}
+.cat .bob{width:100%;height:100%;animation:catfloat 2.8s ease-in-out infinite alternate}
+@keyframes catfloat{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-8px) rotate(3deg)}}
+.cat .cat-body{transition:opacity 1.4s ease}
+.cat.vanish .cat-body{opacity:0}
+.cat .cat-eyes{animation:catblink 5s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes catblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+#cat1{right:calc(50% - min(38vh,72vw)/2 - 13vh);top:calc(50% - 4vh);width:12vh;height:11vh}
+#cat1 .note1{position:absolute;left:-2vh;top:-5vh;white-space:nowrap;font-family:var(--hand);font-size:22px;color:#e39ad0;transform:rotate(-6deg)}
+#cat2{left:calc(50% + min(16vh,32vw)/2 + 2vh);top:calc(50% - 16vh);width:13vh;height:12vh;z-index:5}
+#cat2 .note1{position:absolute;left:10vh;top:-3vh;white-space:nowrap;font-family:var(--hand);font-size:22px;color:#e39ad0;transform:rotate(-4deg)}
+#cat3{left:calc(24vw + min(14vh,26vw) - 2vh);bottom:calc(9vh + 13vh);width:12vh;height:11vh;transition:left .6s ease}
+#cat3.back{left:calc(24vw - 11vh)}
+#cat3.back .bob{transform:scaleX(-1)}
+.cap-hint{background:none;border:0;color:#888;font-size:16px;padding:0;cursor:pointer}
+.cap-msg.cat-say{color:#9c3f86;font-family:var(--hand);font-size:20px}
+
+/* ---------- chapter overlay ---------- */
+.chapter{position:fixed;inset:0;z-index:70;background:var(--paper);display:none;overflow:auto;clip-path:circle(0 at 50% 50%)}
+.chapter.open{display:block}
+body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
+.chapter .wrap{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:center;padding:12vh 6vw 8vh}
+.chapter .art{position:relative;justify-self:center}
+.chapter .art .dframe{filter:none}
+.chapter .art img{max-height:72vh;max-width:42vw;width:auto}
+.chapter .num{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:600}
+.chapter h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.6vw,84px);line-height:.95;margin:12px 0 22px;letter-spacing:-.01em}
+.chapter .body{font-size:17px;line-height:1.6;max-width:540px;color:#2b2a27}
+.chapter .body p{margin-bottom:14px}
+.chapter .body ul{list-style:none;margin:10px 0 16px}
+.chapter .body li{padding:8px 0;border-top:1px solid rgba(0,0,0,.12)}
+.chapter .body li b{font-weight:600}
+.chapter .note{font-family:var(--hand);font-size:26px;color:var(--red);transform:rotate(-2deg);display:inline-block;margin-top:6px}
+.chapter .credit{font-size:11px;letter-spacing:.08em;color:#777;margin-top:12px;text-align:center}
+.chapter .photo{width:min(260px,60%);transform:rotate(3deg);border:8px solid #fff;box-shadow:0 14px 30px rgba(0,0,0,.2);margin:18px 0 6px}
+.chapter .back{position:fixed;top:16px;left:20px;z-index:2;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 16px;font-size:14px}
+.sticker{position:absolute;font-family:var(--hand);font-size:28px;color:var(--red);pointer-events:none}
+.stat{display:flex;gap:28px;margin:18px 0}
+.stat div{font-family:var(--serif);font-size:44px;line-height:1}
+.stat small{display:block;font-family:var(--sans);font-size:12px;color:#666;margin-top:4px}
+.grid-mondrian{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:6px;background:#111;padding:6px;margin:16px 0}
+.grid-mondrian div{background:#f4f1ea;padding:12px;font-size:13px;line-height:1.4}
+.grid-mondrian div b{display:block;font-family:var(--serif);font-weight:400;font-size:20px}
+.grid-mondrian .r{background:#d42a1d;color:#fff}.grid-mondrian .b{background:#1f3fa0;color:#fff}.grid-mondrian .y{background:#f1c40f}
+
+/* ---------- captcha game (Didit chapter) ---------- */
+.cap{width:min(340px,100%);background:#fff;border:1px solid #d6d3cc;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.12);margin:18px 0;font-size:14px;user-select:none}
+.cap-head{background:#1d1d1f;color:#fff;margin:8px;padding:16px 16px 18px;border-radius:3px;line-height:1.3}
+.cap-head small{display:block;opacity:.7;font-size:12px}
+.cap-head b{font-size:20px;font-weight:600;display:block}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:0 8px}
+.tile{position:relative;aspect-ratio:1;background-size:cover;background-position:50% 22%;filter:grayscale(1);cursor:pointer;transition:transform .15s,filter .6s;overflow:hidden}
+.tile.sel{transform:scale(.86)}
+.tile.sel::after{content:'✓';position:absolute;left:4px;top:4px;width:20px;height:20px;border-radius:50%;background:#1a73e8;color:#fff;font-size:12px;display:grid;place-items:center}
+.tile.reveal{filter:none}
+.tile span{position:absolute;left:0;right:0;bottom:0;padding:3px 4px;background:rgba(0,0,0,.6);color:#fff;font-family:var(--hand);font-size:15px;line-height:1;opacity:0;transition:opacity .4s}
+.tile.reveal span{opacity:1}
+.cap-msg{min-height:20px;padding:8px 10px 0;color:#c5221f;font-size:13px}
+.cap-msg.ok{color:#188038}
+.cap-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #e6e3dc;margin-top:8px;padding:10px}
+.cap-foot .ic{color:#888;font-size:16px;letter-spacing:8px}
+.cap-btn{background:#1a73e8;color:#fff;border:0;border-radius:3px;padding:10px 20px;font-weight:600;font-size:13px;letter-spacing:.04em}
+.cap-shake{animation:cshake .4s}
+@keyframes cshake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.puz{position:relative;margin:0 8px;aspect-ratio:1;background-size:cover;background-position:center;filter:grayscale(1);transition:filter 1s;overflow:hidden}
+.puz.done{filter:none}
+.puz .gap,.puz .piece{position:absolute;width:22%;height:22%;border-radius:6px}
+.puz .gap{background:rgba(0,0,0,.55);box-shadow:inset 0 0 0 2px rgba(255,255,255,.8)}
+.puz .piece{background-size:454.5% 454.5%;box-shadow:0 0 0 2px #fff,0 6px 14px rgba(0,0,0,.5);left:0}
+.slider{position:relative;height:40px;margin:10px 8px 0;background:#f1f0ec;border:1px solid #dedbd3;border-radius:3px;display:grid;place-items:center;color:#888;font-size:13px}
+.slider .knob2{position:absolute;left:0;top:0;width:52px;height:38px;background:#1a73e8;color:#fff;border-radius:3px;display:grid;place-items:center;cursor:grab;touch-action:none;font-size:18px}
+.verified{display:none;align-items:center;gap:12px;padding:14px 10px;font-size:14px;line-height:1.35}
+.verified.on{display:flex}
+.verified i{font-style:normal;flex:0 0 34px;height:34px;border-radius:50%;background:#188038;color:#fff;display:grid;place-items:center;font-size:18px}
+
+/* ---------- short version ---------- */
+.short{position:fixed;inset:0;z-index:75;background:rgba(10,10,10,.6);backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
+.short.open{display:grid}
+.short .card{background:var(--paper);max-width:620px;width:100%;max-height:88vh;overflow:auto;padding:34px;border-radius:4px;position:relative}
+.short h3{font-family:var(--serif);font-weight:400;font-size:38px;margin-bottom:4px}
+.short .lead{color:#555;margin-bottom:18px}
+.short .row{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:12px 0;border-top:1px solid rgba(0,0,0,.12);cursor:pointer}
+.short .row:hover b{color:var(--red)}
+.short .row span{font-size:13px;color:#666}
+.short .row p{grid-column:1/-1;font-size:14px;color:#333}
+.short .x{position:absolute;top:14px;right:14px;background:none;border:0;font-size:26px}
+
+/* ---------- finale ---------- */
+#finale{position:relative;min-height:100vh;background:var(--paper);display:grid;place-items:center;text-align:center;padding:12vh 8vw}
+#finale h2{font-family:var(--serif);font-weight:400;font-size:clamp(44px,7vw,110px);line-height:.95}
+#finale h2 em{color:var(--red)}
+#finale p{max-width:560px;margin:22px auto 30px;font-size:17px;line-height:1.6;color:#333}
+.cta{display:inline-flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.cta a{background:var(--ink);color:#fff;text-decoration:none;padding:14px 22px;border-radius:999px;font-weight:500}
+.cta a.alt{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+
+@media (max-width:760px){
+  .chapter .wrap{grid-template-columns:1fr;padding-top:76px}
+  .chapter .art img{max-width:80vw;max-height:48vh}
+  .track{gap:22vw;padding-left:60vw}
+  .topbar .mark{display:none}
+  .title .sub{font-size:10px;letter-spacing:.18em;padding:0 24px;margin-bottom:12px;line-height:1.5}
+  #cat1{right:6vw;top:calc(50% + 17vh)}
+  #cat1 .note1{left:-30vw;top:3vh}
+  .hud{font-size:18px}
+  #cat2 .note1{left:-20vw;top:-4vh}
+  .chapter .back{box-shadow:0 4px 14px rgba(0,0,0,.25)}
+}
+@media (max-width:600px){
+  .track{padding-top:20vh!important}
+  .speech{left:8vw;bottom:calc(9vh + 26vh);max-width:72vw;font-size:20px}
+}
+@media (max-height:820px) and (min-width:601px){
+  .track{padding-top:max(80px,11vh)!important}
+  .canvas{height:min(35vh,62vw)}
+  .label{margin-top:10px}
+  .label b{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){.grain{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<header class="topbar">
+  <div class="mark">Ursula in Wanderland</div>
+  <div class="actions">
+    <button class="pill" id="openShort">Skip the rabbit hole →</button>
+    <a class="pill" style="text-decoration:none;color:inherit" href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">Say hi ✉</a>
+  </div>
+</header>
+<div class="hud" id="hud">colours switched on: <b id="litCount">0</b>/10</div>
+
+<!-- The cartoon heroine: drawn once, cloned into each scene -->
+<template id="ursulaTpl">
+<svg class="ursula" viewBox="0 0 120 230" aria-hidden="true">
+  <g class="bodyg">
+    <!-- long dark hair, behind everything -->
+    <path class="hairback" d="M35 42 C31 18 48 9 60 9 C73 9 90 18 85 44 C89 70 92 102 88 132 C80 137 71 134 65 129 L55 129 C49 134 40 137 32 132 C28 102 31 70 35 42Z" fill="#2a1a12"/>
+    <g class="leg legL"><rect x="48" y="150" width="9" height="56" rx="4.5" fill="#eec3a2"/><rect x="47.5" y="182" width="10" height="22" rx="3" fill="#fff"/><path d="M43 202h16a5 5 0 0 1 0 10H43a5 5 0 0 1 0-10z" fill="#111"/></g>
+    <g class="leg legR"><rect x="63" y="150" width="9" height="56" rx="4.5" fill="#eec3a2"/><rect x="62.5" y="182" width="10" height="22" rx="3" fill="#fff"/><path d="M61 202h16a5 5 0 0 1 0 10H61a5 5 0 0 1 0-10z" fill="#111"/></g>
+    <g class="arm armL"><rect x="29" y="92" width="9" height="48" rx="4.5" fill="#eec3a2"/></g>
+    <g class="arm armR"><rect x="82" y="92" width="9" height="48" rx="4.5" fill="#eec3a2"/></g>
+    <g class="skirt"><path d="M42 108 L26 162 Q60 174 94 162 L78 108Z" fill="#d7263d"/><path d="M48 110 L40 158 Q60 166 80 158 L72 110Z" fill="#fff"/><path d="M40 160 Q60 170 80 160" stroke="#e8e2da" stroke-width="3" fill="none"/></g>
+    <path d="M40 86 Q60 79 80 86 L80 114 L40 114Z" fill="#d7263d"/>
+    <path d="M50 97 h20 v15 h-20z" fill="#fff"/>
+    <circle cx="35" cy="93" r="8.5" fill="#d7263d"/><circle cx="85" cy="93" r="8.5" fill="#d7263d"/>
+    <rect x="55.5" y="68" width="9" height="18" fill="#eec3a2"/>
+    <!-- pearl choker with a little gold planet -->
+    <g fill="#fbf7ee" stroke="#d8cfbd" stroke-width=".3"><circle cx="52.4" cy="77.6" r="1.1"/><circle cx="54.6" cy="79" r="1.1"/><circle cx="56.9" cy="80" r="1.1"/><circle cx="63.1" cy="80" r="1.1"/><circle cx="65.4" cy="79" r="1.1"/><circle cx="67.6" cy="77.6" r="1.1"/></g>
+    <circle cx="60" cy="81.5" r="1.8" fill="#d9b25a"/><ellipse cx="60" cy="81.5" rx="3.3" ry=".9" fill="none" stroke="#b8913a" stroke-width=".8" transform="rotate(-15 60 81.5)"/>
+    <!-- face -->
+    <ellipse cx="60" cy="47" rx="21.5" ry="25" fill="#f3cfb3"/>
+    <!-- brows: thick, straight-ish -->
+    <path d="M44.5 39.5 Q50 36 56 38.5" stroke="#2a1a12" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <path d="M64 38.5 Q70 36 75.5 39.5" stroke="#2a1a12" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+    <!-- eyes: brown, winged liner -->
+    <g class="blink">
+      <path d="M45.5 47 Q50.5 43 55.5 46.5 Q50.5 50 45.5 47Z" fill="#fff"/>
+      <path d="M64.5 46.5 Q69.5 43 74.5 47 Q69.5 50 64.5 46.5Z" fill="#fff"/>
+      <circle cx="50.6" cy="46.7" r="2.9" fill="#6b3d1e"/><circle cx="69.4" cy="46.7" r="2.9" fill="#6b3d1e"/>
+      <circle cx="50.6" cy="46.7" r="1.2" fill="#120b07"/><circle cx="69.4" cy="46.7" r="1.2" fill="#120b07"/>
+      <circle cx="51.4" cy="45.8" r=".7" fill="#fff"/><circle cx="70.2" cy="45.8" r=".7" fill="#fff"/>
+      <path d="M56 46.6 Q50.5 42.6 45.2 46.8 L42.6 44.6" stroke="#111" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M64 46.6 Q69.5 42.6 74.8 46.8 L77.4 44.6" stroke="#111" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <!-- nose, freckles, blush -->
+    <path d="M60.5 50 Q58.6 56 59.2 57.6 Q60.6 58.4 62 57.4" stroke="#d29c80" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    <g fill="#c48a69" opacity=".75"><circle cx="47" cy="54" r=".6"/><circle cx="50" cy="55.6" r=".55"/><circle cx="45.5" cy="57" r=".5"/><circle cx="73" cy="54" r=".6"/><circle cx="70" cy="55.6" r=".55"/><circle cx="74.5" cy="57" r=".5"/><circle cx="57" cy="53" r=".45"/><circle cx="63.4" cy="53" r=".45"/></g>
+    <circle cx="46.5" cy="58" r="4.6" fill="#ef9f9a" opacity=".35"/><circle cx="73.5" cy="58" r="4.6" fill="#ef9f9a" opacity=".35"/>
+    <!-- full nude-rose lips, softly parted -->
+    <path d="M53.6 63.4 Q56.8 60.6 60 62.2 Q63.2 60.6 66.4 63.4 Q60 64.6 53.6 63.4Z" fill="#a85a52"/>
+    <path d="M53.6 63.4 Q60 70.4 66.4 63.4 Q60 65.4 53.6 63.4Z" fill="#b8665c"/>
+    <path d="M56 64.2 Q60 65.3 64 64.2" stroke="#fff" stroke-width=".9" fill="none" opacity=".8"/>
+    <!-- front hair: centre part, curtain layers framing the face -->
+    <path d="M60 20 C47 20 38 30 37.5 46 C37 62 39 78 34 100 C41 95 43.5 82 43 66 C42.5 52 45 33 60 22Z" fill="#2a1a12"/>
+    <path d="M60 20 C73 20 82 30 82.5 46 C83 62 81 78 86 100 C79 95 76.5 82 77 66 C77.5 52 75 33 60 22Z" fill="#2a1a12"/>
+    <path d="M36.5 44 C34 21 50 12.5 60 12.5 C71 12.5 87 21 83.5 44 C80 30 71 22.5 60.6 21.6 L59.4 21.6 C49 22.5 40 30 36.5 44Z" fill="#2a1a12"/>
+    <path d="M60 13 L60 22" stroke="#4a2f22" stroke-width="1"/>
+    <path d="M44 26 C40 34 39 46 40 58" stroke="#4a3024" stroke-width="1" fill="none" opacity=".7"/>
+    <path d="M76 26 C80 34 81 46 80 58" stroke="#4a3024" stroke-width="1" fill="none" opacity=".7"/>
+    <!-- Alice headband -->
+    <path d="M37.5 30 C47 16 73 16 82.5 30" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
+</template>
+
+<!-- The Cheshire cat: original drawing (not Tenniel, not Disney) -->
+<template id="catTpl">
+<svg class="catsvg" viewBox="0 0 130 120" aria-hidden="true">
+  <g class="cat-body">
+    <path d="M86 92 C116 94 124 64 110 48 C103 41 95 46 100 53 C108 63 102 82 84 82Z" fill="#c766ad"/>
+    <path d="M104 52 l6 -3 M112 66 l7 -1 M108 80 l6 3" stroke="#8e3479" stroke-width="3.5" stroke-linecap="round"/>
+    <ellipse cx="60" cy="88" rx="32" ry="20" fill="#d77bbd"/>
+    <path d="M40 74 q-4 10 0 22 M54 70 q-4 12 0 26 M70 70 q-4 12 0 26 M84 76 q-3 8 0 18" stroke="#9c3f86" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M24 36 L26 6 L48 26Z" fill="#e39ad0"/><path d="M90 36 L88 6 L66 26Z" fill="#e39ad0"/>
+    <path d="M29 30 L30 14 L42 26Z" fill="#f7c9e8"/><path d="M85 30 L84 14 L72 26Z" fill="#f7c9e8"/>
+    <ellipse cx="57" cy="50" rx="36" ry="29" fill="#e39ad0"/>
+    <path d="M44 24 q4 8 0 14 M57 22 v14 M70 24 q-4 8 0 14 M24 46 q8 2 12 8 M90 46 q-8 2 -12 8" stroke="#9c3f86" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <g class="cat-eyes"><ellipse cx="44" cy="46" rx="8" ry="9" fill="#f4dc3a"/><ellipse cx="70" cy="46" rx="8" ry="9" fill="#f4dc3a"/>
+    <ellipse cx="44" cy="46" rx="2" ry="7.5" fill="#1b0f17"/><ellipse cx="70" cy="46" rx="2" ry="7.5" fill="#1b0f17"/>
+    <circle cx="46" cy="42" r="1.5" fill="#fff"/><circle cx="72" cy="42" r="1.5" fill="#fff"/></g>
+    <path d="M54 57 h6 l-3 4z" fill="#b8457f"/>
+    <path d="M30 58 l-14 -2 M30 62 l-14 2 M84 58 l14 -2 M84 62 l14 2" stroke="#7a2d66" stroke-width="1.2"/>
+  </g>
+  <g class="cat-grin">
+    <path d="M22 60 Q57 96 92 60 Q57 74 22 60Z" fill="#fff" stroke="#3a1030" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M32 65 l2 9 M41 68 l1 11 M50 70 v12 M57 70.5 v12.5 M64 70 v12 M73 68 l-1 11 M82 65 l-2 9 M26 63 Q57 82 88 63" stroke="#3a1030" stroke-width="1.3" fill="none"/>
+  </g>
+</svg>
+</template>
+
+<!-- ============ 1 · PORTRAIT ============ -->
+<section id="portrait">
+  <div class="stage">
+    <div class="wallpaper"></div>
+    <h1 class="title" id="title">
+      <span class="sub">a portfolio in black, white &amp; one colour at a time</span>
+      Ursula in W<span class="swap"><span class="o">o</span><svg viewBox="0 0 100 20"><path d="M2 14 Q50 2 98 8" stroke="#d7263d" stroke-width="7" fill="none" stroke-linecap="round"/></svg><span class="a">a</span></span>nderland
+    </h1>
+    <div class="pframe" id="pframe">
+      <div class="inner">
+        <div class="hole"></div>
+        <div class="half L" id="halfL"></div>
+        <div class="half R" id="halfR"></div>
+        <svg class="crack" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path id="crackPath" d="M54 0 L51 14 L56 27 L50 41 L55 55 L49 70 L54 84 L50 100" fill="none" stroke="#fff" stroke-width=".9" vector-effect="non-scaling-stroke" style="stroke-width:2px"/>
+        </svg>
+      </div>
+    </div>
+    <p class="plaque" id="plaque">“Madame Bovary, c’est moi.”<small>half Ingres · half Ursula · oil on daydreams</small></p>
+    <div id="u1"></div>
+    <div class="oops" id="oops">oops —</div>
+    <div class="cat vanish" id="cat1"><div class="bob"></div><span class="note1">we’re all mad here.</span></div>
+    <div class="hint" id="hint">scroll to fall in <span>↓</span></div>
+    <div class="blackout" id="blackout"></div>
+  </div>
+</section>
+
+<!-- ============ 2 · THE FALL ============ -->
+<section id="fall">
+  <div class="stage" id="fallStage">
+    <div id="rings"></div>
+    <div id="objs"></div>
+    <div id="u2" class="falling"></div>
+    <div class="cat" id="cat2"><div class="bob"></div><span class="note1">relax. it’s a long way down.</span></div>
+    <div class="caption" data-at="0.02">Once upon a time, in a city of fog, aperitivo<br>and very serious shoes…</div>
+    <div class="caption" data-at="0.24">…a girl was shown what a proper life looks like.<br><em>In black and white.</em></div>
+    <div class="caption" data-at="0.46">She is One, No One and One Hundred Thousand.<span class="hand">(Pirandello said it first.)</span></div>
+    <div class="caption" data-at="0.68">The rule of this world: every time she picks<br>something of her own, <em>a colour switches on.</em></div>
+    <div class="whiteout" id="whiteout"></div>
+  </div>
+</section>
+
+<!-- ============ 3 · HALL OF DOORS ============ -->
+<section id="hall">
+  <div class="wall"></div>
+  <div class="floor"><div class="tiles"></div></div>
+  <div class="track" id="track">
+    <div class="intro-card">The Hall of Doors.<span class="hand">every painting is a door. walk past one and it wakes up →</span></div>
+  </div>
+  <div id="u3"><div class="flip"></div><div class="shadow"></div></div>
+  <div class="cat" id="cat3"><div class="bob"></div></div>
+  <div class="speech" id="speech"></div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section id="finale">
+  <div>
+    <h2>The next painting<br>isn’t <em>painted</em> yet.</h2>
+    <p>Moving to San Francisco. Looking for roles in marketing, events, business design and strategy, ideally somewhere that lets people switch colours on.</p>
+    <div class="cta">
+      <a href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">Hand me a brush ✉</a>
+      <a class="alt" href="#" id="openShort2">The short version</a>
+    </div>
+  </div>
+</section>
+
+<!-- chapter overlay -->
+<div class="chapter" id="chapter" role="dialog" aria-modal="true">
+  <button class="back" id="closeChapter">← back to the hall</button>
+  <div class="wrap">
+    <div class="art"><div class="dframe"><img id="chArt" alt=""></div><div class="credit" id="chCredit"></div></div>
+    <div><div class="num" id="chNum"></div><h2 id="chTitle"></h2><div class="body" id="chBody"></div></div>
+  </div>
+</div>
+
+<!-- short version -->
+<div class="short" id="short">
+  <div class="card">
+    <button class="x" id="closeShort" aria-label="Close">×</button>
+    <h3>The short version</h3>
+    <p class="lead">No time for rabbit holes? Here’s the trailer, newest first. Tap a line to open its door.</p>
+    <div id="shortList"></div>
+  </div>
+</div>
+
+<svg class="cursor" id="cursor" viewBox="0 0 40 40"><path d="M6 34 C10 30 12 26 16 22 L22 28 C18 32 14 34 6 34Z" fill="#d7263d"/><path d="M17 21 L31 5 a3 3 0 0 1 4 4 L23 27Z" fill="#111"/></svg>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+/* ===== CONFIG =====
+   Put a front-facing photo of Ursula (square-ish, face centred) at assets/ursula-face.jpg
+   and set URSULA_FACE to that path. Until then the right half shows the painting itself. */
+const URSULA_FACE = 'assets/ursula-face.jpg'; // aligned to the Ingres crop (eyes level, 620x620)
+
+/* ===== homage paintings (drawn, not copied) ===== */
+const svgURI = s => 'data:image/svg+xml;utf8,' + encodeURIComponent(s);
+const BALLOON = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+<rect width="600" height="760" fill="#dcd8d0"/>
+${Array.from({length:14},(_,i)=>`<line x1="0" y1="${i*56+20}" x2="600" y2="${i*56+24}" stroke="#cfcac1" stroke-width="2"/>`).join('')}
+<g fill="#151515">
+ <circle cx="196" cy="452" r="34"/><path d="M168 440 q-30 -6 -40 20 q24 -8 40 -4z"/>
+ <path d="M175 484 L150 600 L248 600 L226 484 Z"/>
+ <path d="M220 498 L330 400 L338 410 L232 512Z"/>
+ <rect x="168" y="598" width="13" height="70"/><rect x="214" y="598" width="13" height="70"/>
+ <path d="M160 668h26v10h-30z M208 668h26v10h-30z"/>
+</g>
+<path d="M336 404 C350 330 400 280 420 236" stroke="#151515" stroke-width="3" fill="none"/>
+<g fill="#d7263d"><circle cx="430" cy="190" r="52"/><circle cx="388" cy="146" r="22"/><circle cx="472" cy="146" r="22"/></g>
+<g fill="#fff" opacity=".9"><circle cx="412" cy="186" r="5"/><circle cx="448" cy="186" r="5"/><ellipse cx="430" cy="204" rx="9" ry="6"/></g>
+<text x="300" y="730" text-anchor="middle" font-family="Courier New,monospace" font-weight="700" font-size="26" fill="#151515" letter-spacing="3">THERE IS ALWAYS A PLUSHY</text>
+</svg>`);
+const APPLE = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d93b0"/><stop offset=".7" stop-color="#c9d4de"/></linearGradient></defs>
+<rect width="600" height="760" fill="url(#s)"/>
+<rect y="520" width="600" height="80" fill="#3d5a73"/><rect y="600" width="600" height="160" fill="#a09a8e"/>
+<path d="M150 760 L170 430 Q300 380 430 430 L450 760Z" fill="#2c2c2c"/>
+<path d="M276 410 L300 470 L324 410Z" fill="#fff"/><path d="M294 420 L306 420 L310 500 L300 512 L290 500Z" fill="#b3202f"/>
+<rect x="268" y="330" width="64" height="90" rx="20" fill="#e3c2a6"/>
+<ellipse cx="300" cy="196" rx="120" ry="18" fill="#1d1d1d"/><path d="M210 192 Q206 100 300 98 Q394 100 390 192Z" fill="#1d1d1d"/>
+<circle cx="300" cy="300" r="74" fill="#6bb33e"/><path d="M300 228 q4 -24 18 -34" stroke="#5a3a1a" stroke-width="6" fill="none"/><path d="M310 222 q30 -30 54 -8 q-30 18 -54 8z" fill="#3f8a26"/>
+<g stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"><path d="M206 236 v-28 h28"/><path d="M394 236 v-28 h-28"/><path d="M206 370 v28 h28"/><path d="M394 370 v28 h-28"/></g>
+<text x="300" y="438" text-anchor="middle" font-family="Helvetica,Arial" font-size="18" fill="#fff" letter-spacing="2">VERIFYING… ✓</text>
+</svg>`);
+const BLANK = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+<defs><linearGradient id="k" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe3c8"/><stop offset="1" stop-color="#f6b28a"/></linearGradient></defs>
+<rect width="600" height="760" fill="#f7f4ee"/>
+<rect x="40" y="40" width="520" height="440" fill="url(#k)" opacity=".85"/>
+<g stroke="#c0392b" stroke-width="9" fill="none" opacity=".9"><path d="M150 480 V170 M440 480 V170"/><path d="M40 330 Q150 160 150 170 Q295 380 440 170 Q500 280 560 330"/><path d="M40 390 H560"/></g>
+<g stroke="#888" stroke-width="1.4" fill="none" opacity=".55"><path d="M40 560 Q300 520 560 600"/><path d="M60 640 Q300 600 540 670"/></g>
+<text x="300" y="700" text-anchor="middle" font-family="Georgia" font-style="italic" font-size="30" fill="#777">San Francisco, to be continued…</text>
+</svg>`);
+
+/* ===== doors & chapters (content from Ursula's storybook) ===== */
+const DOORS = [
+ {n:'I', place:'Milan', title:'Once upon a time, in Milan', art:'assets/art/hayez.jpg', ratio:960/1198,
+  credit:'Francesco Hayez, Il bacio, 1859 · Pinacoteca di Brera, Milan', say:'home. fog, aperitivo, serious shoes.',
+  body:`<p>Once upon a time, in a city of fog, aperitivo and very serious shoes, a girl whose name resembles that of a famous sea witch was born.</p>
+  <p>Hi, that’s me. Ursula. Born and raised under the 135 spires of the Duomo. 🤌</p>
+  <img class="photo" src="assets/pasta.jpg" alt="Pasta on a boat">
+  <ul><li><b>How Italian, exactly?</b> Lunch. On a boat. With busiate.</li><li>Talks with hands, fluently.</li><li>Believes pasta tastes better at sea. (It does.)</li><li>Will gently judge your cappuccino after 11 a.m.</li></ul>
+  <span class="note">first colour switched on: red. obviously.</span>`},
+ {n:'II', place:'The training montage', title:'The training montage', art:'assets/art/athens.jpg', ratio:960/745,
+  credit:'Raphael, The School of Athens, 1509–11 · Vatican', say:'every adventure needs a montage.',
+  body:`<p>Every adventure needs one. Mine came with lecture halls, a summer in Boston and a lot of espresso.</p>
+  <ul><li><b>Milan 2017–20</b> · Bachelor in Communication &amp; Advertising, Università Cattolica</li><li><b>Boston 2018</b> · Summer program in Marketing, Boston University. First taste of America. Noted for later.</li><li><b>Milan 2020–21</b> · Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano</li><li><b>Antwerp 2021</b> · Business &amp; Economics, University of Antwerp</li></ul>`},
+ {n:'III', place:'L’Oréal Brandstorm', title:'Red lipstick speaks louder', art:'assets/art/pearl.jpg', ratio:960/1137,
+  accent:'radial-gradient(ellipse 9% 5% at 38.5% 53%, #000 65%, transparent 100%)',
+  credit:'Johannes Vermeer, Girl with a Pearl Earring, c. 1665 · Mauritshuis', say:'the lips were red before anything else.',
+  body:`<p>While studying at MIP in 2021 I entered the L’Oréal Brandstorm challenge with girls from another university I had met online. We had never been in the same room.</p>
+  <div class="stat"><div>6/280<small>finalists in Italy</small></div><div>3<small>months with a L’Oréal marketing manager</small></div></div>
+  <p>We did not win (the crown, leaving 👑). But we built a <b>Virtual Make-up Masterclass</b> and pitched it to the L’Oréal Italy Board. Customer experience design, before I knew it would become my job.</p>`},
+ {n:'IV', place:'Creative explorations', title:'A little creative detour', art:'assets/art/vertumnus.jpg', ratio:960/1182,
+  credit:'Giuseppe Arcimboldo, Vertumnus, 1591 · Skokloster Castle', say:'no brief. no client. just curiosity.',
+  body:`<p>After Brandstorm I wasn’t ready to leave the beauty world behind, so I started playing with advertising ideas for brands I loved.</p><p>No briefs, no clients, no expectations. Just curiosity and a little creative freedom, like a portrait made of whatever is lying around.</p><span class="note">Urban Decay · Newport Beach &nbsp; Maybelline · Upper East Side</span>`},
+ {n:'V', place:'Tell-Me', title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
+  credit:'Caspar David Friedrich, Wanderer above the Sea of Fog, c. 1818 · Hamburger Kunsthalle', say:'a travel app. lovely view. lots of fog.',
+  body:`<p>Growth marketer for a travel and lifestyle app where recommendations come from friends you trust. I sharpened the value proposition and the go-to-market, and ran digital PR before launch.</p><p>It was a lovely idea. The market didn’t agree.</p><span class="note">lesson: fall in love with the problem, not the product.</span>`},
+ {n:'VI', place:'SLB Coaching Academy', title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
+  credit:'Vincent van Gogh, The Bedroom, 1888 · Van Gogh Museum', say:'styling, interiors, a pinch of feng shui.',
+  body:`<p>Content producer for SLB Coaching Academy: full course programmes for business owners in beauty, fashion and lifestyle, mixing personal styling, interior design and a pinch of feng shui.</p><span class="note">Van Gogh would have moved the bed.</span>`},
+ {n:'VII', place:'Accenture Song', title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
+  credit:'Piet Mondrian, Composition II in Red, Blue and Yellow, 1930', say:'swiss precision. five projects. one grid.',
+  body:`<p>In December 2021 I joined Accenture Song in Switzerland. Different projects, different roles. Each one taught me a new language.</p>
+  <div class="grid-mondrian"><div class="r"><b>Scrum Master · Bern</b>National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.</div><div><b>BA · Zurich</b>Product content (PIM) for a skincare multinational.</div><div class="y"><b>Delivery Lead</b>Sales portal × Oracle Eloqua, end-to-end data flows.</div><div class="b"><b>BA · Lugano</b>Consumer app rolled out to 30+ countries.</div><div><b>BA · Lugano</b>Omnichannel order flows, SAP to Hybris.</div><div><b>+ events</b>Leadership events for 30+ leaders, budgets up to CHF 30k.</div></div>
+  <span class="note">some identities you find. some you rent for €0.35 a minute.</span>`},
+ {n:'VIII', place:'The Plushy Society', title:'The Plushy Society', art:BALLOON, ratio:600/760,
+  credit:'after Banksy · an homage, redrawn', say:'I wrote them a book. then built them a world.',
+  body:`<p>I wrote a book full of plushies with jobs they’re bad at, dreams they’re brave about and loves they fumble beautifully. Then they needed somewhere to live. So I built them a world.</p>
+  <p><b>theplushysociety.com</b>: describe your plushy and it comes to life. It explores, exchanges letters, writes to its human.</p>
+  <div class="stat"><div>50<small>members, month one</small></div><div>50+<small>plushies alive</small></div><div>1<small>founder (me)</small></div></div>
+  <p>Designed, built and launched on my own with Next.js, Supabase and Claude.</p>`},
+ {n:'IX', place:'Didit · YC W26', title:'Prove you’re human', art:APPLE, ratio:600/760,
+  credit:'after Magritte · an homage, redrawn', say:'they verify identities. fitting, for me.',
+  body:`<p>Didit verifies who people are. I make sure people want to know about it.</p>
+  <ul><li>Barcelona office launch event, end to end</li><li>Product demo video</li><li>Social content</li><li>SiGMA Rome</li></ul>
+  <p>Before you go on, a quick security check. You know how it is.</p>
+  <div id="captcha"></div>`, game:true},
+ {n:'∞', place:'Epilogue', title:'The next chapter', art:BLANK, ratio:600/760,
+  credit:'Ursula Brambilla, Untitled (San Francisco), work in progress', say:'this one isn’t painted yet.',
+  body:`<p>Moving to San Francisco. Looking for roles in marketing, events, business design and strategy.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p><span class="note">bring your own brush.</span>`},
+];
+
+/* ===== helpers ===== */
+const $ = s => document.querySelector(s);
+const tpl = $('#ursulaTpl');
+const mountU = el => el.appendChild(tpl.content.cloneNode(true));
+mountU($('#u1')); mountU($('#u2')); mountU($('#u3 .flip'));
+const catTpl = $('#catTpl'); ['#cat1','#cat2','#cat3'].forEach(c=>$(c+' .bob').appendChild(catTpl.content.cloneNode(true)));
+gsap.registerPlugin(ScrollTrigger);
+
+/* ===== 1 · portrait ===== */
+$('#halfL').style.backgroundImage = 'url(assets/art/bovary.jpg)';
+if (URSULA_FACE){ $('#halfR').style.backgroundImage = `url(${URSULA_FACE})`; $('#halfR').classList.add('placeholder'); }
+else { $('#halfR').style.backgroundImage = 'url(assets/art/bovary.jpg)'; }
+const crack = $('#crackPath'); const cl = 140;
+crack.style.strokeDasharray = cl; crack.style.strokeDashoffset = cl;
+
+gsap.timeline({scrollTrigger:{trigger:'#portrait',start:'top top',end:'bottom bottom',scrub:.7}})
+  .to('#hint',{opacity:0,duration:.2})
+  .call(()=>$('#cat1').classList.add('vanish'),null,0)
+  .call(()=>$('#cat1').classList.remove('vanish'),null,.15)
+  .to('#cat1 .note1',{opacity:0,duration:.2},.5)
+  .to(crack,{strokeDashoffset:0,duration:1})
+  .to('#pframe',{x:3,duration:.05,repeat:5,yoyo:true},'<.6')
+  .to('#halfL',{xPercent:-16,rotation:-8,transformOrigin:'0% 100%',duration:1},'+=.1')
+  .to('#halfR',{xPercent:16,rotation:8,transformOrigin:'100% 100%',duration:1},'<')
+  .to(crack,{opacity:0,duration:.3},'<')
+  .fromTo('#u1',{scale:0,y:'6vh',rotation:-20},{scale:1,y:'-4vh',rotation:0,duration:.9,ease:'back.out(2)'},'-=.5')
+  .to('#oops',{opacity:1,duration:.3})
+  .to(['#title','#plaque'],{opacity:0,y:-20,duration:.6},'<')
+  .call(()=>$('#u1').classList.remove('falling'),null,'<')
+  .to('#u1',{y:'75vh',rotation:35,duration:1.2,ease:'power2.in',onStart(){$('#u1').classList.add('falling')},onReverseComplete(){$('#u1').classList.remove('falling')}},'+=.2')
+  .to('#oops',{opacity:0,duration:.3},'<')
+  .to('#cat1',{y:'-30vh',opacity:0,duration:.8},'<')
+  .to('#pframe',{scale:4,opacity:0,duration:1.2,ease:'power2.in'},'<')
+  .to('#blackout',{opacity:1,duration:.5},'-=.5');
+
+/* ===== 2 · the fall ===== */
+const icons = {
+  cup:`<svg viewBox="0 0 60 50"><path d="M8 10h34v16a17 17 0 0 1-34 0z" fill="#fff"/><path d="M42 14a8 8 0 0 1 0 16" stroke="#fff" stroke-width="4" fill="none"/><path d="M2 44h50" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M18 2q4 4 0 8M28 0q4 4 0 8" stroke="#aaa" stroke-width="2" fill="none"/></svg>`,
+  lipstick:`<svg viewBox="0 0 30 80"><rect x="4" y="40" width="22" height="38" rx="3" fill="#c9a24f"/><rect x="7" y="22" width="16" height="20" fill="#e5c77a"/><path d="M8 22 V8 L22 2 V22Z" fill="#d7263d"/></svg>`,
+  diploma:`<svg viewBox="0 0 90 40"><rect x="6" y="6" width="78" height="28" rx="14" fill="#f4f0e6"/><rect x="40" y="4" width="10" height="32" fill="#d7263d"/><circle cx="45" cy="38" r="6" fill="#d7263d"/></svg>`,
+  ticket:`<svg viewBox="0 0 120 50"><rect width="120" height="50" rx="6" fill="#f4f0e6"/><path d="M84 0v50" stroke="#999" stroke-dasharray="4 4"/><text x="10" y="22" font-family="Courier New" font-weight="700" font-size="14">MXP → BOS</text><text x="10" y="40" font-family="Courier New" font-size="10">SUMMER 2018</text><text x="90" y="30" font-family="Courier New" font-size="12">✈</text></svg>`,
+  watch:`<svg viewBox="0 0 60 70"><circle cx="30" cy="40" r="26" fill="#e9e3d3" stroke="#bbb" stroke-width="4"/><path d="M30 40V22M30 40l12 6" stroke="#222" stroke-width="3" stroke-linecap="round"/><rect x="25" y="4" width="10" height="10" rx="3" fill="#bbb"/></svg>`,
+  card:`<svg viewBox="0 0 50 70"><rect width="50" height="70" rx="5" fill="#fff"/><text x="7" y="20" font-size="16" fill="#d7263d" font-family="Georgia">A</text><text x="25" y="46" font-size="26" fill="#d7263d" text-anchor="middle">♥</text></svg>`,
+  bear:`<svg viewBox="0 0 70 70"><circle cx="16" cy="16" r="12" fill="#e8a7b4"/><circle cx="54" cy="16" r="12" fill="#e8a7b4"/><circle cx="35" cy="38" r="28" fill="#f2bcc7"/><circle cx="26" cy="34" r="3" fill="#222"/><circle cx="44" cy="34" r="3" fill="#222"/><ellipse cx="35" cy="46" rx="8" ry="6" fill="#fff"/><circle cx="35" cy="44" r="3" fill="#222"/></svg>`,
+  key:`<svg viewBox="0 0 80 30"><circle cx="14" cy="15" r="11" fill="none" stroke="#c9a24f" stroke-width="5"/><path d="M25 15h50M62 15v10M72 15v8" stroke="#c9a24f" stroke-width="5"/></svg>`,
+  mortar:`<svg viewBox="0 0 80 50"><path d="M40 4 L78 18 L40 32 L2 18Z" fill="#222"/><path d="M18 24v14q22 10 44 0V24" fill="#333"/><path d="M70 20v18" stroke="#c9a24f" stroke-width="3"/></svg>`,
+  door:`<svg viewBox="0 0 40 70"><rect x="2" y="2" width="36" height="66" rx="18" fill="#7a5a3a"/><circle cx="30" cy="38" r="3" fill="#c9a24f"/></svg>`
+};
+const fallObjs = [
+  ['cup',.0,18,70,1],['card',.04,78,46,.7],['diploma',.1,70,90,1.1],['watch',.15,12,60,.9],['mortar',.2,82,80,1],
+  ['ticket',.27,20,120,1.2],['key',.33,74,80,.8],['lipstick',.4,30,34,1,1],['card',.45,86,40,.6],['door',.5,10,40,.7],
+  ['cup',.55,66,50,.6],['watch',.6,84,54,.7],['bear',.66,16,64,1,1],['key',.72,60,70,.9],['diploma',.78,24,80,.8],['lipstick',.82,80,30,.9,1]
+];
+const objWrap = $('#objs');
+const objEls = fallObjs.map(([k,s,x,w,d,keep])=>{
+  const el = document.createElement('div'); el.className='obj'+(keep?' keep':''); el.innerHTML = icons[k];
+  el.style.width = w+'px'; el.style.height = w+'px'; objWrap.appendChild(el);
+  return {el,s,x,d,rot:(Math.random()*2-1)*200};
+});
+const rings = Array.from({length:7},()=>{const r=document.createElement('div');r.className='ring';$('#rings').appendChild(r);return r;});
+const caps = [...document.querySelectorAll('.caption')];
+function renderFall(p){
+  const vh = innerHeight, vw = innerWidth;
+  rings.forEach((r,i)=>{ const t=((p*5+i/rings.length)%1); const sc=Math.pow(t,2.2)*4.2+.05; r.style.transform=`scale(${sc})`; r.style.opacity=Math.min(1,t*2)*(1-t*.6); });
+  objEls.forEach(o=>{ const t=(p-o.s)/.3; const y = vh*1.15 - t*(vh*1.6); const sc=.6+o.d*.6;
+    o.el.style.transform=`translate(${o.x/100*vw}px,${y}px) rotate(${o.rot*t}deg) scale(${sc})`; o.el.style.opacity=(t>-0.1&&t<1.1)?1:0; });
+  $('#u2').style.transform=`rotate(${Math.sin(p*18)*14}deg) translateY(${Math.sin(p*9)*10}px)`;
+  $('#cat2').style.transform=`translate(${Math.sin(p*7)*20}px,${Math.cos(p*5)*16}px)`; $('#cat2').classList.toggle('vanish', (p>.3&&p<.42)||(p>.62&&p<.74)); $('#cat2 .note1').style.opacity = p<.2?1:0;
+  caps.forEach(c=>{ const a=+c.dataset.at, t=(p-a)/.2; const o = t<0||t>1?0:Math.min(1,t*5,(1-t)*5); c.style.opacity=o; c.style.transform=`translateY(${(1-t)*20}px)`; });
+  $('#whiteout').style.opacity = Math.max(0,(p-.9)/.1);
+}
+ScrollTrigger.create({trigger:'#fall',start:'top top',end:'bottom bottom',onUpdate:s=>renderFall(s.progress)});
+renderFall(0);
+
+/* ===== 3 · hall of doors ===== */
+const track = $('#track');
+DOORS.forEach((d,i)=>{
+  const el = document.createElement('article'); el.className='door'; el.dataset.i=i;
+  const acc = d.accent ? `<img class="c accent" src="${d.art}" alt="" style="--accent:${d.accent};opacity:1">` : '';
+  el.innerHTML = `<button class="enter">Step inside →</button>
+    <div class="dframe"><div class="canvas" style="aspect-ratio:${d.ratio}">
+      <img class="g" src="${d.art}" alt="${d.credit}"><img class="c" src="${d.art}" alt="">${acc}<img class="c brush" src="${d.art}" alt="" style="opacity:1">
+    </div><span class="knob"></span></div>
+    <div class="label"><b>${d.n} · ${d.place}</b>${d.credit.split(' · ')[0]}</div>`;
+  track.appendChild(el);
+  const cv = el.querySelector('.canvas');
+  cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();cv.style.setProperty('--mx',(e.clientX-r.left)+'px');cv.style.setProperty('--my',(e.clientY-r.top)+'px');});
+  cv.addEventListener('pointerenter',()=>$('#cursor').classList.add('on'));
+  cv.addEventListener('pointerleave',()=>$('#cursor').classList.remove('on'));
+  el.querySelector('.enter').addEventListener('click',e=>openChapter(i,e));
+  cv.addEventListener('click',e=>{ if(el.classList.contains('active')) openChapter(i,e); });
+});
+const sp = document.createElement('div'); sp.className='end-spacer'; track.appendChild(sp);
+document.addEventListener('pointermove',e=>{$('#cursor').style.transform=`translate(${e.clientX}px,${e.clientY}px)`;});
+
+const doors = [...document.querySelectorAll('.door')];
+const u3 = $('#u3'), speech = $('#speech');
+const lit = new Set(); let activeIdx = -1; let walkTimer;
+let lastX = 0; const cat3 = $('#cat3'); let idleTimer;
+function updateHall(){
+  // walking + direction, driven by the (smoothed) track position
+  const x = gsap.getProperty(track,'x'); const dx = x - lastX; lastX = x;
+  if (Math.abs(dx) < .3) return;
+  u3.classList.add('walking'); u3.classList.toggle('back', dx>0);
+  cat3.classList.toggle('back', dx>0); cat3.classList.remove('vanish');
+  clearTimeout(idleTimer); idleTimer = setTimeout(()=>cat3.classList.add('vanish'),3500);
+  clearTimeout(walkTimer); walkTimer = setTimeout(()=>u3.classList.remove('walking'),140);
+  // nearest door to Ursula
+  const ux = u3.getBoundingClientRect(); const cx = ux.left + ux.width/2;
+  let best=-1, bd=Infinity;
+  doors.forEach((d,i)=>{const r=d.getBoundingClientRect(); const dist=Math.abs(r.left+r.width/2-cx); if(dist<bd){bd=dist;best=i;}});
+  const near = bd < Math.max(140, innerWidth*.14) ? best : -1;
+  if (near!==activeIdx){
+    doors.forEach(d=>d.classList.remove('active'));
+    activeIdx = near;
+    if (near>-1){
+      doors[near].classList.add('active','lit');
+      if(!lit.has(near)){ lit.add(near); $('#litCount').textContent = lit.size; }
+      speech.textContent = DOORS[near].say; speech.classList.add('on');
+    } else speech.classList.remove('on');
+  }
+}
+gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth),ease:'none',onUpdate:updateHall,
+  scrollTrigger:{trigger:'#hall',pin:true,scrub:.6,end:()=>'+='+(track.scrollWidth-innerWidth)*1.1,invalidateOnRefresh:true,
+    onToggle:s=>$('#hud').classList.toggle('on',s.isActive)}});
+
+/* ===== chapter overlay ===== */
+const ch = $('#chapter');
+function openChapter(i,e){
+  const d = DOORS[i];
+  $('#chArt').src = d.art; $('#chArt').alt = d.credit; $('#chCredit').textContent = d.credit;
+  $('#chNum').textContent = `Chapter ${d.n} · ${d.place}`; $('#chTitle').textContent = d.title; $('#chBody').innerHTML = d.body;
+  const x = e && e.clientX ? e.clientX : innerWidth/2, y = e && e.clientY ? e.clientY : innerHeight/2;
+  ch.classList.add('open'); ch.scrollTop = 0; document.body.style.overflow='hidden'; document.body.classList.add('ch-open');
+  gsap.fromTo(ch,{clipPath:`circle(0px at ${x}px ${y}px)`},{clipPath:`circle(150vmax at ${x}px ${y}px)`,duration:1,ease:'power3.inOut'});
+  gsap.from('#chapter .wrap > *',{y:30,opacity:0,duration:.8,stagger:.12,delay:.35,ease:'power3.out'});
+  if(!lit.has(i)){ lit.add(i); doors[i].classList.add('lit'); $('#litCount').textContent = lit.size; }
+  if(d.game) initCaptcha($('#captcha'));
+}
+function closeChapter(){
+  gsap.to(ch,{clipPath:`circle(0px at 50% 50%)`,duration:.6,ease:'power3.in',onComplete:()=>{ch.classList.remove('open');document.body.style.overflow='';document.body.classList.remove('ch-open');}});
+}
+$('#closeChapter').onclick = closeChapter;
+addEventListener('keydown',e=>{
+  if(e.key==='Escape'){ if(ch.classList.contains('open')) closeChapter(); $('#short').classList.remove('open'); }
+  if(e.key==='Enter' && activeIdx>-1 && !ch.classList.contains('open')) openChapter(activeIdx);
+});
+
+
+/* ===== captcha game: "select all images with the real Ursula" ===== */
+const CARTOON = svgURI(tpl.innerHTML.trim().replace('<svg ','<svg xmlns="http://www.w3.org/2000/svg" style="background:#e9e6e0" ').replace('viewBox="0 0 120 230"','viewBox="10 4 100 100"'));
+const TILES = [
+  ['assets/ursula-face.jpg','the selfie'],['assets/art/pearl.jpg','the lipstick era'],['assets/art/bovary.jpg','the daydreamer'],
+  ['assets/art/mondrian.jpg','the consultant'],[CARTOON,'the cartoon'],['assets/art/wanderer.jpg','the traveller'],
+  [BALLOON,'the founder'],['assets/art/vertumnus.jpg','the creative'],['assets/art/hayez.jpg','the Milanese'],
+];
+function initCaptcha(root){
+  if(!root) return;
+  root.innerHTML = `<div class="cap" id="cap">
+    <div class="cap-head"><small>Select all images with</small><b>the real Ursula</b><small>If there are none, click skip</small></div>
+    <div class="cap-grid">${TILES.map(([src,l],i)=>`<div class="tile" data-i="${i}" style="background-image:url('${src}')"><span>${l}</span></div>`).join('')}</div>
+    <div class="cap-msg" id="capMsg"></div>
+    <div class="cap-foot"><span class="ic">↻ 🎧 <button class="cap-hint" id="capHint" title="Ask the cat">ⓘ</button></span><button class="cap-btn" id="capBtn">VERIFY</button></div></div>`;
+  const cap = root.querySelector('#cap'), msg = root.querySelector('#capMsg'), btn = root.querySelector('#capBtn');
+  const tiles = [...root.querySelectorAll('.tile')];
+  let stage = 1;
+  const hint = ()=>{ if(stage!==1) return; msg.className='cap-msg cat-say'; msg.textContent='the cat whispers: we’re all mad here. pick them all.'; };
+  root.querySelector('#capHint').onclick = hint;
+  const hintTimer = setTimeout(hint, 9000);
+  tiles.forEach(t=>t.onclick=()=>{ if(stage===1) t.classList.toggle('sel'); });
+  btn.onclick = ()=>{
+    if(stage===1){
+      const n = tiles.filter(t=>t.classList.contains('sel')).length;
+      if(!n){ msg.className='cap-msg'; msg.textContent='Please select all matching images.'; cap.classList.remove('cap-shake'); void cap.offsetWidth; cap.classList.add('cap-shake'); return; }
+      stage = 1.5; btn.disabled = true; clearTimeout(hintTimer);
+      msg.className='cap-msg'; msg.textContent = n===9 ? 'Suspiciously correct…' : `Hmm. You missed ${9-n}.`;
+      tiles.forEach((t,k)=>setTimeout(()=>t.classList.add('sel','reveal'),300+k*170));
+      setTimeout(()=>{ msg.className='cap-msg ok'; msg.innerHTML='Trick question: they’re <b>all</b> Ursula. One, No One and One Hundred Thousand.'; btn.textContent='NEXT'; btn.disabled=false; stage=2; },300+9*170+300);
+      return;
+    }
+    if(stage===2) puzzle();
+  };
+  function puzzle(){
+    stage = 3;
+    const tx = 58 + Math.round(Math.random()*16), ty = 22 + Math.round(Math.random()*12); // gap position in %
+    cap.innerHTML = `<div class="cap-head"><small>Slide the piece to complete</small><b>the face</b><small>Humans are allowed to be a bit imprecise</small></div>
+      <div class="puz" id="puz" style="background-image:url('assets/ursula-face.jpg')">
+        <div class="gap" style="left:${tx}%;top:${ty}%"></div>
+        <div class="piece" id="piece" style="top:${ty}%;background-image:url('assets/ursula-face.jpg');background-position:${tx/78*100}% ${ty/78*100}%"></div>
+      </div>
+      <div class="slider" id="slider">slide →<div class="knob2" id="knob">→</div></div>
+      <div class="cap-msg" id="capMsg2"></div>
+      <div class="verified" id="verified"><i>✓</i><div><b>Verified.</b> Human, Italian, one of a hundred thousand.<br><span style="color:#666">Didit verifies identities for real. I make sure people want to.</span></div></div>`;
+    const puz = cap.querySelector('#puz'), piece = cap.querySelector('#piece'), knob = cap.querySelector('#knob'), slider = cap.querySelector('#slider'), m2 = cap.querySelector('#capMsg2');
+    let drag=false, x0=0, cur=0;
+    const maxK = ()=>slider.clientWidth - knob.offsetWidth;
+    const set = v=>{ cur=Math.max(0,Math.min(maxK(),v)); knob.style.left=cur+'px'; piece.style.left=(cur/maxK())*(78)+'%'; };
+    knob.addEventListener('pointerdown',e=>{ if(stage!==3) return; drag=true; x0=e.clientX-cur; knob.setPointerCapture(e.pointerId); knob.style.cursor='grabbing'; });
+    knob.addEventListener('pointermove',e=>{ if(drag) set(e.clientX-x0); });
+    knob.addEventListener('pointerup',()=>{
+      if(!drag) return; drag=false; knob.style.cursor='grab';
+      const pos = (cur/maxK())*78;
+      if(Math.abs(pos-tx) < 3.5){
+        stage = 4; piece.style.left = tx+'%'; puz.classList.add('done'); piece.style.boxShadow='none';
+        cap.querySelector('.gap').style.opacity=0; slider.style.display='none'; m2.textContent='';
+        cap.querySelector('#verified').classList.add('on');
+        gsap.from('#verified',{y:10,opacity:0,duration:.5});
+      } else {
+        m2.className='cap-msg'; m2.textContent = pos<tx ? 'A little more. Ambition is encouraged.' : 'Too far. Classic overachiever.';
+        gsap.to({v:cur},{v:0,duration:.4,ease:'power2.out',onUpdate(){set(this.targets()[0].v)}});
+      }
+    });
+  }
+}
+
+/* ===== short version ===== */
+const SHORT = [
+  [8,'Didit YC W26','Barcelona · Marketing & events','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
+  [7,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 50 members in the first month.'],
+  [6,'Accenture Song','Switzerland','BA, Product Owner, Scrum Master and Delivery Lead on five projects. Leadership events for 30+ leaders.'],
+  [4,'Tell-Me','Growth marketer','Value proposition, go-to-market and digital PR for a travel startup.'],
+  [5,'SLB Coaching Academy','Content producer','Course programmes for beauty, fashion and lifestyle business owners.'],
+  [2,'L’Oréal Brandstorm','Finalist','6 finalists out of 280 teams in Italy, then a pitch to the L’Oréal Italy Board.'],
+];
+$('#shortList').innerHTML = SHORT.map(([i,t,r,p])=>`<div class="row" data-i="${i}"><b>${t}</b><span>${r}</span><p>${p}</p></div>`).join('');
+$('#shortList').addEventListener('click',e=>{const r=e.target.closest('.row'); if(!r) return; $('#short').classList.remove('open'); openChapter(+r.dataset.i,e);});
+const openShort = e=>{e&&e.preventDefault(); $('#short').classList.add('open');};
+$('#openShort').onclick = openShort; $('#openShort2').onclick = openShort;
+$('#closeShort').onclick = ()=>$('#short').classList.remove('open');
+$('#short').addEventListener('click',e=>{ if(e.target.id==='short') $('#short').classList.remove('open'); });
+</script>
+</body>
+</html>
