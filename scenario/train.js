@@ -2,7 +2,7 @@
 // of the open book, from the left edge, across the gutter between the pages, and out the right edge.
 // She rides inside, dressed for the chapter you are on.
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-import { makeTrain, artTex } from './pop3d.js?v=train2';
+import { makeTrain, artTex } from './pop3d.js?v=train3';
 
 const AT = parseFloat(new URLSearchParams(location.search).get('trainat'));   // test hook: freeze the train part-way
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches && (!new URLSearchParams(location.search).has('still') || AT >= 0)) {

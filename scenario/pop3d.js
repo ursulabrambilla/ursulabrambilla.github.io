@@ -281,11 +281,7 @@ function makeTrain(key){
       rider.rotation.z = (k1 > 0 && k1 < 1) || (s > 0 && s < 1) ? Math.sin(t*10)*.06 : 0;
       rider.scale.x = k1 > 0 && k1 < 1 ? -1 : 1; }};
 }
-const STATION = {
-  plushy:  ['The Pinewood', 'Chapter VIII · a cabin in the woods'],
-  didit:   ['Barcelona', 'Chapter IX · launch night'],
-  sf:      ['San Francisco', 'Epilogue · end of the line, for now'],
-};
+const STATION = {};
 // before each chapter: the train pulls in, she gets off where the chapter's walk begins, the train leaves and the page pops up
 function withTrain(S, name, sc){
   const PRE = 3.4;
@@ -545,25 +541,18 @@ SCENES.accenture = S => {
   S.add(tree(.45,'#5f8a5c'), 2.6, -.4, {mode:'grow', at:1.8}); S.add(tree(.4,'#5f8a5c'), 4.1, -.3, {mode:'grow', at:1.9});
   const boat = new THREE.Group(); boat.add(cut([[-.22,0],[.22,0],[.16,-.07],[-.16,-.07]],'#c8553d',.08)); boat.add(cut([[0,0],[0,.38],[.2,0]],'#ffffff',.02)); boat.position.y = .07;
   S.add(boat, -2.4, -.45, {mode:'grow', at:1.2, ry:.3});
-  [['Zurich',-2.15],['Bern',.05],['Lugano',2.25]].forEach(([n,x],i) => S.add(sign(n, '', .7, 1.12), x, -.2, {at: .9 + i*.5}));
-  const T = makeTrain('work'); T.g.position.set(-8, 0, .35); S.world.add(T.g);
+  [['Zurich',-2.15],['Bern',.05],['Lugano',2.25]].forEach(([n,x],i) => S.add(sign(n, '', .7, .2), x, -.2, {at: .9 + i*.5}));
   const g = S.putGirl({lower:'trousers', bottom:'#2b3550', top:'#2b3550', legs:'#2b3550', collar:'#ffffff', props:['briefcase'], shoes:'#1f1f24'});
-  // the train stops in Zurich and Bern; in Lugano she gets off
-  const tk = [[-8,0],[-2.4,2],[-2.4,2.6],[-.2,3.7],[-.2,4.3],[2,5.4],[2,6.7],[13,8.9]];
-  const trainX = t => { for(let i=0;i<tk.length-1;i++){ const [a,ta] = tk[i], [b,tb] = tk[i+1]; if(t <= tb) return lerp(a, b, i === tk.length-2 ? clamp((t-ta)/(tb-ta))**2 : smooth(clamp((t-ta)/(tb-ta)))); } return 13; };
-  const path = walker([{x:2,z:.98,t:8},{x:3.4,z:-.2,t:9.3},{x:3.4,z:-.2,t:9.7}]); S.walkEnd = 9.3;
-  return {end: 12, update(t){
-    const tx = trainX(t); T.g.position.x = tx; T.g.visible = tx < 12;
-    const moving = !((t > 2 && t < 2.6) || (t > 3.7 && t < 4.3) || (t > 5.4 && t < 6.7)); T.tick(t, moving);
-    T.open(ease(t, 5.45, 5.75) * (1 - ease(t, 6.4, 6.65)));
-    T.ride(clamp((t - 5.5)/.45), clamp((t - 6)/.6), 0, .63, t);
-    const on = t > 6.6, p = path(t);
+  // she walks along the line past Zurich and Bern, to the office in Lugano
+  const path = walker([{x:-3.6,z:.98,t:1.2},{x:2,z:.98,t:5.8},{x:3.4,z:-.2,t:7.2},{x:3.4,z:-.2,t:7.6}]); S.walkEnd = 7.2;
+  return {end: 10, update(t){
+    const on = t > 1.1, p = path(t);
     g.root.visible = on; g.root.position.set(p.x, 0, p.z); S.girlX = on ? p.x : -99;
-    g.root.rotation.y = p.dir != null ? p.dir : (t > 9.3 ? lerp(Math.PI, 0, ease(t, 9.7, 10.1)) : .6);
-    const enter = ease(t, 11, 11.7); g.fade(1 - enter);
-    if(t > 10.9){ g.root.rotation.y = Math.PI; g.root.position.z = -.2 - enter*.25; }
-    g.pose({t, moving:p.moving, wave: ease(t, 6.9, 7.2) * (1 - ease(t, 7.7, 7.9)) + ease(t, 10.1, 10.4) * (1 - ease(t, 10.7, 10.9))});
-    const fx = THREE.MathUtils.clamp(t < 6.6 ? tx : p.x, -2, 2.6);
+    g.root.rotation.y = p.dir != null ? p.dir : (t > 7.2 ? lerp(Math.PI, 0, ease(t, 7.6, 8)) : Math.PI/2);
+    const enter = ease(t, 8.9, 9.6); g.fade(1 - enter);
+    if(t > 8.8){ g.root.rotation.y = Math.PI; g.root.position.z = -.2 - enter*.25; }
+    g.pose({t, moving:p.moving, wave: ease(t, 8, 8.3) * (1 - ease(t, 8.5, 8.7))});
+    const fx = THREE.MathUtils.clamp(p.x, -2, 2.6);
     S.cam(fx*.6 + Math.sin(t*.3)*.1, 2.2, 5.6, fx*.6, .5, -.45);
   }};
 };
