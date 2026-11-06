@@ -68,23 +68,32 @@ button{font:inherit;cursor:pointer}
 .ursula .blink{transform-box:fill-box;transform-origin:center}
 
 /* ---------- 1. portrait ---------- */
-#portrait{height:340vh;position:relative;background:#1a1918}
+#portrait{height:340vh;position:relative;background:#e4e0d8}
 .stage{position:sticky;top:0;height:100vh;overflow:hidden}
 #portrait .stage{display:grid;place-items:center;background:
-  radial-gradient(ellipse at 50% 40%,#3a3835 0%,#1a1918 70%)}
+  radial-gradient(ellipse at 50% 45%,#f4f1ec 0%,#e4e0d8 55%,#cfc9be 100%)}
+#portrait .wallpaper{display:none}
 .wallpaper{position:absolute;inset:0;opacity:.07;background-image:
   radial-gradient(circle at 25% 25%,#fff 2px,transparent 3px),radial-gradient(circle at 75% 75%,#fff 2px,transparent 3px);background-size:46px 46px}
-.title{position:absolute;top:9vh;left:0;right:0;text-align:center;color:#eee;font-family:var(--serif);font-weight:400;
+.title{position:absolute;top:7vh;left:0;right:0;text-align:center;color:#151515;font-family:var(--serif);font-weight:400;
   font-size:clamp(44px,8.2vw,128px);line-height:.9;letter-spacing:-.02em;z-index:5}
 .title .sub{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.32em;text-transform:uppercase;opacity:.6;margin-bottom:14px}
 .title .swap{position:relative;display:inline-block}
 .title .swap .o{opacity:.5}
 .title .swap svg{position:absolute;left:-10%;top:42%;width:120%;height:30%;overflow:visible}
 .title .swap .a{position:absolute;left:50%;top:-.62em;transform:translateX(-50%) rotate(-8deg);font-family:var(--hand);color:var(--red);font-size:.7em}
-.pframe{position:relative;width:min(38vh,72vw);aspect-ratio:1/1.12;margin-top:16vh;z-index:3;
+.pface{position:absolute;left:50%;top:max(17vh,120px);height:min(78vh,118vw);aspect-ratio:800/763;margin-left:calc(min(78vh,118vw) * -.5242);z-index:3}
+.pface .hole{position:absolute;inset:0;background:radial-gradient(ellipse at 47% 34%,#2a0d14 0%,#0b0b0b 38%,#000 100%);
+  -webkit-mask:url(assets/ursula-head.webp) center/100% 100% no-repeat;mask:url(assets/ursula-head.webp) center/100% 100% no-repeat}
+.pface .hole::after{display:none}
+.pface .half{position:absolute;inset:0;background:url(assets/ursula-head.webp) center/100% 100% no-repeat;filter:grayscale(1) contrast(1.06) drop-shadow(0 20px 30px rgba(0,0,0,.18));will-change:transform}
+.pface .half.L{clip-path:polygon(0 0,51% 0,48% 10%,53% 20%,47% 31%,52% 42%,46% 54%,51% 67%,47% 82%,50% 100%,0 100%)}
+.pface .half.R{clip-path:polygon(51% 0,100% 0,100% 100%,50% 100%,47% 82%,51% 67%,46% 54%,52% 42%,47% 31%,53% 20%,48% 10%)}
+.pface .crack path{stroke:#1d1d1d}
+.pframe-old{position:relative;width:min(38vh,72vw);aspect-ratio:1/1.12;margin-top:16vh;z-index:3;
   padding:18px;background:linear-gradient(135deg,#8d8a83,#d9d6cf 30%,#6d6a64 55%,#c9c6bf 80%,#77746e);
   box-shadow:0 40px 80px rgba(0,0,0,.6),inset 0 0 0 3px rgba(0,0,0,.35)}
-.pframe .inner{position:relative;width:100%;height:100%;background:#000;box-shadow:inset 0 0 0 2px rgba(0,0,0,.6)}
+.pframe-old .inner{position:relative;width:100%;height:100%;background:#000;box-shadow:inset 0 0 0 2px rgba(0,0,0,.6)}
 .hole{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#000 0%,#000 40%,#0b0b0b 100%)}
 .hole::after{content:'';position:absolute;left:50%;top:50%;width:30%;height:30%;transform:translate(-50%,-50%);border-radius:50%;
   background:radial-gradient(circle,rgba(215,38,61,.35),transparent 70%);filter:blur(10px)}
@@ -96,7 +105,7 @@ button{font:inherit;cursor:pointer}
 .plaque{position:relative;margin-top:22px;color:#cfccc6;font-family:var(--serif);font-size:clamp(18px,2.2vw,26px);font-style:italic;z-index:3;text-align:center}
 .plaque small{display:block;font-family:var(--sans);font-style:normal;font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:.5;margin-top:6px}
 #u1{position:absolute;left:50%;top:50%;width:min(15vh,30vw);height:min(29vh,58vw);margin-left:calc(min(15vh,30vw)/-2);margin-top:-12vh;z-index:6;transform:scale(0);pointer-events:none}
-.hint{position:absolute;bottom:4vh;left:0;right:0;text-align:center;color:#bbb;font-family:var(--hand);font-size:24px;z-index:5}
+.hint{position:absolute;bottom:5vh;left:auto;right:6vw;text-align:right;color:#4a463f;font-family:var(--hand);font-size:24px;z-index:5}
 .hint span{display:inline-block;animation:nudge 1.4s ease-in-out infinite}
 @keyframes nudge{50%{transform:translateY(6px)}}
 .oops{position:absolute;left:58%;top:30%;z-index:7;font-family:var(--hand);font-size:34px;color:var(--red);opacity:0;transform:rotate(-10deg)}
@@ -129,6 +138,17 @@ button{font:inherit;cursor:pointer}
 .intro-card{flex:0 0 auto;margin-top:12vh;width:min(420px,70vw);font-family:var(--serif);font-size:clamp(26px,3vw,40px);line-height:1.1}
 .intro-card .hand{display:block;font-family:var(--hand);color:var(--red);font-size:.75em;margin-top:14px;transform:rotate(-2deg)}
 .door{flex:0 0 auto;position:relative;display:flex;flex-direction:column;align-items:center}
+.pwatch{position:absolute;left:-30px;top:-4px;width:clamp(54px,5.2vw,74px);aspect-ratio:80/96;z-index:4;transform-origin:50% -18px;animation:pwswing 2.8s ease-in-out infinite alternate;pointer-events:auto}
+.pwatch svg{width:100%;height:100%;display:block;filter:drop-shadow(0 5px 6px rgba(0,0,0,.3))}
+.pwatch .chain{position:absolute;left:50%;top:-18px;height:20px;border-left:2px dotted #b8913a;transform:translateX(-1px)}
+.pwatch .chain::before{content:"";position:absolute;left:-4px;top:-4px;width:6px;height:6px;border-radius:50%;background:#6d6252}
+.pwatch .w1,.pwatch .w2{position:absolute;left:0;right:0;text-align:center;font-family:var(--serif);color:#2a2116;line-height:1}
+.pwatch .w1{top:46%;font-size:clamp(13px,1.25vw,18px);letter-spacing:.02em}
+.pwatch .w2{top:66%;font-family:var(--hand);font-size:clamp(10px,.95vw,13px);color:var(--red)}
+.pwatch .hands{transform-origin:40px 56px;animation:pwtick 6s steps(12) infinite}
+@keyframes pwswing{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes pwtick{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.pwatch,.pwatch .hands{animation:none}}
 .dframe{position:relative;padding:14px;background:linear-gradient(135deg,#8b7a4f,#e6d39b 28%,#7a6638 52%,#d8c287 78%,#6e5a2f);
   box-shadow:0 26px 50px rgba(0,0,0,.35),inset 0 0 0 2px rgba(0,0,0,.3);filter:grayscale(1);transition:filter 1.4s ease}
 .door.lit .dframe{filter:none}
@@ -148,7 +168,23 @@ button{font:inherit;cursor:pointer}
   background:var(--red);color:#fff;border:0;border-radius:999px;padding:10px 18px;font-size:14px;font-weight:500;white-space:nowrap;
   transition:.35s cubic-bezier(.3,1.5,.5,1);box-shadow:0 8px 20px rgba(215,38,61,.35)}
 .door.active .enter{opacity:1;transform:translate(-50%,-50%);pointer-events:auto}
-#u3{position:absolute;left:24vw;bottom:9vh;width:min(14vh,26vw);height:min(27vh,50vw);z-index:6;pointer-events:none}
+/* Ursula inside the painting, after she jumps in */
+.inpaint{position:absolute;transform:translateX(-50%) scale(.2);transform-origin:50% 90%;opacity:0;pointer-events:none;
+  transition:transform .6s cubic-bezier(.3,1.6,.5,1) .15s,opacity .3s ease .15s;filter:drop-shadow(0 3px 4px rgba(0,0,0,.35))}
+.inpaint svg{width:100%;height:100%;display:block;overflow:visible}
+/* once she is inside, the button moves to the bottom edge so it doesn't cover her */
+.door.lit .enter{top:calc(min(40vh,62vw) + 14px)}
+.is-entering .enter{opacity:0!important;pointer-events:none!important}
+.door.lit .inpaint{opacity:1;transform:translateX(-50%) scale(1)}
+.inp .blink{animation:blink 4s infinite;transform-box:fill-box;transform-origin:center}
+.inpaint.dangle svg{animation:dangle 2.4s ease-in-out infinite alternate;transform-origin:52% 0}
+@keyframes dangle{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.inpaint.float svg{animation:inpfloat 3s ease-in-out infinite alternate;transform-origin:72% 20%}
+@keyframes inpfloat{from{transform:rotate(-4deg)}to{transform:rotate(5deg) translateY(-4px)}}
+.canvas .splash{position:absolute;left:50%;top:50%;width:20px;height:20px;margin:-10px;border-radius:50%;background:#fff;opacity:0;pointer-events:none}
+.door.entering .canvas .splash{animation:splash .7s ease-out}
+@keyframes splash{0%{opacity:.9;transform:scale(0)}100%{opacity:0;transform:scale(40)}}
+#u3{position:absolute;left:24vw;bottom:9vh;width:min(15.5vh,29vw);height:min(30vh,55vw);z-index:6;pointer-events:none}
 #u3 .flip{width:100%;height:100%;transition:transform .2s}
 #u3.back .flip{transform:scaleX(-1)}
 .shadow{position:absolute;left:10%;right:10%;bottom:-4px;height:10px;border-radius:50%;background:rgba(0,0,0,.25);filter:blur(3px)}
@@ -172,6 +208,7 @@ button{font:inherit;cursor:pointer}
 .cat .cat-eyes{animation:catblink 5s infinite;transform-box:fill-box;transform-origin:center}
 @keyframes catblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
 /* the cat only drops by now and then, peeking from a corner */
+#grin{left:calc(50% + 10vh);top:calc(50% - 18vh);width:14vh;height:13vh;z-index:5}
 #peek{position:fixed;width:clamp(90px,13vh,140px);height:clamp(84px,12vh,130px);z-index:60;opacity:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1),opacity .5s ease}
 #peek.tl{left:0;top:84px;transform:translate(-110%,0) rotate(70deg)}
 #peek.tr{right:0;top:84px;transform:translate(110%,0) rotate(-70deg)}
@@ -185,23 +222,42 @@ button{font:inherit;cursor:pointer}
 .catnote{position:fixed;z-index:61;pointer-events:none;white-space:nowrap;font-family:var(--hand);font-size:21px;color:#e39ad0;opacity:0;transition:opacity .5s ease;text-shadow:0 1px 6px rgba(0,0,0,.35)}
 .catnote.on{opacity:1}
 .dframe{z-index:1}
-#behind{position:absolute;top:22%;width:clamp(80px,11vh,120px);height:clamp(74px,10vh,110px);z-index:0;transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
-#behind.sl{left:0;transform:translateX(10%) rotate(0deg)}
-#behind.sr{right:0;transform:translateX(-10%) rotate(0deg)}
-#behind.on.sl{transform:translateX(-72%) rotate(-14deg)}
-#behind.on.sr{transform:translateX(72%) rotate(14deg)}
-#behind.gone .cat-grin,#peek.gone .cat-grin{opacity:0;transition:opacity 1s ease}
+#hcat{position:absolute;left:0;top:0;z-index:5;pointer-events:none;will-change:transform}
+#hcat .catsvg{transition:none}
+#hcat.left .catsvg{transform:scaleX(-1)}
+#hcat .leg{transform-box:view-box}
+#hcat .la{transform-origin:106px 68px}
+#hcat .lb{transform-origin:46px 66px}
+#hcat .wtail{transform-box:view-box;transform-origin:34px 56px;animation:tailsway 1.6s ease-in-out infinite alternate}
+@keyframes tailsway{from{transform:rotate(-8deg)}to{transform:rotate(10deg)}}
+#hcat.moving .nf,#hcat.moving .fb{animation:legswing .42s ease-in-out infinite alternate}
+#hcat.moving .ff,#hcat.moving .nb{animation:legswing .42s ease-in-out infinite alternate-reverse}
+@keyframes legswing{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
+#hcat.moving .wbody{animation:catstep .21s ease-in-out infinite alternate}
+@keyframes catstep{from{transform:translateY(0)}to{transform:translateY(-2.5px)}}
+#hcat.jump .la{transform:rotate(-48deg)}
+#hcat.jump .lb{transform:rotate(42deg)}
+#hcat.jump .wtail{animation:none;transform:rotate(-20deg)}
+#hcat .belly{transform-box:fill-box;transform-origin:50% 0;animation:catbreathe 3.2s ease-in-out infinite}
+@keyframes catbreathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.035)}}
+#hcat.land .catsvg{animation:catland .35s ease-out}
+@keyframes catland{0%{transform:scale(1.06,.88)}100%{transform:none}}
+#peek.gone .cat-grin{opacity:0;transition:opacity 1s ease}
 .cap-hint{background:none;border:0;color:#888;font-size:16px;padding:0;cursor:pointer}
 .cap-msg.cat-say{color:#9c3f86;font-family:var(--hand);font-size:20px}
 
 /* ---------- chapter overlay ---------- */
 .chapter{position:fixed;inset:0;z-index:70;background:var(--paper);display:none;overflow:auto;clip-path:circle(0 at 50% 50%)}
 .chapter.open{display:block}
-body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
+body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none;visibility:hidden}
+body.ch-open .topbar *{pointer-events:none!important}
 .chapter .wrap{min-height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:center;padding:12vh 6vw 8vh}
 .chapter .art{position:sticky;top:12vh;align-self:start;justify-self:center}
-.chapter .art .dframe{filter:none}
+.chapter .art .dframe{filter:none;width:fit-content;margin:0 auto}
 .chapter .art img{max-height:72vh;max-width:42vw;width:auto}
+.chlive{height:min(72vh,calc(42vw / var(--ar)));width:calc(min(72vh,calc(42vw / var(--ar))) * var(--ar));cursor:auto}
+.chlive .c,.chlive .inpaint{opacity:1}
+.chlive .inpaint{transform:translateX(-50%) scale(1)}
 .chapter .num{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:600}
 .chapter h2{font-family:var(--serif);font-weight:400;font-size:clamp(40px,5.6vw,84px);line-height:.95;margin:12px 0 22px;letter-spacing:-.01em}
 .chapter .body{font-size:17px;line-height:1.6;max-width:540px;color:#2b2a27}
@@ -255,7 +311,8 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 
 /* ---------- her work inside chapters: hung like exhibits ---------- */
 .work{margin:30px 0 10px}
-.work h4{font-family:var(--hand);font-weight:700;font-size:30px;color:var(--red);margin-bottom:14px;transform:rotate(-1.5deg);display:inline-block}
+.work-h,.work h4{font-family:var(--hand);font-weight:700;font-size:30px;color:var(--red);margin-bottom:14px;transform:rotate(-1.5deg);display:inline-block}
+.work-h{display:table;margin-top:26px}
 .xhead{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.05;margin:34px 0 10px;padding-top:18px;border-top:1px solid rgba(0,0,0,.15)}
 .work > .xhead:first-child{margin-top:0;border-top:0;padding-top:0}
 .xtext{margin-bottom:6px}
@@ -273,6 +330,164 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .ex.letter .mat{padding:14px;background:#fbfaf6;border:7px solid #2a241f;box-shadow:0 10px 24px rgba(0,0,0,.16)}
 .ex.letter .mat img{display:block;width:100%;height:auto}
 .ex.letter .quote{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.25;margin-top:10px;color:#222}
+/* ===== themed exhibits: each chapter shows its work in the world of its painting ===== */
+.work[class*=" t-"]{position:relative}
+/* II · Vermeer: an ebony Dutch frame on a cord, brass plaque, a lipstick kiss */
+.t-dutch .ex{position:relative;text-align:center;padding-top:40px}
+.t-dutch .gilt{position:relative;padding:20px;background:repeating-linear-gradient(45deg,#1a1410 0 3px,#2b2119 3px 6px);
+  box-shadow:inset 0 0 0 3px #3a2c20,inset 0 0 0 9px #120d0a,inset 0 0 0 11px #b8913a,0 22px 40px rgba(0,0,0,.35)}
+.t-dutch .gilt::before{content:"";position:absolute;left:50%;top:-38px;width:46%;height:40px;transform:translateX(-50%);background:radial-gradient(circle at 50% 5px,#e2cfa6 0 2.5px,#5a4632 3px 4.5px,transparent 5px),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' preserveAspectRatio='none'><path d='M3 30 L50 5 L97 30' stroke='%23574330' stroke-width='1.6' fill='none' vector-effect='non-scaling-stroke'/></svg>") center/100% 100% no-repeat}
+.t-dutch .plaque2{margin:16px auto 0;background:linear-gradient(#efd99a,#b8913a);border:0;text-align:center;box-shadow:0 3px 8px rgba(0,0,0,.2)}
+.t-dutch .plaque2 b,.t-dutch .plaque2 span{color:#2b1d0c}
+.t-dutch .ex::after{content:"";position:absolute;right:-14px;top:30px;width:62px;height:42px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'><path d='M4 18 C14 4 24 8 30 14 C36 8 46 4 56 18 C46 20 38 18 30 20 C22 18 14 20 4 18Z' fill='%23c8233a' opacity='.85'/><path d='M6 21 C16 22 24 22 30 23 C36 22 44 22 54 21 C46 37 14 37 6 21Z' fill='%23b51d31' opacity='.8'/></svg>") center/contain no-repeat;transform:rotate(-14deg)}
+/* III · Friedrich / travel: an airmail postcard */
+.ex.pc{margin:26px 0 34px}
+.pc-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);background:#fbf7ee;padding:12px;transform:rotate(-1.5deg);
+  border:9px solid transparent;border-image:repeating-linear-gradient(-45deg,#c8233a 0 9px,#fbf7ee 9px 18px,#2c4f9e 18px 27px,#fbf7ee 27px 36px) 9;
+  box-shadow:0 18px 30px rgba(0,0,0,.22)}
+.pc-card img{width:100%;height:100%;max-height:340px;object-fit:cover;object-position:top;display:block}
+.pc-back{position:relative;padding:86px 14px 12px 18px;border-left:1.5px dashed #c9bfae;margin-left:14px;min-height:260px;display:flex;flex-direction:column}
+.pc-back .stamp{position:absolute;top:2px;right:2px;width:50px;height:60px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 62'><rect x='1' y='1' width='50' height='60' fill='%23fff' stroke='%23d8cfbd' stroke-dasharray='2.5 2'/><rect x='6' y='6' width='40' height='42' fill='%23e9b7d6'/><circle cx='34' cy='17' r='5' fill='%23f4dc3a'/><path d='M6 48 L20 26 L28 36 L34 29 L46 48Z' fill='%232c4f9e'/><path d='M16 32 L20 26 L24 31Z' fill='%23fff'/><text x='26' y='57' font-family='Georgia' font-size='6.5' text-anchor='middle' fill='%23c8233a'>TELL-ME</text></svg>") center/100% 100% no-repeat;transform:rotate(3deg)}
+.pc-back .pmark{position:absolute;top:10px;right:42px;width:74px;height:74px;border:2px solid rgba(44,79,158,.5);border-radius:50%;display:grid;place-items:center;
+  font:700 8.5px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.08em;color:rgba(44,79,158,.7);text-align:center;transform:rotate(-16deg)}
+.pc-back .pmark::after{content:"";position:absolute;left:-70%;top:30%;width:70%;height:26px;
+  background:repeating-linear-gradient(transparent 0 5px,rgba(44,79,158,.45) 5px 6.5px)}
+.pc-msg{font-family:var(--hand);font-size:22px;line-height:1.2;color:#2c4f9e;transform:rotate(-2deg)}
+.pc-lines{margin-top:auto;padding-top:16px}
+.pc-lines i{display:block;border-bottom:1px solid #b9ae9b;height:22px;margin-left:30%}
+.pc-lines i:first-child{font-family:var(--hand);font-style:normal;font-size:17px;color:#2c4f9e;line-height:22px}
+/* IV · Van Gogh: little frames hung crooked on his blue bedroom wall */
+.t-vangogh{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 5%;padding:46px 20px 30px;border-radius:2px;
+  background:repeating-linear-gradient(100deg,rgba(255,255,255,.07) 0 3px,transparent 3px 9px),repeating-linear-gradient(78deg,rgba(10,20,60,.06) 0 2px,transparent 2px 8px),#8aa1cc;
+  box-shadow:inset 0 0 40px rgba(20,30,70,.25)}
+.t-vangogh .ex{position:relative;width:45%;margin:0;padding-top:34px}
+.t-vangogh .ex:nth-child(1){transform:rotate(-3deg)}
+.t-vangogh .ex:nth-child(2){transform:rotate(2.5deg);margin-top:38px}
+.t-vangogh .gilt{position:relative;display:block;padding:7px;background:#b5743a;box-shadow:inset 0 0 0 2px #7a4a22,inset 0 0 0 3px #d9a56a,0 10px 18px rgba(10,20,60,.35)}
+.t-vangogh .gilt img,.t-vangogh .gilt video{width:100%;max-height:none}
+.t-vangogh .gilt::before{content:"";position:absolute;left:50%;top:-32px;width:60%;height:34px;transform:translateX(-50%);background:radial-gradient(circle at 50% 5px,#e2cfa6 0 2.5px,#5a4632 3px 4.5px,transparent 5px),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30' preserveAspectRatio='none'><path d='M3 30 L50 5 L97 30' stroke='%23574330' stroke-width='1.6' fill='none' vector-effect='non-scaling-stroke'/></svg>") center/100% 100% no-repeat}
+.t-vangogh .plaque2{display:block;margin:12px auto 0;background:#f3e6c4;border:0;transform:rotate(1.5deg);padding:6px 10px}
+.t-vangogh .plaque2 b{font-size:15px}.t-vangogh .plaque2 span{font-size:11.5px}
+/* VI · Banksy: a concrete wall, a pasted-up poster, notes taped up, a stencilled heading */
+.t-street{padding:30px 22px 20px;border-radius:2px;background:radial-gradient(circle at 18% 22%,rgba(0,0,0,.07),transparent 40%),radial-gradient(circle at 82% 68%,rgba(0,0,0,.08),transparent 45%),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),#c3bcb2;box-shadow:inset 0 0 30px rgba(0,0,0,.12)}
+.t-street .gilt{position:relative;display:block;background:#fff;padding:8px;transform:rotate(-1.2deg);box-shadow:0 6px 14px rgba(0,0,0,.28)}
+.t-street .gilt video{width:100%}
+.t-street .gilt::before,.t-street .ex.letter .mat::before{content:"";position:absolute;width:74px;height:22px;background:rgba(238,226,186,.85);top:-11px;left:-16px;transform:rotate(-28deg);box-shadow:0 1px 2px rgba(0,0,0,.15);z-index:2}
+.t-street .gilt::after{content:"";position:absolute;width:74px;height:22px;background:rgba(238,226,186,.85);top:-11px;right:-16px;transform:rotate(28deg);box-shadow:0 1px 2px rgba(0,0,0,.15);z-index:2}
+.t-street .plaque2{background:#151515;border:0;transform:rotate(1deg);margin-top:16px}
+.t-street .plaque2 b{color:#fff}.t-street .plaque2 span{color:#ddd}
+.t-street .xhead{border:0;margin:30px 0 6px;padding:0;font-family:var(--sans);font-weight:900;font-size:24px;text-transform:uppercase;letter-spacing:.14em;color:#161616;
+  text-shadow:0 0 1px rgba(0,0,0,.6),0 0 7px rgba(0,0,0,.25);transform:rotate(-1deg)}
+.t-street .ex.letter{margin:22px 0 18px}
+.t-street .ex.letter .mat{position:relative;background:#fff;border:0;padding:12px;box-shadow:0 5px 12px rgba(0,0,0,.22)}
+.t-street .ex.letter .mat::before{left:50%;top:-12px;transform:translateX(-50%) rotate(-3deg)}
+.t-street .ex.letter:nth-of-type(odd) .mat{transform:rotate(1.4deg)}
+.t-street .ex.letter:nth-of-type(even) .mat{transform:rotate(-1.6deg)}
+.t-street .ex.letter .quote{font-family:var(--hand);font-style:normal;font-size:23px;color:#161616}
+/* VII · Magritte: frames floating in a cloudy sky, with a bowler hat drifting by */
+.t-magritte{padding:40px 22px 24px;overflow:hidden;border-radius:2px;background:radial-gradient(ellipse 60px 22px at 12% 18%,rgba(255,255,255,.9),transparent 70%),radial-gradient(ellipse 40px 18px at 18% 14%,rgba(255,255,255,.85),transparent 70%),radial-gradient(ellipse 80px 26px at 70% 10%,rgba(255,255,255,.85),transparent 70%),radial-gradient(ellipse 50px 20px at 78% 7%,rgba(255,255,255,.8),transparent 70%),radial-gradient(ellipse 70px 22px at 30% 52%,rgba(255,255,255,.7),transparent 70%),radial-gradient(ellipse 90px 26px at 85% 60%,rgba(255,255,255,.7),transparent 70%),radial-gradient(ellipse 60px 20px at 50% 88%,rgba(255,255,255,.6),transparent 70%),linear-gradient(#7d93b0,#c9d4de 78%,#e0e6ea)}
+.t-magritte::after{content:"";position:absolute;right:14px;bottom:10px;z-index:2;width:74px;height:66px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 80'><ellipse cx='40' cy='34' rx='34' ry='6' fill='%231d1d1d'/><path d='M16 33 Q14 6 40 5 Q66 6 64 33Z' fill='%231d1d1d'/><circle cx='70' cy='62' r='15' fill='%236bb33e'/><path d='M70 47 q2 -7 7 -10' stroke='%235a3a1a' stroke-width='2.4' fill='none'/><path d='M73 44 q10 -10 18 -3 q-10 6 -18 3z' fill='%233f8a26'/></svg>") center/contain no-repeat;animation:drift 6s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(-14px,10px) rotate(-6deg)}}
+.t-magritte .ex{position:relative;z-index:1;margin:18px 0 28px}
+.t-magritte .gilt{background:#2b2420;padding:9px;box-shadow:inset 0 0 0 2px #4a3d33,0 18px 30px rgba(20,30,50,.35)}
+.t-magritte .gilt video{max-height:none;width:100%}
+.t-magritte .ex:not(:first-child) .gilt{display:block}
+.t-magritte .plaque2{background:none;border:0;box-shadow:none;padding:8px 2px 0}
+.t-magritte .plaque2 .ceci{display:block;font-family:var(--serif);font-style:italic;font-size:25px;line-height:1.1;color:#1d1d1d}
+.t-magritte .plaque2 b{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#2b3a4f;margin-top:6px}
+.t-magritte .plaque2 span{color:#2b3a4f}
+/* ∞ · the blank canvas: her photo on an easel, work in progress */
+.t-easel{padding:10px 0 20px}
+.t-easel .ex{position:relative;isolation:isolate;width:min(280px,72%);margin:30px auto 150px}
+.t-easel .ex::before{content:"";position:absolute;left:50%;top:-30px;width:12px;height:calc(100% + 170px);transform:translateX(-50%);background:linear-gradient(90deg,#6e4423,#a06a3c,#6e4423);z-index:-1}
+.t-easel .ex::after{content:"";position:absolute;left:50%;bottom:-150px;width:120%;height:170px;transform:translateX(-50%);z-index:-1;
+  background:linear-gradient(to top left,transparent calc(50% - 6px),#8a5a32 calc(50% - 6px) calc(50% + 6px),transparent calc(50% + 6px)) left/50% 100% no-repeat,
+  linear-gradient(to top right,transparent calc(50% - 6px),#8a5a32 calc(50% - 6px) calc(50% + 6px),transparent calc(50% + 6px)) right/50% 100% no-repeat}
+.t-easel .gilt{position:relative;display:block;padding:0;background:#f2ede2;box-shadow:7px 7px 0 #d8d0bf,0 20px 30px rgba(0,0,0,.25)}
+.t-easel .gilt img{width:100%;max-height:none}
+.t-easel .gilt::after{content:"";position:absolute;left:-14%;right:-14%;bottom:-18px;height:16px;background:linear-gradient(#a06a3c,#6e4423);border-radius:2px;box-shadow:0 4px 8px rgba(0,0,0,.25)}
+.t-easel .plaque2{position:absolute;left:-46px;bottom:-96px;z-index:2;transform:rotate(-6deg);background:#fbf7ee;max-width:170px}
+.t-easel .plaque2 b{font-family:var(--hand);font-size:20px}
+@media (max-width:600px){
+  .t-vangogh .ex{width:100%}.t-vangogh .ex:nth-child(2){margin-top:10px}
+  .pc-card{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}.pc-back{padding:80px 6px 8px 12px;margin-left:8px;min-height:220px}.pc-msg{font-size:19px}
+  .t-easel .plaque2{left:-20px}
+}
+/* ===== the mannequin: only in the Plushy chapter for now ===== */
+.mq-stage{position:relative;border-radius:4px;padding:34px 14px 14px;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 30%,#fffaf0,transparent 62%),linear-gradient(#f1e9db 0 80%,#d8ccb6 80% 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.mq-stage::before{content:"";position:absolute;inset:8px;border:1.5px dashed rgba(122,45,102,.35);border-radius:3px;pointer-events:none}
+.mq-sign{position:absolute;left:18px;top:14px;font-family:var(--hand);font-size:18px;color:var(--red);transform:rotate(-3deg)}
+.mq-fig{position:relative;width:min(120px,30%);margin:0 14% 0 auto}
+.mq-alice{position:absolute;left:0;bottom:26px;width:min(150px,30%);z-index:1;will-change:transform}
+.mq-alice svg{width:100%;display:block;overflow:visible}
+.mq-alice.dressed{width:min(170px,36%);left:6%;bottom:22px}
+.mq-alice .armL{transform-box:view-box;transform-origin:61.5px 94px;transition:transform .35s ease}
+.mq-alice .leg{transform-box:fill-box;transform-origin:50% 0}
+.mq-alice.walk .legL{animation:swingA .46s ease-in-out infinite alternate}
+.mq-alice.walk .legR{animation:swingB .46s ease-in-out infinite alternate}
+.mq-alice.walk .bodyg{animation:bob .23s ease-in-out infinite alternate}
+.mq-alice.left svg{transform:scaleX(-1)}
+.mq-fly{position:fixed;z-index:96;pointer-events:none}
+.mq-prop{position:fixed;left:0;top:0;z-index:95;pointer-events:none;filter:drop-shadow(0 3px 4px rgba(0,0,0,.18))}.mq-prop svg{width:100%;height:auto;display:block;overflow:visible}
+.mq-spark{position:absolute;left:0;top:0;margin:-14px 0 0 -10px;font-size:22px;color:#e9b7d6;text-shadow:0 0 8px #fff,0 0 14px #f6c3e7;z-index:3;pointer-events:none}
+.mq .mq-alice{width:auto!important;height:var(--ah,300px);aspect-ratio:9/16;left:0;bottom:calc(26px - var(--ah,300px) * .119);transform-origin:50% 88.1%;z-index:1}
+.mq .mq-alice canvas{width:100%;height:100%;display:block}
+.mq .mq-alice::after{left:34%;right:34%;bottom:calc(11.9% - 6px)}
+.mq-bare{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.mq-bare svg{width:100%;display:block;overflow:visible}
+.mq-fig > svg{transition:opacity .45s ease}
+.mq-legs{position:absolute;left:0;top:0;width:100%;z-index:2;pointer-events:none;opacity:0;transition:opacity .2s}
+.mq-stage.on-stool .mq-legs{opacity:1}
+.mq-fig.undressed > svg{opacity:0}.mq-fig.undressed .mq-bare{opacity:1}
+.mq-alice.mq-after{left:0;opacity:0;width:min(150px,30%);pointer-events:none}
+.mq-pin:not(.in){opacity:0;transform:scale(0) translateY(-10px);pointer-events:none}
+.mq-pin.in{animation:mqpinin .35s cubic-bezier(.3,1.8,.5,1), mqpulse 2.4s .4s ease-out infinite}
+@keyframes mqpinin{from{transform:scale(0) translateY(-14px)}}
+.mq-alice::after{content:"";position:absolute;left:18%;right:18%;bottom:-6px;height:12px;border-radius:50%;background:rgba(0,0,0,.22);filter:blur(4px);z-index:-1}
+.mq-alice.front{z-index:3}
+.mq-fly svg{width:100%;height:100%;display:block;overflow:visible}
+.mq-svg{width:100%;display:block;overflow:visible}
+.mq-heart{transform-box:fill-box;transform-origin:center;animation:mqbeat 1.7s ease-in-out infinite}
+@keyframes mqbeat{0%,100%{transform:scale(1)}14%{transform:scale(1.12)}28%{transform:scale(1)}42%{transform:scale(1.08)}}
+.mq-pin{position:absolute;z-index:2;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:50%;border:0;padding:0;cursor:pointer;
+  background:radial-gradient(circle at 35% 30%,#ffd1d6,#d7263d 45%,#8e1426);box-shadow:0 3px 5px rgba(0,0,0,.35);
+  animation:mqpulse 2.4s ease-out infinite;animation-delay:var(--d,0s);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.mq-pin::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:15px;background:linear-gradient(#c8c8c8,#777);transform-origin:top;transform:rotate(-42deg)}
+@keyframes mqpulse{0%{box-shadow:0 3px 5px rgba(0,0,0,.35),0 0 0 0 rgba(215,38,61,.55)}70%,100%{box-shadow:0 3px 5px rgba(0,0,0,.35),0 0 0 15px rgba(215,38,61,0)}}
+.mq-pin:hover,.mq-pin:focus-visible{transform:scale(1.18);outline:none}
+.mq-pin.on{background:radial-gradient(circle at 35% 30%,#8a8a8a,#1d1d1d);animation:none;transform:scale(1.1)}
+.mq-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0 6px}
+.mq-chip{border:1px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 13px;font-size:13px;cursor:pointer;transition:.2s}
+.mq-chip:hover{background:rgba(0,0,0,.06)}
+.mq-chip.on{background:var(--ink);color:#fff}
+.mq-panel{margin-top:8px;min-height:90px}
+.mq-panel.pop{animation:mqpop .45s cubic-bezier(.3,1.4,.5,1)}
+@keyframes mqpop{from{opacity:0;transform:translateY(14px) rotate(-1.5deg) scale(.96)}}
+.mq-fresh{position:absolute;right:18px;top:14px;font-family:var(--hand);font-size:19px;color:#7a2d66;transform:rotate(-4deg);background:#fff8ea;padding:2px 10px;border:1px dashed #c9a7bd;border-radius:3px}
+.mq-new{transform-box:fill-box;transform-origin:center}
+.mq-stage:not(.placed) .mq-new{opacity:0}
+.mq-stage.placed .mq-new{animation:mqnew .9s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes mqnew{0%{opacity:0;transform:scale(.55)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.mq-new,.mq-heart,.mq-pin,.mq-alice,.mq-alice .armL{animation:none}}
+.mq-note{position:relative;max-width:420px;margin:8px auto 4px;background:#fbf7ee;border:1.5px dashed #b9a57d;border-radius:4px;padding:16px 18px 14px 34px;box-shadow:0 8px 16px rgba(0,0,0,.12)}
+.mq-note::before{content:"";position:absolute;left:12px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#e8dcc2;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+.mq-note b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.15;color:#111}
+.mq-note span{display:block;font-size:14px;line-height:1.45;color:#444;margin-top:4px}
+.mq-hint{font-family:var(--hand);font-size:23px;line-height:1.2;color:var(--red);text-align:center;padding:16px 10px;transform:rotate(-1.2deg)}
+.mq-panel{position:relative}
+.mq-panel .ex{margin:6px 0 4px}
+.mq-panel .gilt{display:block;background:none;padding:0;box-shadow:none;transform:none}
+.mq-panel .gilt img,.mq-panel .gilt video{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain;border-radius:8px;box-shadow:0 12px 26px rgba(0,0,0,.18);background:transparent}
+.mq-panel .yt{border-radius:8px;overflow:hidden;box-shadow:0 12px 26px rgba(0,0,0,.18)}
+.mq-panel .plaque2{display:block;background:none;border:0;box-shadow:none;padding:10px 2px 0;margin:0;transform:none;text-align:left}
+.mq-panel .plaque2 b{font-size:18px;color:#111}.mq-panel .plaque2 span{color:#555}
+.mq-panel .ex.letter{margin:14px 0 18px}
+.mq-panel .ex.letter .mat{padding:0;border:0;background:none;box-shadow:none}
+.mq-panel .ex.letter .mat img{border-radius:8px;box-shadow:0 10px 22px rgba(0,0,0,.14)}
+.mq-panel .xhead{margin:6px 0 0}
+@media (max-width:600px){.mq-fig{width:min(104px,31%);margin-right:10%}.mq-alice{width:31%}.mq-alice.dressed{width:38%;left:2%}.mq-stage{padding-bottom:46px}.mq-fresh{top:42px;left:16px;right:auto;font-size:14px;max-width:44%;white-space:normal}}
 .vid{position:relative;cursor:pointer}
 .vid .sound{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;padding:5px 9px;border-radius:999px;font-family:var(--sans)}
 .vid.on .sound{background:var(--red)}
@@ -285,16 +500,45 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .chapter .body .cta a{color:#fff}
 .chapter .body .cta a.alt{color:var(--ink)}
 /* ---------- short version ---------- */
-.short{position:fixed;inset:0;z-index:75;background:rgba(10,10,10,.6);backdrop-filter:blur(6px);display:none;place-items:center;padding:20px}
+/* "The short version" as a hand of Wonderland playing cards */
+.short{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:20px;overflow:auto;
+  background:radial-gradient(ellipse at 50% 40%,rgba(40,12,20,.72),rgba(8,6,8,.92));backdrop-filter:blur(6px)}
+.short::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.07;
+  background:conic-gradient(#fff 25%,transparent 0 50%,#fff 0 75%,transparent 0) 0 0/64px 64px}
 .short.open{display:grid}
-.short .card{background:var(--paper);max-width:620px;width:100%;max-height:88vh;overflow:auto;padding:34px;border-radius:4px;position:relative}
-.short h3{font-family:var(--serif);font-weight:400;font-size:38px;margin-bottom:4px}
-.short .lead{color:#555;margin-bottom:18px}
-.short .row{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:12px 0;border-top:1px solid rgba(0,0,0,.12);cursor:pointer}
-.short .row:hover b{color:var(--red)}
-.short .row span{font-size:13px;color:#666}
-.short .row p{grid-column:1/-1;font-size:14px;color:#333}
-.short .x{position:absolute;top:14px;right:14px;background:none;border:0;font-size:26px}
+.short .card{position:relative;max-width:980px;width:100%;color:#f6efe2;text-align:center;padding:10px 0 20px}
+.short h3{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1;margin:6px 0 6px}
+.short .watch{display:block;margin:0 auto 4px;width:46px;height:46px;animation:tick 2s steps(2) infinite}
+@keyframes tick{50%{transform:rotate(-6deg)}}
+.short .lead{font-family:var(--hand);font-size:22px;color:#e9b7d6;margin:0 auto 26px;max-width:560px;line-height:1.25}
+.short .x{position:absolute;top:0;right:4px;background:#f6efe2;color:#111;border:0;border-radius:2px;font-family:var(--hand);font-size:18px;
+  padding:6px 14px 6px 22px;clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);cursor:pointer;transform:rotate(4deg)}
+.short .x:hover{background:var(--red);color:#fff}
+#shortList{display:grid;grid-template-columns:repeat(3,minmax(0,250px));justify-content:center;gap:26px 22px}
+.pcard{position:relative;aspect-ratio:5/7;background:#fbf7ee;color:#1b1b1b;border-radius:14px;padding:58px 24px 52px;cursor:pointer;text-align:left;
+  box-shadow:0 18px 30px rgba(0,0,0,.45),0 0 0 1px #d8cfbd inset;display:flex;flex-direction:column;justify-content:center;gap:6px;
+  transform:rotate(var(--rot)) translateY(0);transition:transform .35s cubic-bezier(.3,1.5,.5,1),box-shadow .35s}
+.pcard::before{content:"";position:absolute;inset:9px;border:1.5px solid var(--suitc);border-radius:9px;opacity:.55;pointer-events:none}
+.pcard:hover,.pcard:focus-visible{transform:rotate(0) translateY(-12px) scale(1.04);box-shadow:0 28px 40px rgba(0,0,0,.55),0 0 0 1px #d8cfbd inset;outline:none}
+.pcard .pip{position:absolute;font-family:var(--serif);font-size:22px;line-height:.9;color:var(--suitc);text-align:center}
+.pcard .pip small{display:block;font-size:20px}
+.pcard .pip.tl{top:14px;left:15px}.pcard .pip.br{bottom:14px;right:15px;transform:rotate(180deg)}
+.pcard .big{position:absolute;right:18px;top:16px;font-size:64px;line-height:1;color:var(--suitc);opacity:.09;pointer-events:none}
+.pcard .htag{position:absolute;right:20px;top:20px;font-style:normal;font-family:var(--serif);font-size:15px;line-height:1.05;color:#2a2116;background:#f3e6c4;
+  padding:7px 10px 6px 16px;border:1px solid #c9b07a;border-radius:3px;transform:rotate(9deg);box-shadow:0 3px 6px rgba(0,0,0,.18);text-align:center;
+  clip-path:polygon(9px 0,100% 0,100% 100%,9px 100%,0 50%)}
+.pcard .htag::before{content:"";position:absolute;left:5px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#fbf7ee;box-shadow:inset 0 0 0 1px #b9a06a}
+.pcard .htag small{display:block;font-family:var(--hand);font-size:11px;color:var(--suitc);letter-spacing:.02em}
+.pcard b{font-family:var(--serif);font-weight:400;font-size:25px;line-height:1.05;padding:0 6px}
+.pcard span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--suitc);padding:0 6px}
+.pcard p{font-size:13.5px;line-height:1.38;color:#333;padding:0 6px;margin-top:4px}
+.pcard .go{margin-top:8px;padding:0 6px;font-family:var(--hand);font-size:17px;color:var(--suitc)}
+.short.open .pcard{animation:deal .55s cubic-bezier(.2,1.3,.4,1) both;animation-delay:calc(var(--n) * 70ms)}
+@keyframes deal{from{opacity:0;transform:translateY(60px) rotate(calc(var(--rot) * -4)) scale(.8)}}
+@media (max-width:760px){ #shortList{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}
+  .pcard{aspect-ratio:auto;min-height:220px;padding:56px 16px 48px;border-radius:10px}
+  .short .card{padding-top:44px}.short .x{font-size:15px}
+  .pcard b{font-size:19px}.pcard p{font-size:12.5px}.pcard .big{font-size:44px}.short .lead{font-size:19px} }
 
 /* ---------- finale ---------- */
 #finale{position:relative;min-height:100vh;background:var(--paper);display:grid;place-items:center;text-align:center;padding:12vh 8vw}
@@ -306,10 +550,12 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 .cta a.alt{background:transparent;color:var(--ink);border:1px solid var(--ink)}
 
 @media (max-width:760px){
+  #grin{left:auto;right:6vw;top:22vh;width:11vh;height:10vh}
   .chapter .wrap{grid-template-columns:1fr;padding-top:76px}
   .chapter .art{position:relative;top:0}
   .wgrid{gap:14px 10px}
   .chapter .art img{max-width:80vw;max-height:48vh}
+  .chlive{height:min(48vh,calc(80vw / var(--ar)));width:calc(min(48vh,calc(80vw / var(--ar))) * var(--ar))}
   .track{gap:22vw;padding-left:60vw}
   .topbar .mark{display:none}
   .title .sub{font-size:10px;letter-spacing:.18em;padding:0 24px;margin-bottom:12px;line-height:1.5}
@@ -449,26 +695,125 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 </template>
 
 <!-- The Cheshire cat: original drawing (not Tenniel, not Disney) -->
-<template id="catTpl">
-<svg class="catsvg" viewBox="0 0 130 120" aria-hidden="true">
+<template id="catDrapeTpl">
+<svg class="catsvg" viewBox="0 0 220 170" aria-hidden="true">
+  <defs>
+    <radialGradient id="cfFur" cx=".38" cy=".25" r=".85"><stop offset="0" stop-color="#f6c3e7"/><stop offset=".5" stop-color="#d684c4"/><stop offset="1" stop-color="#8a3a7c"/></radialGradient>
+    <radialGradient id="cfHead" cx=".42" cy=".3" r=".75"><stop offset="0" stop-color="#f8cdea"/><stop offset=".6" stop-color="#d98bc6"/><stop offset="1" stop-color="#9a4589"/></radialGradient>
+    <radialGradient id="cfBelly" cx=".5" cy=".25" r=".8"><stop offset="0" stop-color="#fbe0f2"/><stop offset=".7" stop-color="#e3a4d3"/><stop offset="1" stop-color="#a9559a"/></radialGradient>
+    <filter id="cfSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
+  </defs>
   <g class="cat-body">
-    <path d="M86 92 C116 94 124 64 110 48 C103 41 95 46 100 53 C108 63 102 82 84 82Z" fill="#c766ad"/>
-    <path d="M104 52 l6 -3 M112 66 l7 -1 M108 80 l6 3" stroke="#8e3479" stroke-width="3.5" stroke-linecap="round"/>
-    <ellipse cx="60" cy="88" rx="32" ry="20" fill="#d77bbd"/>
-    <path d="M40 74 q-4 10 0 22 M54 70 q-4 12 0 26 M70 70 q-4 12 0 26 M84 76 q-3 8 0 18" stroke="#9c3f86" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M24 36 L26 6 L48 26Z" fill="#e39ad0"/><path d="M90 36 L88 6 L66 26Z" fill="#e39ad0"/>
-    <path d="M29 30 L30 14 L42 26Z" fill="#f7c9e8"/><path d="M85 30 L84 14 L72 26Z" fill="#f7c9e8"/>
-    <ellipse cx="57" cy="50" rx="36" ry="29" fill="#e39ad0"/>
-    <path d="M44 24 q4 8 0 14 M57 22 v14 M70 24 q-4 8 0 14 M24 46 q8 2 12 8 M90 46 q-8 2 -12 8" stroke="#9c3f86" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <g class="cat-eyes"><ellipse cx="44" cy="46" rx="8" ry="9" fill="#f4dc3a"/><ellipse cx="70" cy="46" rx="8" ry="9" fill="#f4dc3a"/>
-    <ellipse cx="44" cy="46" rx="2" ry="7.5" fill="#1b0f17"/><ellipse cx="70" cy="46" rx="2" ry="7.5" fill="#1b0f17"/>
-    <circle cx="46" cy="42" r="1.5" fill="#fff"/><circle cx="72" cy="42" r="1.5" fill="#fff"/></g>
-    <path d="M54 57 h6 l-3 4z" fill="#b8457f"/>
-    <path d="M30 58 l-14 -2 M30 62 l-14 2 M84 58 l14 -2 M84 62 l14 2" stroke="#7a2d66" stroke-width="1.2"/>
+    <ellipse cx="122" cy="100" rx="60" ry="9" fill="#000" opacity=".28" filter="url(#cfSoft)"/>
+    <ellipse cx="66" cy="124" rx="18" ry="6" fill="#000" opacity=".18" filter="url(#cfSoft)"/>
+    <path d="M176 84 C200 92 204 118 194 136 C186 152 198 162 210 152" stroke="#cf7cbd" stroke-width="13" stroke-linecap="round" fill="none"/><path d="M176 84 C200 92 204 118 194 136 C186 152 198 162 210 152" stroke="#74285f" stroke-width="13.5" stroke-dasharray="5 10" fill="none" opacity=".55"/>
+    <g class="belly">
+      <path d="M60 70 C70 48 110 38 142 42 C172 46 192 60 189 82 C188 92 182 97 174 96 C172 128 142 140 120 138 C94 136 82 118 78 96 L62 94Z" fill="url(#cfFur)"/>
+      <path d="M96 49 C91 62 93 80 99 94 M112 45 C107 60 109 82 115 100 M128 44 C123 62 125 86 131 106 M144 46 C139 62 141 84 147 102" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="5.5"/>
+      <path d="M82 95 C88 134 154 138 172 96 C150 106 104 108 82 95Z" fill="url(#cfBelly)"/>
+      <path d="M92 114 q30 14 62 0" stroke="#a9559a" stroke-width="1.4" fill="none" opacity=".5"/>
+    </g>
+    <path d="M150 56 C178 52 194 72 186 90 C178 99 152 94 147 79 C144 68 145 59 150 56Z" fill="url(#cfFur)" stroke="#8a3a7c" stroke-opacity=".35"/>
+    <path d="M161 58 C156 68 158 80 166 89 M175 61 C170 70 172 81 180 88" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="4.5"/>
+    <ellipse cx="174" cy="93" rx="14" ry="6" fill="#eab0da"/><path d="M168 95 v-4 M174 96 v-4 M180 95 v-4" stroke="#8a3a7c" stroke-width="1"/>
+    <path d="M58 84 C56 98 54 110 56 120 C58 129 72 129 74 120 C75 110 74 97 72 86Z" fill="url(#cfFur)"/>
+    <path d="M57 101 q8 3 16 0 M56 111 q8 3 17 0" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3.6"/>
+    <path d="M58 124 q3.5 3.5 7 0 M65 124 q3.5 3.5 7 0" stroke="#8a3a7c" stroke-width="1.2" fill="none"/>
+    <path d="M80 88 C80 98 81 107 83 113 C85 122 98 121 98 112 C97 103 94 94 92 88Z" fill="url(#cfFur)"/>
+    <path d="M81 102 q8 3 15 0" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3.4"/>
+    <path d="M84 116 q3 3 6.5 0 M90.5 116 q3 3 6.5 0" stroke="#8a3a7c" stroke-width="1.2" fill="none"/>
+    <g transform="translate(-2,4) rotate(-8 60 56)"><g class="chead">
+      <path d="M24 42 L18 4 L52 26Z" fill="#c873b5"/><path d="M28 34 L25 14 L44 27Z" fill="#f6c6e6"/>
+      <path d="M72 25 L100 3 L96 42Z" fill="#c873b5"/><path d="M78 27 L95 13 L92 34Z" fill="#f6c6e6"/>
+      <path d="M22 58 C16 32 38 18 60 18 C86 18 104 34 98 58 C106 61 104 70 96 72 C101 79 92 86 86 85 C76 96 42 96 32 85 C24 86 15 79 21 72 C13 70 14 61 22 58Z" fill="url(#cfHead)"/>
+      <path d="M50 21 q3 10 -1 19 M60 19 v19 M70 21 q-3 10 1 19 M18 63 q12 -1 17 6 M102 63 q-12 -1 -17 6 M20 74 q9 0 13 4 M100 74 q-9 0 -13 4" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3.6"/>
+      <g class="cat-eyes"><ellipse cx="43" cy="50" rx="10" ry="9" fill="#e9d93c"/><ellipse cx="76" cy="50" rx="10" ry="9" fill="#e9d93c"/>
+        <ellipse cx="44" cy="51" rx="2.4" ry="7.5" fill="#1b0f17"/><ellipse cx="75" cy="51" rx="2.4" ry="7.5" fill="#1b0f17"/>
+        <circle cx="47" cy="46" r="2" fill="#fff"/><circle cx="78" cy="46" r="2" fill="#fff"/>
+        <path d="M32 47 Q43 37 54 46 L54 40 L32 40Z M65 46 Q76 37 87 47 L87 40 L65 40Z" fill="#d283c1"/>
+        <path d="M32 47 Q43 39 54 46 M65 46 Q76 39 87 47" stroke="#5b1d4b" stroke-width="1.6" fill="none"/></g>
+      <path d="M56 61 h7 l-3.5 4.5z" fill="#a03f7c"/>
+      <path d="M28 66 l-20 -4 M28 70 l-20 2 M92 66 l20 -4 M92 70 l20 2" stroke="#5b1d4b" stroke-width="1" opacity=".7"/>
+    </g></g>
   </g>
-  <g class="cat-grin">
-    <path d="M22 60 Q57 96 92 60 Q57 74 22 60Z" fill="#fff" stroke="#3a1030" stroke-width="2.4" stroke-linejoin="round"/>
-    <path d="M32 65 l2 9 M41 68 l1 11 M50 70 v12 M57 70.5 v12.5 M64 70 v12 M73 68 l-1 11 M82 65 l-2 9 M26 63 Q57 82 88 63" stroke="#3a1030" stroke-width="1.3" fill="none"/>
+  <g class="cat-grin" transform="translate(-2,4) rotate(-8 60 56)">
+    <path d="M22 64 Q60 104 98 64 Q60 80 22 64Z" fill="#fffaf2" stroke="#3a1030" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M31 69 l2 9 M40 72 l1.5 11 M49 74 l.5 12 M58 75 v12.5 M67 74.5 l-.5 12 M76 72.5 l-1.5 11 M85 69.5 l-2 9 M26 67 Q60 88 94 67" stroke="#3a1030" stroke-width="1.3" fill="none"/>
+  </g>
+</svg>
+</template>
+<template id="catWalkTpl">
+<svg class="catsvg" viewBox="0 0 160 120" aria-hidden="true">
+  <defs>
+    <radialGradient id="cfFur" cx=".38" cy=".25" r=".85"><stop offset="0" stop-color="#f6c3e7"/><stop offset=".5" stop-color="#d684c4"/><stop offset="1" stop-color="#8a3a7c"/></radialGradient>
+    <radialGradient id="cfHead" cx=".42" cy=".3" r=".75"><stop offset="0" stop-color="#f8cdea"/><stop offset=".6" stop-color="#d98bc6"/><stop offset="1" stop-color="#9a4589"/></radialGradient>
+    <radialGradient id="cfBelly" cx=".5" cy=".25" r=".8"><stop offset="0" stop-color="#fbe0f2"/><stop offset=".7" stop-color="#e3a4d3"/><stop offset="1" stop-color="#a9559a"/></radialGradient>
+    <filter id="cfSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
+  </defs>
+  <g class="cat-body">
+    <ellipse cx="80" cy="117" rx="46" ry="4" fill="#000" opacity=".22" filter="url(#cfSoft)"/>
+    <g class="wtail"><path d="M34 56 C14 50 8 26 20 12 C27 5 35 11 30 17" stroke="#cf7cbd" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M34 56 C14 50 8 26 20 12 C27 5 35 11 30 17" stroke="#74285f" stroke-width="9.5" stroke-dasharray="4 8" fill="none" opacity=".55"/></g>
+    <g class="leg lb fb"><path d="M40 62 C34 76 38 90 41 100 L42 115 Q47 118 52 115 L51 100 C55 88 56 74 52 64Z" fill="#a9559a"/></g>
+    <g class="leg la ff"><path d="M104 66 L102 115 Q107 118 112 115 L114 66Z" fill="#a9559a"/></g>
+    <g class="wbody">
+      <path d="M28 60 C28 40 60 35 92 37 C114 39 126 48 124 66 C122 83 100 90 76 90 C50 90 28 81 28 60Z" fill="url(#cfFur)"/>
+      <path d="M54 40 q-5 14 2 28 M68 38 q-5 16 2 32 M82 38 q-5 16 2 32 M96 40 q-5 14 2 28" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="5"/>
+      <path d="M42 80 C58 96 98 96 116 78 C98 86 60 88 42 80Z" fill="url(#cfBelly)"/>
+      <path d="M114 28 L114 4 L132 20Z" fill="#c873b5"/><path d="M117 22 L117 10 L127 20Z" fill="#f6c6e6"/>
+      <path d="M134 20 L152 6 L150 30Z" fill="#c873b5"/><path d="M137 21 L148 12 L147 26Z" fill="#f6c6e6"/>
+      <path d="M110 46 C108 28 122 18 136 19 C152 20 160 32 157 46 C162 50 158 58 152 58 C146 66 122 68 114 60 C106 58 106 50 110 46Z" fill="url(#cfHead)"/>
+      <path d="M128 22 q2 7 -1 12 M137 21 q1 7 -1 12 M110 52 q7 0 10 4" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3"/>
+      <g class="cat-eyes"><ellipse cx="129" cy="38" rx="6" ry="6" fill="#e9d93c"/><ellipse cx="146" cy="37" rx="5.5" ry="6" fill="#e9d93c"/>
+        <ellipse cx="130" cy="38.5" rx="1.6" ry="5" fill="#1b0f17"/><ellipse cx="147" cy="37.5" rx="1.5" ry="5" fill="#1b0f17"/>
+        <path d="M122 36 Q129 30 136 35 L136 31 L122 31Z M140 35 Q146 30 152 36 L152 31 L140 31Z" fill="#d283c1"/></g>
+      <path d="M153 45 h5 l-2.5 3.5z" fill="#a03f7c"/>
+      <path d="M140 50 l18 -3 M140 53 l18 2" stroke="#5b1d4b" stroke-width=".9" opacity=".7"/>
+    </g>
+    <g class="leg lb nb"><path d="M36 62 C30 76 34 90 38 100 L40 115 Q46 118 52 115 L50 100 C54 88 54 74 50 64Z" fill="url(#cfFur)"/>
+      <path d="M36 84 q8 3 15 0" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3"/></g>
+    <g class="leg la nf"><path d="M98 66 L96 115 Q102 118 108 115 L110 66Z" fill="url(#cfFur)"/>
+      <path d="M97 92 q7 2 12 0" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3"/></g>
+  </g>
+  <g class="cat-grin"><path d="M118 50 Q138 70 158 48 Q138 58 118 50Z" fill="#fffaf2" stroke="#3a1030" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M124 54 l1 6 M130 56 l.5 7 M136 57 v7 M142 56.5 l-.5 6.5 M148 55 l-1 5.5 M153 52 l-1 4 M121 52 Q138 63 156 51" stroke="#3a1030" stroke-width="1" fill="none"/></g>
+</svg>
+</template>
+<template id="catPeekTpl">
+<svg class="catsvg" viewBox="0 0 150 170" aria-hidden="true">
+  <defs>
+    <radialGradient id="cfFur" cx=".38" cy=".25" r=".85"><stop offset="0" stop-color="#f6c3e7"/><stop offset=".5" stop-color="#d684c4"/><stop offset="1" stop-color="#8a3a7c"/></radialGradient>
+    <radialGradient id="cfHead" cx=".42" cy=".3" r=".75"><stop offset="0" stop-color="#f8cdea"/><stop offset=".6" stop-color="#d98bc6"/><stop offset="1" stop-color="#9a4589"/></radialGradient>
+    <radialGradient id="cfBelly" cx=".5" cy=".25" r=".8"><stop offset="0" stop-color="#fbe0f2"/><stop offset=".7" stop-color="#e3a4d3"/><stop offset="1" stop-color="#a9559a"/></radialGradient>
+    <filter id="cfSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter>
+  </defs>
+  <g class="cat-body">
+    <path d="M112 152 C98 150 86 162 72 158 C60 154 62 142 72 144" stroke="#cf7cbd" stroke-width="13" stroke-linecap="round" fill="none"/><path d="M112 152 C98 150 86 162 72 158 C60 154 62 142 72 144" stroke="#74285f" stroke-width="13.5" stroke-dasharray="5 10" fill="none" opacity=".55"/>
+    <path d="M111 34 C94 40 86 70 88 100 C90 122 102 134 111 136Z" fill="url(#cfFur)"/>
+    <path d="M100 44 q-8 10 -8 22 M98 84 q-6 12 -4 26" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="4.5"/>
+    <g transform="translate(6,30) rotate(-12 60 56)"><g class="chead">
+      <path d="M24 42 L18 4 L52 26Z" fill="#c873b5"/><path d="M28 34 L25 14 L44 27Z" fill="#f6c6e6"/>
+      <path d="M72 25 L100 3 L96 42Z" fill="#c873b5"/><path d="M78 27 L95 13 L92 34Z" fill="#f6c6e6"/>
+      <path d="M22 58 C16 32 38 18 60 18 C86 18 104 34 98 58 C106 61 104 70 96 72 C101 79 92 86 86 85 C76 96 42 96 32 85 C24 86 15 79 21 72 C13 70 14 61 22 58Z" fill="url(#cfHead)"/>
+      <path d="M50 21 q3 10 -1 19 M60 19 v19 M70 21 q-3 10 1 19 M18 63 q12 -1 17 6 M102 63 q-12 -1 -17 6 M20 74 q9 0 13 4 M100 74 q-9 0 -13 4" stroke="#74285f" stroke-linecap="round" fill="none" opacity=".55" stroke-width="3.6"/>
+      <g class="cat-eyes"><ellipse cx="43" cy="50" rx="10" ry="9" fill="#e9d93c"/><ellipse cx="76" cy="50" rx="10" ry="9" fill="#e9d93c"/>
+        <ellipse cx="44" cy="51" rx="2.4" ry="7.5" fill="#1b0f17"/><ellipse cx="75" cy="51" rx="2.4" ry="7.5" fill="#1b0f17"/>
+        <circle cx="47" cy="46" r="2" fill="#fff"/><circle cx="78" cy="46" r="2" fill="#fff"/>
+        <path d="M32 47 Q43 37 54 46 L54 40 L32 40Z M65 46 Q76 37 87 47 L87 40 L65 40Z" fill="#d283c1"/>
+        <path d="M32 47 Q43 39 54 46 M65 46 Q76 39 87 47" stroke="#5b1d4b" stroke-width="1.6" fill="none"/></g>
+      <path d="M56 61 h7 l-3.5 4.5z" fill="#a03f7c"/>
+      <path d="M28 66 l-20 -4 M28 70 l-20 2 M92 66 l20 -4 M92 70 l20 2" stroke="#5b1d4b" stroke-width="1" opacity=".7"/>
+    </g></g>
+    <ellipse cx="120" cy="58" rx="10" ry="4" fill="#000" opacity=".25" filter="url(#cfSoft)"/>
+    <ellipse cx="120" cy="126" rx="10" ry="4" fill="#000" opacity=".25" filter="url(#cfSoft)"/>
+    <path d="M98 44 C108 38 126 40 130 48 C132 56 122 60 112 58 C104 58 98 54 98 44Z" fill="url(#cfFur)"/>
+    <path d="M120 46 v8 M125.5 47 v7" stroke="#8a3a7c" stroke-width="1.2"/>
+    <path d="M98 112 C108 106 126 108 130 116 C132 124 122 128 112 126 C104 126 98 122 98 112Z" fill="url(#cfFur)"/>
+    <path d="M120 114 v8 M125.5 115 v7" stroke="#8a3a7c" stroke-width="1.2"/>
+  </g>
+  <g class="cat-grin" transform="translate(6,30) rotate(-12 60 56)">
+    <path d="M22 64 Q60 104 98 64 Q60 80 22 64Z" fill="#fffaf2" stroke="#3a1030" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M31 69 l2 9 M40 72 l1.5 11 M49 74 l.5 12 M58 75 v12.5 M67 74.5 l-.5 12 M76 72.5 l-1.5 11 M85 69.5 l-2 9 M26 67 Q60 88 94 67" stroke="#3a1030" stroke-width="1.3" fill="none"/>
   </g>
 </svg>
 </template>
@@ -481,17 +826,14 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
       <span class="sub">a portfolio in black, white &amp; one colour at a time</span>
       Ursula in W<span class="swap"><span class="o">o</span><svg viewBox="0 0 100 20"><path d="M2 14 Q50 2 98 8" stroke="#d7263d" stroke-width="7" fill="none" stroke-linecap="round"/></svg><span class="a">a</span></span>nderland
     </h1>
-    <div class="pframe" id="pframe">
-      <div class="inner">
-        <div class="hole"></div>
-        <div class="half L" id="halfL"></div>
-        <div class="half R" id="halfR"></div>
-        <svg class="crack" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <path id="crackPath" d="M54 0 L51 14 L56 27 L50 41 L55 55 L49 70 L54 84 L50 100" fill="none" stroke="#fff" stroke-width=".9" vector-effect="non-scaling-stroke" style="stroke-width:2px"/>
-        </svg>
-      </div>
+    <div class="pface" id="pframe">
+      <div class="hole"></div>
+      <div class="half L" id="halfL" role="img" aria-label="Ursula Brambilla"></div>
+      <div class="half R" id="halfR"></div>
+      <svg class="crack" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path id="crackPath" d="M51 0 L48 10 L53 20 L47 31 L52 42 L46 54 L51 67 L47 82 L50 100" fill="none" stroke="#1d1d1d" stroke-width=".9" vector-effect="non-scaling-stroke" style="stroke-width:2.5px"/>
+      </svg>
     </div>
-    <p class="plaque" id="plaque">“Madame Bovary, c’est moi.”<small>half Ingres · half Ursula · oil on daydreams</small></p>
     <div id="u1"></div>
     <div class="oops" id="oops">oops —</div>
     <div class="hint" id="hint">scroll to fall in <span>↓</span></div>
@@ -505,9 +847,10 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
     <div id="rings"></div>
     <div id="objs"></div>
     <div id="u2" class="falling"></div>
+    <div class="cat vanish" id="grin"><div class="bob"></div></div>
     <div class="caption" data-at="0.02">Once upon a time, in a city of fog, aperitivo<br>and very serious shoes…</div>
-    <div class="caption" data-at="0.24">…a girl was shown what a proper life looks like.<br><em>In black and white.</em></div>
-    <div class="caption" data-at="0.46">She is One, No One and One Hundred Thousand.<span class="hand">(Pirandello said it first.)</span></div>
+    <div class="caption" data-at="0.24">…a girl desperately looked for her identity.</div>
+    <div class="caption" data-at="0.46">She soon found out she’s one, no one<br>and a hundred thousand.<span class="hand">(Pirandello said it first.)</span></div>
     <div class="caption" data-at="0.68">The rule of this world: every time she picks<br>something of her own, <em>a colour switches on.</em></div>
     <div class="whiteout" id="whiteout"></div>
   </div>
@@ -552,9 +895,11 @@ body.ch-open .topbar,body.ch-open .hud{opacity:0;pointer-events:none}
 <!-- short version -->
 <div class="short" id="short">
   <div class="card">
-    <button class="x" id="closeShort" aria-label="Close">×</button>
+    <button class="x" id="closeShort" aria-label="Close">back to Wonderland</button>
+    <svg class="watch" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="5" r="3" fill="none" stroke="#d9b25a" stroke-width="2"/><rect x="21" y="7" width="6" height="5" rx="1.5" fill="#d9b25a"/>
+      <circle cx="24" cy="28" r="17" fill="#f6efe2" stroke="#d9b25a" stroke-width="3.5"/><path d="M24 28V17M24 28l7 4" stroke="#1b1b1b" stroke-width="2.2" stroke-linecap="round"/><circle cx="24" cy="28" r="1.8" fill="#d7263d"/></svg>
     <h3>The short version</h3>
-    <p class="lead">No time for rabbit holes? Here’s the trailer, newest first. Tap a line to open its door.</p>
+    <p class="lead">“I’m late! I’m late!” The White Rabbit’s shortcut, newest first. Pick a card to open its door.</p>
     <div id="shortList"></div>
   </div>
 </div>
@@ -571,7 +916,7 @@ const URSULA_FACE = 'assets/ursula-face.jpg'; // aligned to the Ingres crop (eye
 
 /* ===== homage paintings (drawn, not copied) ===== */
 const svgURI = s => 'data:image/svg+xml;utf8,' + encodeURIComponent(s);
-const BALLOON = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+const BALLOON_SRC = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
 <rect width="600" height="760" fill="#dcd8d0"/>
 ${Array.from({length:14},(_,i)=>`<line x1="0" y1="${i*56+20}" x2="600" y2="${i*56+24}" stroke="#cfcac1" stroke-width="2"/>`).join('')}
 <g fill="#151515">
@@ -585,8 +930,10 @@ ${Array.from({length:14},(_,i)=>`<line x1="0" y1="${i*56+20}" x2="600" y2="${i*5
 <g fill="#d7263d"><circle cx="430" cy="190" r="52"/><circle cx="388" cy="146" r="22"/><circle cx="472" cy="146" r="22"/></g>
 <g fill="#fff" opacity=".9"><circle cx="412" cy="186" r="5"/><circle cx="448" cy="186" r="5"/><ellipse cx="430" cy="204" rx="9" ry="6"/></g>
 <text x="300" y="730" text-anchor="middle" font-family="Courier New,monospace" font-weight="700" font-size="26" fill="#151515" letter-spacing="3">THERE IS ALWAYS A PLUSHY</text>
-</svg>`);
-const APPLE = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
+</svg>`;
+const BALLOON = svgURI(BALLOON_SRC);
+const BALLOON_IN = svgURI(BALLOON_SRC.replace(/<g fill="#151515">[\s\S]*?<\/g>/,'').replace('M336 404 C350 330','M263 492 C300 400'));
+const APPLE_SRC = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
 <defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d93b0"/><stop offset=".7" stop-color="#c9d4de"/></linearGradient></defs>
 <rect width="600" height="760" fill="url(#s)"/>
 <rect y="520" width="600" height="80" fill="#3d5a73"/><rect y="600" width="600" height="160" fill="#a09a8e"/>
@@ -597,7 +944,9 @@ const APPLE = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 7
 <circle cx="300" cy="300" r="74" fill="#6bb33e"/><path d="M300 228 q4 -24 18 -34" stroke="#5a3a1a" stroke-width="6" fill="none"/><path d="M310 222 q30 -30 54 -8 q-30 18 -54 8z" fill="#3f8a26"/>
 <g stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"><path d="M206 236 v-28 h28"/><path d="M394 236 v-28 h-28"/><path d="M206 370 v28 h28"/><path d="M394 370 v28 h-28"/></g>
 <text x="300" y="438" text-anchor="middle" font-family="Helvetica,Arial" font-size="18" fill="#fff" letter-spacing="2">VERIFYING… ✓</text>
-</svg>`);
+</svg>`;
+const APPLE = svgURI(APPLE_SRC);
+const APPLE_IN = svgURI(APPLE_SRC.replace(/<path d="M150 760[\s\S]*?<path d="M310 222[^>]*>/,''));
 const BLANK = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 760">
 <defs><linearGradient id="k" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe3c8"/><stop offset="1" stop-color="#f6b28a"/></linearGradient></defs>
 <rect width="600" height="760" fill="#f7f4ee"/>
@@ -609,65 +958,408 @@ const BLANK = svgURI(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 7
 
 /* ===== doors & chapters (content from Ursula's storybook) ===== */
 const DOORS = [
- {n:'I', place:'The training montage', title:'The training montage', art:'assets/art/athens.jpg', ratio:960/745,
+ {n:'I', place:'The training montage', when:['2017','– 2021'], title:'The training montage', art:'assets/art/athens.jpg', ratio:960/745,
   credit:'Raphael, The School of Athens, 1509–11 · Vatican', say:'every adventure needs a montage.',
   body:`<p>Every adventure needs one. Mine came with lecture halls, a summer in Boston and a lot of espresso.</p>
   <ul><li><b>Milan 2017–20</b> · Bachelor in Communication &amp; Advertising, Università Cattolica</li><li><b>Boston 2018</b> · Summer program in Marketing, Boston University. First taste of America. Noted for later.</li><li><b>Milan 2020–21</b> · Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano</li><li><b>Antwerp 2021</b> · Business &amp; Economics, University of Antwerp</li></ul>`},
- {n:'II', place:'L’Oréal Brandstorm', title:'Red lipstick speaks louder', art:'assets/art/pearl.jpg', ratio:960/1137,
+ {n:'II', place:'L’Oréal Brandstorm', when:['2021',''], title:'Red lipstick speaks louder', art:'assets/art/pearl.jpg', ratio:960/1137,
   accent:'radial-gradient(ellipse 9% 5% at 38.5% 53%, #000 65%, transparent 100%)',
   credit:'Johannes Vermeer, Girl with a Pearl Earring, c. 1665 · Mauritshuis', say:'the lips were red before anything else.',
   body:`<p>While studying at MIP in 2021 I entered the L’Oréal Brandstorm challenge with girls from another university I had met online. We had never been in the same room.</p>
   <div class="stat"><div>6/280<small>finalists in Italy</small></div><div>3<small>months with a L’Oréal marketing manager</small></div></div>
   <p>We did not win. But we built a <b>Virtual Make-up Masterclass</b> and pitched it to the L’Oréal Italy Board. Customer experience design, before I knew it would become my job.</p>`,
-  noTitle:true, work:[{img:'team.jpg',title:'Team 5 · “Red lipstick speaks louder”',cap:'Ursula Brambilla, Ilaria Senatore and Yasmine Rachyd, with our L’Oréal mentor Chiara Bernardini.'}]},
- {n:'III', place:'Tell-Me', title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
+  noTitle:true, theme:'dutch', work:[{img:'team.jpg',title:'Team 5 · “Red lipstick speaks louder”',cap:'My team at L’Oréal Brandstorm, with our L’Oréal mentor Chiara Bernardini.'}]},
+ {n:'III', place:'Tell-Me', when:['2020',''], title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
   credit:'Caspar David Friedrich, Wanderer above the Sea of Fog, c. 1818 · Hamburger Kunsthalle', say:'a travel app. lovely view. lots of fog.',
   body:`<p>Growth marketer for a travel and lifestyle app where recommendations come from friends you trust. I sharpened the value proposition and the go-to-market, and ran digital PR before launch.</p><p>It was a lovely idea. The market didn’t agree.</p><span class="note">lesson: fall in love with the problem, not the product.</span>`,
-  work:[{img:'tellme.jpg',title:'Tell-Me',cap:'“Travel the world with TellMe”'}]},
- {n:'IV', place:'SLB Coaching Academy', title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
+  noTitle:true, work:[{postcard:'tellme.jpg',title:'Tell-Me',msg:'“Travel the world with TellMe.”<br>Wish you were here! ✈',to:'to: fellow travellers'}]},
+ {n:'IV', place:'SLB Coaching Academy', when:['2020','– 2021'], title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
   credit:'Vincent van Gogh, The Bedroom, 1888 · Van Gogh Museum', say:'styling, interiors, a pinch of feng shui.',
   body:`<p>Content producer for SLB Coaching Academy: full course programmes for business owners in beauty, fashion and lifestyle, mixing personal styling, interior design and a pinch of feng shui.</p><span class="note">Van Gogh would have moved the bed.</span>`,
-  noTitle:true, work:[{img:'slb.jpg',title:'Colours, magazines and a pen',cap:'Fashion magazines, colour swatches and a style guide: course material in the making.'},{video:'slb.mp4',poster:'slb.jpg',title:'Course material in the making',cap:'Video.'}]},
- {n:'V', place:'Accenture Song', title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
+  noTitle:true, theme:'vangogh', work:[{img:'slb.jpg',title:'Colours, magazines and a pen',cap:'Fashion magazines, colour swatches and a style guide: course material in the making.'},{video:'slb.mp4',poster:'slb.jpg',title:'Course material in the making',cap:'Video.'}]},
+ {n:'V', place:'Accenture Song', when:['2021','→ now'], title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
   credit:'Piet Mondrian, Composition II in Red, Blue and Yellow, 1930', say:'swiss precision. five projects. one grid.',
   body:`<p>In December 2021 I joined Accenture Song in Switzerland. Different projects, different roles. Each one taught me a new language.</p>
-  <div class="grid-mondrian"><div class="r"><b>Scrum Master · Bern</b>National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.</div><div><b>BA · Zurich</b>Product content (PIM) for a skincare multinational.</div><div class="y"><b>Delivery Lead</b>Sales portal × Oracle Eloqua, end-to-end data flows.</div><div class="b"><b>BA · Lugano</b>Consumer app rolled out to 30+ countries.</div><div><b>BA · Lugano</b>Omnichannel order flows, SAP to Hybris.</div><div><b>+ events</b>Leadership events for 30+ leaders, budgets up to CHF 30k.</div><div class="full r"><b>Pre-sales · RFP / RFI</b>Responses to RFPs and RFIs for clients, plus the business cases behind them.</div></div>`},
- {n:'VI', place:'The Plushy Society', title:'The Plushy Society', art:BALLOON, ratio:600/760,
+  <div class="grid-mondrian"><div class="r"><b>Scrum Master · Bern</b>National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.</div><div><b>BA · Zurich</b>Product content (PIM) for a skincare multinational.</div><div class="y"><b>Delivery Lead</b>Sales portal × Oracle Eloqua, end-to-end data flows.</div><div class="b"><b>BA · Lugano</b>Consumer app rolled out to 30+ countries.</div><div><b>BA · Lugano</b>Omnichannel order flows for an FMCG company, SAP to Hybris.</div><div><b>+ events</b>Leadership events for 30+ leaders, budgets up to CHF 30k.</div><div class="full r"><b>Pre-sales · RFP / RFI</b>Responses to RFPs and RFIs for clients, plus the business cases behind them.</div></div>`},
+ {n:'VI', place:'The Plushy Society', when:['2026','→ now'], title:'The Plushy Society', art:BALLOON, artIn:BALLOON_IN, ratio:600/760,
   credit:'after Banksy · an homage, redrawn', say:'I wrote them a book. then built them a world.',
   body:`<p>I wrote a book full of plushies with jobs they’re bad at, dreams they’re brave about and loves they fumble beautifully. Then they needed somewhere to live. So I built them a world.</p>
   <p><a href="https://theplushysociety.com" target="_blank" rel="noopener"><b>theplushysociety.com ↗</b></a>: describe your plushy and it comes to life. It explores, exchanges letters, writes to its human.</p>
   <div class="stat"><div>50<small>members, month one</small></div><div>50+<small>plushies alive</small></div><div>1<small>founder (me)</small></div></div>
   <p>Designed, built and launched on my own with Next.js, Supabase and Claude.</p>`,
-  work:[{video:'gulino.mp4',title:'Meet the founder',cap:'Gulino, polar bear and CEO. Edited by me.'},
+  mannequin:{title:'Pin by pin', sign:'fitting room · one plushy at a time', hint:'Every plushy needs a soul. Tap a pin to see what I stitched on.',
+    pins:[{i:0,x:66,y:37,label:'Meet the founder',icon:'♥'},{i:5,x:36,y:65.5,label:'Social ad',icon:'▶'},{items:[2,3,4],x:30,y:33,label:'Reviews',icon:'✉',kicker:'Letters from the members'}]},
+  theme:'street', work:[{video:'gulino.mp4',title:'Meet the founder',cap:'Gulino, polar bear and CEO. Edited by me.'},
         {head:'Letters from the members'},
-        {letter:'letter1.jpg',cap:'“a safe and fun place for stuffie lovers like myself”'},{letter:'letter2.jpg',cap:'“very warm, cosy, safe and friendly”'},{letter:'letter3.jpg',cap:'“a feeling of being less alone in the world”'}],
+        {letter:'letter1.jpg',cap:'“a safe and fun place for stuffie lovers like myself”'},{letter:'letter2.jpg',cap:'“very warm, cosy, safe and friendly”'},{letter:'letter3.jpg',cap:'“a feeling of being less alone in the world”'},
+        {video:'plushy-ad.mp4',poster:'plushy-ad.jpg',title:'A day with Biscuit',cap:'A social media ad for The Plushy Society.'}],
   after:`<span class="note">customer discovery, but with teddy bears.</span>`},
- {n:'VII', place:'Didit · YC W26', title:'Prove you’re human', art:APPLE, ratio:600/760,
+ {n:'VII', place:'Didit · YC W26', when:['2026','3 weeks'], title:'Prove you’re human', art:APPLE, artIn:APPLE_IN, ratio:600/760,
   credit:'after Magritte · an homage, redrawn', say:'they verify identities. fitting, for me.',
   body:`<p>At the end of summer 2026 I went to Barcelona as a contractor for Didit, a Y Combinator (W26) startup building identity and fraud infrastructure, to work in marketing and events.</p>
   <ul><li><b>An event, end to end:</b> the office launch “Building, Raising &amp; Scaling in the AI Era”. Concept, production, guest list, landing page, invites, a guest-tracking web app, and a panel I moderated with a VC and founders.</li><li><b>A product demo</b> of Didit’s identity verification, turned into a social video.</li><li><b>Social content</b> for Didit’s channels.</li><li><b>SiGMA Rome:</b> arranged Didit’s presence at the event.</li></ul>`,
-  work:[{yt:'ksi8eAmbTTc',title:'Didit’s first event in Barcelona',cap:'AI-native companies and fundraising in SF vs EU. The panel I moderated, with a VC and founders.'},
-        {video:'didit-event.mp4',poster:'didit-event.jpg',title:'Launch night',cap:'“Building, Raising &amp; Scaling in the AI Era”, Barcelona.'}],
+  theme:'magritte', work:[{yt:'ksi8eAmbTTc',ceci:'Ceci n’est pas un panel.',title:'Didit’s first event in Barcelona',cap:'AI-native companies and fundraising in SF vs EU. The panel I moderated, with a VC and founders.'},
+        {video:'didit-event.mp4',poster:'didit-event.jpg',ceci:'Ceci n’est pas une fête.',title:'Launch night',cap:'“Building, Raising &amp; Scaling in the AI Era”, Barcelona.'}],
   after:`<p>Before you go on, a quick security check. You know how it is.</p><div id="captcha"></div>`, game:true},
- {n:'∞', place:'Epilogue', title:'The next chapter', art:BLANK, ratio:600/760,
+ {n:'∞', place:'Epilogue', when:['',''], title:'The next chapter', art:BLANK, ratio:600/760,
   credit:'Ursula Brambilla, Untitled (San Francisco), work in progress', say:'this one isn’t painted yet.',
   body:`<p>Every identity evolves, and mine is packing again. Next stop: San Francisco.</p><p>I’m looking for roles in the U.S. in marketing, events, business design and strategy.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p>`,
-  noTitle:true, work:[{img:'cover.jpg',title:'The heroine of this story',cap:'Ursula Brambilla. Photograph.'}],
+  noTitle:true, theme:'easel', work:[{img:'cover.jpg',title:'work in progress',cap:'Ursula Brambilla, still being painted.'}],
   after:`<div class="cta" style="justify-content:flex-start;margin-top:8px"><a href="mailto:ursulabrambilla@gmail.com">ursulabrambilla@gmail.com</a><a class="alt" href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">LinkedIn ↗</a></div><span class="note">shall we write it together?</span>`},
 ];
 const W = 'assets/work/';
+/* ===== the mannequin: in every chapter, wearing one more piece each time ===== */
+const MQ_TORSO = 'M96 30 C96 18 124 18 124 30 L126 44 C150 50 176 60 184 78 C190 94 184 120 172 138 C166 160 172 186 182 214 C186 228 176 244 110 248 C44 244 34 228 38 214 C48 186 54 160 48 138 C36 120 30 94 36 78 C44 60 70 50 94 44Z';
+function mqSVG(level){
+  const has=k=>level>=k, g=(k,html)=>has(k)?`<g${level===k?' class="mq-new"':''}>${html}</g>`:'';
+  return `<svg class="mq-svg" viewBox="0 -86 220 426" aria-hidden="true"><defs>
+<linearGradient id="mqLin" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cdb88f"/><stop offset=".35" stop-color="#f4e9d3"/><stop offset=".7" stop-color="#e6d6b6"/><stop offset="1" stop-color="#bda57b"/></linearGradient>
+<radialGradient id="mqHead" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="${has(7)?'#fbe1cd':'#fbf5ea'}"/><stop offset=".55" stop-color="${has(7)?'#f0c9ad':'#e6d8bd'}"/><stop offset="1" stop-color="${has(7)?'#d39f80':'#bfa97f'}"/></radialGradient>
+<linearGradient id="mqSw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#f1c40f"/><stop offset=".286" stop-color="#f1c40f"/><stop offset=".286" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#d7263d"/><stop offset=".571" stop-color="#d7263d"/><stop offset=".571" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#f4a261"/><stop offset=".857" stop-color="#f4a261"/><stop offset=".857" stop-color="#9b5de5"/><stop offset="1" stop-color="#9b5de5"/></linearGradient>
+<clipPath id="mqTorso"><path d="${MQ_TORSO}"/></clipPath>
+<filter id="mqSoft"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<ellipse cx="110" cy="326" rx="60" ry="7" fill="#000" opacity=".22" filter="url(#mqSoft)"/>
+<path d="M110 244 V312" stroke="#6b4a2c" stroke-width="7" stroke-linecap="round"/>
+<path d="M110 300 L66 324 M110 300 L154 324 M110 300 L110 326" stroke="#6b4a2c" stroke-width="5" stroke-linecap="round"/>
+<circle cx="66" cy="325" r="3.5" fill="#3d2a18"/><circle cx="154" cy="325" r="3.5" fill="#3d2a18"/>
+${g(7,'<path d="M78 -20 C74 -58 96 -68 110 -68 C126 -68 148 -58 142 -20 C146 10 150 40 146 70 C136 74 124 70 118 64 L102 64 C96 70 84 74 74 70 C70 40 74 10 78 -20Z" fill="#2a1a12"/>')}
+<path d="${MQ_TORSO}" fill="url(#mqLin)" stroke="#9c8660" stroke-width="1.4"/>
+<ellipse cx="110" cy="24" rx="14" ry="5" fill="#dccaa4" stroke="#9c8660"/>
+<g fill="none" stroke="#a98f62" stroke-width="1.3" stroke-dasharray="4 3" stroke-linecap="round"><path d="M110 44 C107 120 113 190 110 246"/><path d="M84 50 C70 100 78 160 70 230"/><path d="M136 50 C150 100 142 160 150 230"/></g>
+${g(3,'<path d="M46 150 Q110 168 174 150 L190 234 Q110 254 30 234Z" fill="url(#mqSw)" stroke="#7a6a4a" stroke-width="1"/><path d="M64 156 L52 238 M84 160 L78 244 M110 163 V248 M136 160 L142 244 M156 156 L168 238" stroke="rgba(0,0,0,.14)" stroke-width="1.4"/><path d="M34 230 Q110 249 186 230" fill="none" stroke="#fff" stroke-width="1.3" stroke-dasharray="4 3"/>')}
+${g(4,'<g clip-path="url(#mqTorso)"><rect x="20" y="28" width="180" height="126" fill="#f6f2ea"/><rect x="20" y="28" width="68" height="68" fill="#d42a1d"/><rect x="20" y="126" width="68" height="28" fill="#1f3fa0"/><rect x="140" y="126" width="60" height="28" fill="#f1c40f"/><path d="M88 28 V154 M140 28 V154 M20 96 H88 M20 126 H200" stroke="#111" stroke-width="4"/></g>')}
+${g(0,'<path d="M44 150 Q110 168 176 150" stroke="#f1d23a" stroke-width="11" fill="none"/><path d="M44 150 Q110 168 176 150" stroke="#3a2f10" stroke-width="11" fill="none" stroke-dasharray="1.2 6" opacity=".5"/><path d="M176 150 C192 154 198 172 192 194" stroke="#f1d23a" stroke-width="10" fill="none"/><path d="M176 150 C192 154 198 172 192 194" stroke="#3a2f10" stroke-width="10" fill="none" stroke-dasharray="1.2 6" opacity=".5"/>')}
+${g(5,'<g transform="translate(-58,-12)"><g class="mq-heart"><path d="M132 112 C114 100 110 86 119 81 C125 78 131 82 132 87 C133 82 139 78 145 81 C154 86 150 100 132 112Z" fill="#d7263d" stroke="#8e1426" stroke-width=".8"/><path d="M132 107 C118 98 115 88 121 85 C126 83 131 86 132 90 C133 86 138 83 143 85 C149 88 146 98 132 107Z" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="2.5 2.2" opacity=".9"/></g></g>')}
+${g(6,'<path d="M98 30 L82 104 M122 30 L94 104" stroke="#c8233a" stroke-width="2.4"/><g transform="translate(-22,0)"><rect x="98" y="102" width="24" height="31" rx="3" fill="#fff" stroke="#9a9a9a"/><rect x="102" y="106" width="16" height="12" rx="1.5" fill="#e9b7d6"/><circle cx="110" cy="125" r="5" fill="#2e9e5b"/><path d="M107.4 125 L109.4 127 L112.8 122.8" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/></g>')}
+<path d="M101 8 L101 26 L119 26 L119 8Z" fill="url(#mqLin)" stroke="#9c8660" stroke-width="1.2"/>
+<path d="M110 -58 C133 -58 143 -37 141 -16 C139 4 127 19 110 21 C93 19 81 4 79 -16 C77 -37 87 -58 110 -58Z" fill="url(#mqHead)" stroke="#9c8660" stroke-width="1.3"/>
+<ellipse cx="97" cy="-34" rx="8" ry="17" fill="#fff" opacity=".3" transform="rotate(-12 97 -34)"/>
+${g(7,'<path d="M110 -62 C92 -62 80 -48 80 -24 C80 -4 82 18 76 42 C86 36 88 18 88 2 C88 -20 92 -48 110 -58Z" fill="#2a1a12"/><path d="M110 -62 C128 -62 140 -48 140 -24 C140 -4 138 18 144 42 C134 36 132 18 132 2 C132 -20 128 -48 110 -58Z" fill="#2a1a12"/><path d="M79 -26 C76 -56 96 -66 110 -66 C126 -66 146 -56 141 -26 C136 -46 124 -55 110.6 -56 L109.4 -56 C96 -55 84 -46 79 -26Z" fill="#2a1a12"/><path d="M81 -42 C92 -64 128 -64 139 -42" stroke="#111" stroke-width="5" fill="none" stroke-linecap="round"/>')}
+${g(2,'<ellipse cx="110" cy="-40" rx="48" ry="9" fill="#e9cf8f" stroke="#b9974f" stroke-width="1.2"/><path d="M84 -41 Q86 -80 110 -80 Q134 -80 136 -41Z" fill="#efd89c" stroke="#b9974f" stroke-width="1.2"/><path d="M85 -52 Q110 -47 135 -52 L136 -42 Q110 -37 84 -42Z" fill="#2c4f9e"/><path d="M131 -50 l10 -6 l2 9z" fill="#2c4f9e"/>')}
+${has(6)?'':'<path d="M96 -26 Q103 -30 108 -27 M112 -27 Q117 -30 124 -26" fill="none" stroke="#d3c19b" stroke-width="1.6" stroke-linecap="round"/>'}
+${g(6,'<path d="M91 -20 Q98 -26 105 -20 Q98 -15 91 -20Z M115 -20 Q122 -26 129 -20 Q122 -15 115 -20Z" fill="#fff"/><circle cx="98" cy="-20.3" r="3.1" fill="#6b3d1e"/><circle cx="122" cy="-20.3" r="3.1" fill="#6b3d1e"/><circle cx="98" cy="-20.3" r="1.3" fill="#120b07"/><circle cx="122" cy="-20.3" r="1.3" fill="#120b07"/><path d="M105 -20 Q98 -26 91 -20 L88 -23 M115 -20 Q122 -26 129 -20 L132 -23" stroke="#111" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M90 -30 Q97 -34 104 -31 M116 -31 Q123 -34 130 -30" stroke="#2a1a12" stroke-width="2.6" fill="none" stroke-linecap="round"/>')}
+<path d="M110 -18 C107 -10 107 -5 110 -3 C113 -3 115 -5 114 -7" fill="none" stroke="${has(7)?'#d29c80':'#c9b58f'}" stroke-width="1.8" stroke-linecap="round"/>
+${g(1,'<circle cx="95" cy="-5" r="5" fill="#ef9f9a" opacity=".4"/><circle cx="125" cy="-5" r="5" fill="#ef9f9a" opacity=".4"/><path d="M102 4 Q106 1 110 2.5 Q114 1 118 4 Q110 5.5 102 4Z" fill="#c8233a"/><path d="M102 4 Q110 11 118 4 Q110 6.5 102 4Z" fill="#a51c30"/>')}
+</svg>`;
+}
+const MQ_NOTE = n=>`<div class="mq-note"><b>${n.t}</b><span>${n.c}</span></div>`;
+const MQCFG = {
+  0:{touch:{x:95,y:154}, sign:'fitting room · first measurements', fresh:'new: a tape measure', hint:'Before the clothes, the measurements. Tap a tag below.',
+     pins:[{x:60,y:150,label:'Milan',icon:'✎',note:{t:'Milan · 2017–20',c:'Bachelor in Communication &amp; Advertising, Università Cattolica.'}},
+           {x:95,y:154,label:'Boston',icon:'✎',note:{t:'Boston · 2018',c:'Summer program in Marketing, Boston University. First taste of America. Noted for later.'}},
+           {x:130,y:154,label:'MIP',icon:'✎',note:{t:'Milan · 2020–21',c:'Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano.'}},
+           {x:165,y:148,label:'Antwerp',icon:'✎',note:{t:'Antwerp · 2021',c:'Business &amp; Economics, University of Antwerp.'}}]},
+  1:{touch:{x:121,y:5}, sign:'fitting room · make-up', fresh:'new: red lips', hint:'Red lipstick speaks louder. Tap the tag below.',
+     pins:[{x:121,y:5,label:'Team 5',icon:'💄',i:0}]},
+  2:{touch:{x:140,y:-35}, sign:'fitting room · packing', fresh:'new: a travel hat', hint:'Every traveller needs a good hat. Tap the tag below.',
+     pins:[{x:140,y:-35,label:'Postcard',icon:'✈',i:0}]},
+  3:{touch:{x:80,y:182}, sign:'fitting room · dressing', fresh:'new: a skirt of swatches', hint:'Dressed in colour swatches. Tap a tag below.',
+     pins:[{x:80,y:182,label:'Colours &amp; magazines',icon:'✂',i:0},{x:140,y:182,label:'Video',icon:'▶',i:1}]},
+  4:{touch:{x:100,y:100}, sign:'fitting room · tailoring', fresh:'new: the Mondrian dress', hint:'A Mondrian dress: every colour block is a role. Tap one below.',
+     pins:[{x:54,y:70,label:'Scrum Master',icon:'■',note:{t:'Scrum Master · Bern',c:'National fibre rollout for Switzerland’s largest telco. A new portal cut order completion time.'}},
+           {x:114,y:74,label:'BA',icon:'■',notes:[{t:'BA · Zurich',c:'Product content (PIM) for a skincare multinational.'},{t:'BA · Lugano',c:'Consumer app rolled out to 30+ countries.'},{t:'BA · Lugano',c:'Omnichannel order flows for an FMCG company, SAP to Hybris.'}]},
+           {x:160,y:90,label:'Delivery Lead',icon:'■',note:{t:'Delivery Lead',c:'Sales portal × Oracle Eloqua, end-to-end data flows.'}},
+           {x:162,y:130,label:'Events Lead',icon:'■',note:{t:'Events Lead',c:'Leadership events for 30+ leaders, budgets up to CHF 30k.'}},
+           {x:100,y:112,label:'Pre-sales',icon:'■',note:{t:'Pre-sales · RFP / RFI',c:'Responses to RFPs and RFIs for clients, plus the business cases behind them.'}}]},
+  5:{touch:{x:74,y:83}, sign:'fitting room · one plushy at a time', fresh:'new: a stitched-on heart', hint:'Every plushy needs a soul. Tap a tag to see what I stitched on.',
+     pins:[{x:131,y:82,label:'Meet the founder',icon:'♥',i:0},{x:146,y:82,label:'Social ad',icon:'▶',i:5},{x:139,y:95,label:'Reviews',icon:'✉',items:[2,3,4],kicker:'Letters from the members'}]},
+  6:{touch:{x:88,y:117}, sign:'fitting room · ID check', fresh:'new: a face, verified', hint:'Now she has a face, and a badge that says she’s human. Tap a tag below.',
+     pins:[{x:106,y:112,label:'The panel',icon:'▶',i:0},{x:116,y:124,label:'Launch night',icon:'▶',i:1}]},
+  7:{touch:{x:110,y:100}, nopin:true, sign:'fitting room · final fitting', fresh:'now I wear it all', hint:'Everything I gave the mannequin, I now wear. Tap the tag below.',
+     pins:[{x:110,y:96,label:'The heroine',icon:'★',i:0}]},
+};
+const MQ_SW = '<stop offset="0" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#f1c40f"/><stop offset=".286" stop-color="#f1c40f"/><stop offset=".286" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#d7263d"/><stop offset=".571" stop-color="#d7263d"/><stop offset=".571" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#f4a261"/><stop offset=".857" stop-color="#f4a261"/><stop offset=".857" stop-color="#9b5de5"/><stop offset="1" stop-color="#9b5de5"/>';
+function mqAlice(){ return '<canvas width="360" height="640" aria-hidden="true"></canvas>'; }
+function mqAliceDressed(){ // everything she pinned, now on her: Mondrian top, swatch skirt, tape belt, heart, badge, red lips, travel hat
+  const g=tpl.content.querySelector('.pose-front').cloneNode(true), b=g.querySelector('.bodyg');
+  const sk=b.querySelectorAll('.skirt path'); sk[0].setAttribute('fill','url(#alSw)'); sk[1].remove();
+  const torso=b.querySelector('path[d^="M40 86"]'); torso.setAttribute('fill','#f6f2ea');
+  const apron=b.querySelector('path[d="M50 97 h20 v15 h-20z"]'); if(apron) apron.remove();
+  torso.insertAdjacentHTML('afterend',`<g clip-path="url(#alTorso)"><rect x="40" y="79" width="14" height="17" fill="#d42a1d"/><rect x="40" y="104" width="14" height="10" fill="#1f3fa0"/><rect x="66" y="104" width="14" height="10" fill="#f1c40f"/><path d="M54 79 V114 M66 79 V114 M40 96 H54 M40 104 H80" stroke="#111" stroke-width="1.6"/></g>
+    <path d="M40 112 H80" stroke="#f1d23a" stroke-width="4"/><path d="M40 112 H80" stroke="#3a2f10" stroke-width="4" stroke-dasharray=".6 2.4" opacity=".5"/>
+    <path d="M71 97 C65.5 93.5 64.5 89 67.5 88 C69 87.4 70.6 88.4 71 89.8 C71.4 88.4 73 87.4 74.5 88 C77.5 89 76.5 93.5 71 97Z" fill="#d7263d" stroke="#fff" stroke-width=".5" stroke-dasharray="1 .8"/>
+    <path d="M57 82 L58.5 98 M63 82 L61.5 98" stroke="#c8233a" stroke-width="1"/><rect x="56.5" y="97" width="7" height="9" rx="1" fill="#fff" stroke="#999" stroke-width=".5"/><circle cx="60" cy="103.4" r="1.6" fill="#2e9e5b"/>`);
+  b.querySelectorAll('path[fill="#a85a52"]').forEach(x=>x.setAttribute('fill','#c8233a'));
+  b.querySelectorAll('path[fill="#b8665c"]').forEach(x=>x.setAttribute('fill','#a51c30'));
+  b.insertAdjacentHTML('beforeend','<ellipse cx="60" cy="24" rx="36" ry="6.5" fill="#e9cf8f" stroke="#b9974f" stroke-width=".8"/><path d="M41 24 Q42 1 60 0 Q78 1 79 24Z" fill="#efd89c" stroke="#b9974f" stroke-width=".8"/><path d="M41.6 15 Q60 19 78.4 15 L78.8 22 Q60 26 41.2 22Z" fill="#2c4f9e"/>');
+  return `<svg viewBox="0 -4 120 234" class="inp" aria-hidden="true"><defs><clipPath id="alTorso"><path d="M40 86 Q60 79 80 86 L80 114 L40 114Z"/></clipPath><linearGradient id="alSw" x1="0" y1="0" x2="1" y2="0">${MQ_SW}</linearGradient></defs>${g.outerHTML}</svg>`;
+}
+function mannequinHTML(d,item,lv){
+  const m=MQCFG[lv], esc=t=>t.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/"/g,'&quot;');
+  const L=x=>(x/220*100).toFixed(2)+'%', T=y=>((y+86)/426*100).toFixed(2)+'%';
+  const pins=''&&m.pins.map((p,k)=>`<button class="mq-pin" data-k="${k}" style="left:${L(p.x)};top:${T(p.y)};--d:${k*.45}s" title="${esc(p.label)}" aria-label="${esc(p.label)}"></button>`).join('');
+  const chips=m.pins.map((p,k)=>`<button class="mq-chip" data-k="${k}">${p.icon||''} ${p.label}</button>`).join('');
+  const bare=w=>w.postcard?{img:w.postcard,title:w.title,cap:''}:(w.video||w.yt)?Object.assign({},w,{bare:true}):w;
+  const body=p=>p.notes?p.notes.map(MQ_NOTE).join(''):p.note?MQ_NOTE(p.note):(p.items||[p.i]).map(i=>item(bare(d.work[i]))).join('');
+  const tpls=m.pins.map((p,k)=>`<template data-k="${k}">${p.kicker?`<h5 class="xhead">${p.kicker}</h5>`:''}${body(p)}</template>`).join('');
+  return `<h4 class="work-h">Piece by piece</h4><div class="mq" data-lv="${lv}"><div class="mq-stage"><span class="mq-sign">${m.sign}</span><span class="mq-fresh">${m.fresh}</span><div class="mq-alice"${lv===7?' data-final="1"':''}>${mqAlice()}</div><div class="mq-fig">${mqSVG(lv===7?6:lv)}<svg class="mq-legs" viewBox="0 -86 220 426" aria-hidden="true"><path d="M110 244 V312" stroke="#6b4a2c" stroke-width="7" stroke-linecap="round"/><path d="M110 300 L66 324 M110 300 L154 324 M110 300 L110 326" stroke="#6b4a2c" stroke-width="5" stroke-linecap="round"/><circle cx="66" cy="325" r="3.5" fill="#3d2a18"/><circle cx="154" cy="325" r="3.5" fill="#3d2a18"/></svg>${lv===7?`<div class="mq-bare">${mqSVG(-1)}</div>`:''}${pins}</div></div>
+    <div class="mq-chips">${chips}</div><div class="mq-panel"><p class="mq-hint">${m.hint}</p></div>${tpls}</div>`;
+}
+function mqShow(root,k){
+  root.querySelectorAll('.mq-pin,.mq-chip').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  const panel=root.querySelector('.mq-panel'), t=root.querySelector('template[data-k="'+k+'"]');
+  panel.querySelectorAll('video').forEach(v=>v.pause());
+  panel.innerHTML=''; panel.appendChild(t.content.cloneNode(true)); wireWork(panel);
+  panel.classList.remove('pop'); void panel.offsetWidth; panel.classList.add('pop');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+const mqReduce = ()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MQ_CLIP={hop:'assets/alice/alice-hop.mp4',twirl:'assets/alice/alice-twirl.mp4',stool:'assets/alice/alice-stool.mp4',bend:'assets/alice/alice-bend.mp4'};
+const MQ_FEET=.881; // her feet in every clip
+// where her flat hand touches, as a fraction of the frame; c = where her body is in that clip
+const MQ_WALKMASK={r:[[.7,1,0,1]],n:true}; // the walking clip: hand in front skin-only, needle by her side painted over
+// her arm in the still frames (fractions of the 360x640 frame): shoulder, length and width, and the box where the drawn arm is painted over
+const MQ_ARM={ stand:{clip:'bend',t:.05,px:135.5/360,py:318/640,L:87/360,w:16/360,box:[124/360,322/640,150/360,412/640]},
+               stool:{clip:'stool',t:2.85,px:225.5/360,py:228/640,L:81/360,w:17/360,box:[213/360,234/640,239/360,314/640]} };
+// crouching for the skirt: down with the arm out, one touch, back up (the pushing in between is skipped)
+const MQ_LOW={clip:'bend',a:.15,b:1.1,back:3.9,end:4.55,hx:.775,hy:.594,mask:{r:[[.72,1,.42,.72]]}};
+function mqVid(al,name){ al._v=al._v||{}; let v=al._v[name];
+  if(!v){ v=document.createElement('video'); v.muted=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.src=MQ_CLIP[name];
+    v.addEventListener('seeked',()=>{ if(al._play && al._play.v===v) al._play.dirty=true; }); al._v[name]=v; v.load(); }
+  return v; }
+function mqRender(al){ // draw the current clip frame, turning the green screen transparent
+  if(al._raf) return; const cv=al.querySelector('canvas'), ctx=cv.getContext('2d',{willReadFrequently:true}), cw=cv.width;
+  const tick=()=>{ al._raf=requestAnimationFrame(tick);
+    if(!al.isConnected){ cancelAnimationFrame(al._raf); al._raf=0; Object.values(al._v||{}).forEach(v=>v.pause()); return; }
+    const p=al._play; if(!p || p.v.readyState<2) return; const v=p.v;
+    if(!v.paused){
+      if(p.at!=null && v.currentTime>=p.at){ const f=p.atFn; p.at=null; f&&f(); }
+      if(v.currentTime>=p.b){ if(p.loop) v.currentTime=p.a; else { v.pause(); const d=p.done; p.done=null; d&&d(); } } }
+    if(v.currentTime===p.lastT && !p.dirty) return; p.lastT=v.currentTime; p.dirty=false;
+    ctx.clearRect(0,0,cw,cv.height); ctx.drawImage(v,0,0,cw,cv.height);
+    const im=ctx.getImageData(0,0,cw,cv.height), d=im.data, ch=cv.height, M=p.mask&&(!p.mask.t||(v.currentTime>=p.mask.t[0]&&v.currentTime<=p.mask.t[1]))?p.mask:null;
+    for(let i=0;i<d.length;i+=4){ const g=d[i+1], m=d[i]>d[i+2]?d[i]:d[i+2], k=g-m;
+      if(k>14){ d[i+3]=k>46?0:Math.round(255*(46-k)/32); d[i+1]=m; }
+      if(!M || !d[i+3]) continue;
+      const px=(i>>2)%cw/cw, py=((i>>2)/cw|0)/ch, r_=d[i],g_=d[i+1],b_=d[i+2];
+      if(M.r && M.r.some(q=>px>q[0]&&px<q[1]&&py>q[2]&&py<q[3])){ // only her bare arm and hand: no pin
+        const skin=r_>170&&g_>120&&b_>90&&r_>=g_&&(g_-b_)>12&&(r_-b_)>25;
+        if(!skin){ if(r_>150&&Math.abs(r_-g_)<30&&Math.abs(g_-b_)<30){ d[i]=240; d[i+1]=196; d[i+2]=163; } else d[i+3]=0; } }
+      else if(M.n && px>.3&&px<.72&&py>.5&&py<.8 && Math.abs(r_-g_)<22&&Math.abs(g_-b_)<22&&r_>80&&r_<200){ d[i]=215; d[i+1]=38; d[i+2]=61; } } // needle
+    const A=p.arm, LG=p.legs;
+    if(LG){ const X0=Math.round(100/360*cw), X1=Math.round(190/360*cw), Y0=Math.round(467/640*ch);
+      for(let y=Y0;y<ch;y++) for(let x=X0;x<X1;x++) d[(y*cw+x)*4+3]=0; } // the still legs go; the walking ones are drawn below
+    if(A){ const b=A.c.box, X0=Math.round(b[0]*cw), X1=Math.round(b[2]*cw), Y0=Math.round(b[1]*ch), Y1=Math.round(b[3]*ch);
+      for(let y=Y0;y<Y1;y++) for(let x=X0;x<X1;x++){ const j=(y*cw+x)*4, r_=d[j], g_=d[j+1], b_=d[j+2];
+        if(r_>150 && g_>45 && !(g_>215&&b_>200)){ d[j]=216; d[j+1]=36; d[j+2]=59; d[j+3]=255; } } } // the arm that hangs in the frame is painted over with the dress
+    ctx.putImageData(im,0,0);
+    if(LG){ ctx.save(); ctx.globalCompositeOperation='destination-over'; // behind the dress: near leg first, then the far one
+      for(const [ang,far] of [[LG.a,0],[-LG.a,1]]){ ctx.save(); ctx.scale(cw/360,ch/640); ctx.translate(136.5,462); ctx.rotate(ang*Math.PI/180);
+        ctx.fillStyle=far?'#d8ab8a':'rgb(240,196,160)'; ctx.beginPath(); ctx.roundRect(-8.5,-6,17,48,6); ctx.fill();
+        ctx.fillStyle=far?'#e4dfd8':'#fdfdfd'; ctx.beginPath(); ctx.roundRect(-9.5,38,19,42,3); ctx.fill();
+        ctx.fillStyle=far?'#2a2a2a':'#111'; ctx.beginPath(); ctx.roundRect(-13.5,79,47,21,9); ctx.fill(); ctx.restore(); }
+      ctx.restore(); }
+    if(A){ const c=A.c, sx=c.px*cw, sy=c.py*ch, L=c.L*cw, w=c.w*cw, th=A.deg*Math.PI/180, ux=-Math.sin(th), uy=Math.cos(th);
+      ctx.save(); ctx.lineCap='round'; ctx.lineWidth=w; ctx.strokeStyle='rgb(237,192,158)'; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(sx+ux*(L-w/2), sy+uy*(L-w/2)); ctx.stroke(); ctx.restore(); } };
+  tick(); }
+function mqPlay(al,name,a,b,o={}){ const v=mqVid(al,name);
+  Object.values(al._v).forEach(x=>{ if(x!==v) x.pause(); });
+  al._play={v,a,b,loop:!!o.loop,done:o.done,at:o.at,atFn:o.atFn,mask:o.mask===true?MQ_WALKMASK:(o.mask||null),arm:o.arm||null,legs:o.legs||null,dirty:true,lastT:-1};
+  const go=()=>{ try{ v.currentTime=a; }catch(e){} if(o.hold){ v.pause(); return; } const pr=v.play(); if(pr) pr.catch(()=>{}); };
+  if(v.readyState>=1) go(); else v.addEventListener('loadedmetadata',go,{once:true});
+  mqRender(al); }
+function mqSize(root){ // her figure is exactly as tall as the Alice walking in the corridor
+  const al=root.querySelector('.mq-alice'), u=document.querySelector('#u3'), uh=u&&u.offsetHeight||innerHeight*.27;
+  const ah=Math.round(uh*.883/.65); al.style.setProperty('--ah', ah+'px');
+  // the mannequin is sized from her: about a fifth taller than Alice, its head just within reach from the stool
+  const fig=root.querySelector('.mq-fig'), sw=root.querySelector('.mq-stage').clientWidth;
+  fig.style.width=Math.round(sw>80?Math.min(ah*.44, sw*.5):ah*.44)+'px';
+  const st=root.querySelector('.mq-stage'); if(st.clientHeight>40) al.style.bottom=Math.round(st.clientHeight-mqFloor(root)-ah*.119)+'px'; } // her feet on the mannequin's floor line
+function mqFloor(root){ const st=root.querySelector('.mq-stage').getBoundingClientRect(), f=root.querySelector('.mq-fig > svg').getBoundingClientRect(); return f.top-st.top+(326+86)/426*f.height; }
+function mqIdle(al){ mqPlay(al,'bend',.05,.1,{hold:true}); }
+function mqGeo(root,k,pt){
+  const st=root.querySelector('.mq-stage').getBoundingClientRect(), fig=root.querySelector('.mq-fig').getBoundingClientRect(), al=root.querySelector('.mq-alice');
+  const pin=k==null?null:root.querySelector('.mq-pin[data-k="'+k+'"]'), pr=pin&&pin.getBoundingClientRect();
+  return {W:al.offsetWidth, H:al.offsetHeight, hs:st.height, w:st.width, figTop:fig.top-st.top, figLeft:fig.left-st.left, pin,
+    px: pt? fig.left-st.left+pt.x/220*fig.width : pr? pr.left+pr.width/2-st.left : fig.left-st.left+fig.width*.42,
+    py: pt? fig.top-st.top+(pt.y+86)/426*fig.height : pr? pr.top+pr.height/2-st.top : fig.top-st.top+fig.height*.5};
+}
+function mqMove(root,x,y,dur,flip){
+  const al=root.querySelector('.mq-alice'); al.style.transition=dur?`transform ${dur}s linear`:'none';
+  al.style.transform=`translate(${x}px,${y}px)${flip?' scaleX(-1)':''}`; root._x=x; root._y=y;
+}
+function mqWalk(al,dur){ // a normal walk, as in the corridor: legs swing, the arm swings the other way, the body bobs a little
+  const arm={c:MQ_ARM.stand,deg:0}, legs={a:0}, cv=al.querySelector('canvas'), ph={t:0}, H=al.offsetHeight;
+  mqPlay(al,'bend',.05,.1,{hold:true,arm,legs});
+  gsap.to(ph,{t:dur,duration:dur,ease:'none',onUpdate:()=>{ const sn=Math.sin(ph.t/.92*Math.PI*2), k=Math.min(1,ph.t/.15,(dur-ph.t)/.15);
+      legs.a=24*sn*k; arm.deg=-17*sn*k; gsap.set(cv,{y:(1-Math.cos(legs.a*Math.PI/180))*100/640*H}); // the foot in front stays on the floor
+      if(al._play && al._play.legs===legs) al._play.dirty=true; },
+    onComplete:()=>{ gsap.set(cv,{y:0}); if(al._play && al._play.legs===legs) mqIdle(al); }}); }
+function mqPin(root,k,cb,noPin,force,pt){ // she walks up, stretches her arm once to the spot, the new piece appears, she draws it back
+  const al=root.querySelector('.mq-alice'), st=root.querySelector('.mq-stage');
+  const tok=(root._tok=(root._tok||0)+1), g=mqGeo(root,null,pt), fig=root.querySelector('.mq-fig').getBoundingClientRect(), sr=st.getBoundingClientRect();
+  const floor=mqFloor(root), W=g.W, H=g.H, fx=u=>fig.left-sr.left+u/220*fig.width;
+  const P=pt||{x:110,y:100}, ty=g.py;
+  // which pose: on the floor if her shoulder is within reach, the stool for the head, crouching for the skirt
+  const reach=c=>({c, sy:floor-(MQ_FEET-c.py)*H, L:c.L*W});
+  const S0=reach(MQ_ARM.stand), dy0=S0.sy-ty;
+  let kind=force||(dy0>.9*S0.L?'stool':dy0<-.6*S0.L?'low':'stand');
+  let xg, handX, handY, deg=0, R=null;
+  const edge=y=>y<22?80:y<50?96:42, tgt=u=>fx(Math.min(P.x,edge(P.y)+34)); // the near side of the mannequin at that height: she stays beside it
+  if(kind==='low'){ handX=tgt(); handY=floor-(MQ_FEET-MQ_LOW.hy)*H; xg=handX-MQ_LOW.hx*W; }
+  else { R=kind==='stool'?reach(MQ_ARM.stool):S0; const tx=tgt();
+    const q=Math.max(-.94,Math.min(kind==='stool'?.7:.94,(R.sy-ty)/R.L)), ang=Math.asin(q); deg=-(90+ang*180/Math.PI);
+    handX=tx; handY=R.sy-R.L*q; xg=tx-R.L*Math.cos(ang)-R.c.px*W; }
+  const appear=()=>{ if(root._onTouch){ const f=root._onTouch; root._onTouch=null; f(); return; }
+    if(noPin){ st.classList.add('placed'); return; }
+    const sp=document.createElement('span'); sp.className='mq-spark'; sp.textContent='✦'; st.appendChild(sp);
+    gsap.fromTo(sp,{x:handX,y:handY,scale:.6,opacity:1},{x:g.px,y:g.py,scale:1.3,duration:mqReduce()?0:.55,ease:'power2.out',
+      onComplete:()=>{ st.classList.add('placed'); gsap.to(sp,{scale:2.4,opacity:0,duration:.35,onComplete:()=>sp.remove()}); }}); };
+  if(mqReduce()){ mqMove(root,xg,0,0); mqIdle(al); appear(); cb&&cb(); return; }
+  st.classList.remove('on-stool');
+  const dx=xg-(root._x||0), dur=Math.abs(dx)<4?0:Math.min(2.6,Math.max(.4,Math.abs(dx)/150));
+  const cv=al.querySelector('canvas'); gsap.killTweensOf(cv); gsap.set(cv,{y:0});
+  if(dur) mqWalk(al,dur); else mqIdle(al);
+  mqMove(root,xg,0,dur,dx<-2);
+  const live=()=>tok===root._tok;
+  const stretch=(c)=>{ // the one movement: arm out, a beat, arm back
+    const arm={c,deg:0}; mqPlay(al,c.clip,c.t,c.t+.05,{hold:true,arm});
+    const upd=()=>{ if(al._play) al._play.dirty=true; };
+    gsap.timeline({onComplete:()=>{ if(live()) cb&&cb(); }})
+      .to(arm,{deg,duration:.5,ease:'power2.out',onUpdate:upd})
+      .call(()=>{ if(live()) appear(); })
+      .to(arm,{deg:0,duration:.45,ease:'power2.inOut',onUpdate:upd},'+=.45'); };
+  setTimeout(()=>{ if(!live()) return;
+    mqMove(root,xg,0,0);
+    if(kind==='stand') stretch(MQ_ARM.stand);
+    else if(kind==='stool'){ st.classList.add('on-stool');
+      mqPlay(al,'stool',0,MQ_ARM.stool.t,{done:()=>{ if(live()) stretch(MQ_ARM.stool); }}); } // she brings the stool, climbs up and stays there
+    else mqPlay(al,'bend',MQ_LOW.a,MQ_LOW.b,{mask:MQ_LOW.mask,done:()=>{ if(!live()) return; appear();
+      setTimeout(()=>{ if(live()) mqPlay(al,'bend',MQ_LOW.back,MQ_LOW.end,{mask:MQ_LOW.mask,done:()=>{ if(live()){ mqIdle(al); cb&&cb(); } }}); },700); }});
+  }, dur*1000+40);
+}
+function mqSeq(root,k){ const n=root.querySelectorAll('.mq-pin').length; if(k>=n) return; mqPin(root,k,()=>setTimeout(()=>mqSeq(root,k+1),120)); }
+function mqFinale(root){ // with one gesture she takes the clothes off the mannequin and twirls in them
+  const al=root.querySelector('.mq-alice'), fig=root.querySelector('.mq-fig');
+  root.querySelector('.mq-stage').classList.add('placed');
+  const tok=root._tok;
+  root._onTouch=()=>{ root._tok++; // her hand is on the mannequin: the clothes come off
+    const src=fig.querySelector(':scope > svg'), r=src.getBoundingClientRect(), t=al.getBoundingClientRect();
+    const fly=document.createElement('div'); fly.className='mq-fly'; fly.appendChild(src.cloneNode(true));
+    Object.assign(fly.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'}); document.body.appendChild(fly);
+    fig.classList.add('undressed');
+    gsap.to(fly,{x:t.left+t.width*.45-(r.left+r.width/2), y:t.top+t.height*.5-(r.top+r.height/2), scale:.25, rotation:-25, opacity:0, duration:.85, ease:'power2.in', onComplete:()=>fly.remove()});
+    setTimeout(()=>{ al.style.transition='opacity .18s'; al.style.opacity='0';
+      setTimeout(()=>{ mqMove(root,(root._x||0)-al.offsetWidth*.12,root._y||0,0); mqPlay(al,'twirl',0,4.96,{done:()=>mqPlay(al,'twirl',4.9,5,{hold:true})}); al.style.opacity='1'; },200);
+    },650); };
+  mqPin(root,0,null,true,null,MQCFG[7].touch);
+}
+function mqSelect(root,k){ mqShow(root,k); if(!root._entered){ root._entered=true; mqSize(root); const al=root.querySelector('.mq-alice'); al.style.opacity='1'; mqIdle(al); } }
+function mqStandSVG(){ // Alice standing, front view, to leave the painting
+  return `<svg viewBox="0 0 120 230" class="inp" aria-hidden="true">${tpl.content.querySelector('.pose-front').outerHTML}</svg>`; }
+// how she gets from the painting to the fitting room: a different move in every chapter
+// each one a little piece of Wonderland: the rabbit-hole float (arms up, skirt like a parachute), Drink me / Eat me, cards and the watch tumbling with her
+const MQ_MOVES=[
+  {rot:360,d:1.15,hi:1,props:['card','card','watch']},             // forward somersault
+  {swing:1,rot:360,d:1.2,hi:1,props:['card','watch']},             // the pearl earring: two swings like a gymnast, then a somersault off the bar
+  {drink:1,d:1.5,hi:.9,props:['bottle']},                          // Drink me: tiny in mid-air, back to size as she lands
+  {rot:-360,d:1.2,hi:1.15,props:['card','card','card']},           // backflip in a shower of cards
+  {spin:2,d:1.1,hi:.95,props:['teacup','teacup','watch']},         // the tea-party twirl
+  {eat:1,d:1.5,hi:.8,props:['cake']},                              // Eat me: she grows, then shrinks back
+  {float:1,d:2,hi:.5,props:['watch','teacup','key','card']},       // floating down the rabbit hole
+  {float:1,spin:1,d:2.1,hi:.55,props:['card','card','card','watch','teacup']} ];
+const MQ_PROP={
+  card:s=>`<svg viewBox="0 0 24 32"><rect x="1" y="1" width="22" height="30" rx="3" fill="#fff" stroke="#3a2f2f" stroke-width="1.2"/><text x="12" y="21" font-size="14" text-anchor="middle" fill="${s%2?'#1b1b1b':'#d7263d'}">${s%2?'♠':'♥'}</text></svg>`,
+  watch:()=>`<svg viewBox="0 0 28 34"><circle cx="14" cy="5" r="3" fill="none" stroke="#b8913a" stroke-width="2"/><circle cx="14" cy="20" r="12" fill="#e9cf8f" stroke="#b8913a" stroke-width="2"/><circle cx="14" cy="20" r="9" fill="#fffdf6"/><path d="M14 20V13.5M14 20l4.2 2.2" stroke="#333" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+  teacup:()=>`<svg viewBox="0 0 34 26"><path d="M5 6h20v6a10 10 0 0 1-20 0z" fill="#fff" stroke="#2c4f9e" stroke-width="1.6"/><path d="M25 8.5a4 4 0 0 1 0 8" fill="none" stroke="#2c4f9e" stroke-width="1.6"/><path d="M10 9h10" stroke="#e9b7d6" stroke-width="2"/><path d="M2 23h28" stroke="#2c4f9e" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  key:()=>`<svg viewBox="0 0 34 16"><circle cx="7" cy="8" r="5" fill="none" stroke="#c9a23a" stroke-width="2.6"/><path d="M12 8h19M26 8v5M30 8v4" stroke="#c9a23a" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  bottle:()=>`<svg viewBox="0 0 30 44"><rect x="12" y="1" width="6" height="6" rx="1" fill="#b9974f"/><path d="M11 7h8v5l6 7v20a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V19l6-7z" fill="#9fd3e0" stroke="#4b7d8a" stroke-width="1.2"/><rect x="6.5" y="23" width="17" height="10" fill="#fffbe9" stroke="#c9b98f" stroke-width=".6"/><text x="15" y="30" font-size="4.7" text-anchor="middle" font-family="Georgia,serif" fill="#222">DRINK ME</text></svg>`,
+  cake:()=>`<svg viewBox="0 0 36 30"><path d="M4 14h28v12H4z" fill="#f6d8a8" stroke="#b9874f" stroke-width="1.2"/><path d="M4 14q4-5 7 0q4-5 7 0q4-5 7 0q4-5 7 0" fill="#fff" stroke="#e0d6c8"/><circle cx="18" cy="7" r="3" fill="#d7263d"/><text x="18" y="23.5" font-size="5.6" text-anchor="middle" font-family="Georgia,serif" fill="#7a2a2a">EAT ME</text></svg>`};
+function mqProps(kinds,from,to,dur){ // Wonderland things tumbling along with her and fading away
+  kinds.forEach((k,i)=>{ const el=document.createElement('div'); el.className='mq-prop'; el.innerHTML=MQ_PROP[k](i);
+    const sz=k==='key'?30:k==='teacup'||k==='cake'?32:k==='bottle'?30:24; el.style.width=sz+'px'; document.body.appendChild(el);
+    const sx=from.x+(Math.random()-.5)*60, sy=from.y-20-Math.random()*50, ex=to.x+(Math.random()-.5)*180, ey=to.y-40-Math.random()*120;
+    gsap.set(el,{x:sx,y:sy,rotation:(Math.random()-.5)*60,opacity:0,scale:.6});
+    gsap.timeline({delay:i*.12,onComplete:()=>el.remove()})
+      .to(el,{opacity:1,scale:1,duration:.25})
+      .to(el,{x:ex,duration:dur,ease:'sine.inOut'},'<')
+      .to(el,{y:Math.min(sy,ey)-80-Math.random()*60,duration:dur*.45,ease:'power2.out'},'<')
+      .to(el,{y:ey,duration:dur*.55,ease:'sine.in'},'>')
+      .to(el,{rotation:'+='+((Math.random()<.5?-1:1)*(240+Math.random()*300)),duration:dur,ease:'none'},'<-'+dur*.45)
+      .to(el,{opacity:0,scale:.7,duration:.45},'-=.3'); }); }
+function mqFaceFX(sv){ // add a smile that can replace her parted lips
+  const lips=[...sv.querySelectorAll('path')].filter(p=>/^M5[36]\.?\d* 6[34]/.test(p.getAttribute('d')||''));
+  const sm=document.createElementNS('http://www.w3.org/2000/svg','path'); sm.setAttribute('d','M52.6 62 Q60 71.5 67.4 62 Q60 66 52.6 62Z'); sm.setAttribute('fill','#a85a52'); sm.style.opacity=0;
+  const tw=document.createElementNS('http://www.w3.org/2000/svg','path'); tw.setAttribute('d','M55 63.6 Q60 66.4 65 63.6'); tw.setAttribute('stroke','#fff'); tw.setAttribute('stroke-width','1.4'); tw.setAttribute('fill','none'); tw.style.opacity=0;
+  (lips[0]||sv.firstChild).parentNode.appendChild(sm); sm.parentNode.appendChild(tw); sv._lips=lips; sv._smile=[sm,tw]; }
+function mqWink(sv){ if(!sv||!sv._smile) return; // a big smile and a wink at us
+  const eye=[...sv.querySelectorAll('.blink > *')].filter(e=>+(e.getAttribute('cx')||0)>60||/^M6[45]/.test(e.getAttribute('d')||''));
+  gsap.timeline().to(sv._lips,{opacity:0,duration:.15}).to(sv._smile,{opacity:1,duration:.15},'<')
+    .to(eye,{scaleY:.08,svgOrigin:'69.5 46.6',duration:.12,ease:'power2.in'},'+=.1').to(eye,{scaleY:1,svgOrigin:'69.5 46.6',duration:.16,ease:'power2.out'},'+=.25'); }
+function mqEnter(root){ // she stands up in the painting, hops out and lands in the fitting room
+  const al=root.querySelector('.mq-alice'), st=root.querySelector('.mq-stage');
+  mqSize(root); mqMove(root,st.clientWidth*.02,0,0); mqIdle(al);
+  const lv=+root.dataset.lv, pt=MQCFG[lv]&&MQCFG[lv].touch;
+  const next=()=>{ if(al.dataset.final) mqFinale(root); else mqPin(root,0,null,true,null,pt); };
+  const land=(flew)=>{ al.style.opacity='1'; if(mqReduce()){ next(); return; } mqPlay(al,'hop',flew?2.2:.6,2.95,{done:()=>{ mqIdle(al); next(); }}); };
+  const ip=document.querySelector('.chlive .inpaint'), r=ip&&ip.getBoundingClientRect();
+  if(mqReduce() || !r || r.width<4 || r.bottom<0 || r.top>innerHeight || r.right<0 || r.left>innerWidth){ land(false); return; }
+  // a standing Alice the same height as the one in the painting, feet where hers were
+  const h=Math.max(r.height,40), w=h*120/230, l=r.left+r.width/2-w/2, tp=r.bottom-h;
+  const fly=document.createElement('div'); fly.className='mq-fly'; fly.innerHTML=mqStandSVG();
+  Object.assign(fly.style,{left:l+'px',top:tp+'px',width:w+'px',height:h+'px'}); document.body.appendChild(fly);
+  ip.style.transition='opacity .25s'; ip.style.opacity='0';
+  const tgt=()=>{ const a=al.getBoundingClientRect(); return {left:a.left+a.width*.3, top:a.top+a.height*.23, width:a.width*.4, height:a.height*.65}; }, t=tgt();
+  const tl=gsap.timeline({onComplete:()=>{ fly.remove(); land(true); }});
+  const sv0=fly.querySelector('svg'); mqFaceFX(sv0);
+  tl.from(fly,{opacity:0,scaleY:.8,transformOrigin:'50% 100%',duration:.35,ease:'power2.out'})
+    .call(()=>mqWink(sv0)).to({}, {duration:.75})
+    .to(fly,{scaleY:.86,scaleX:1.08,transformOrigin:'50% 100%',duration:.16,ease:'power2.out'})
+    .to(fly,{scaleX:1,scaleY:1,duration:.12})
+    .set(fly,{transformOrigin:'50% 50%'});
+  const M=MQ_MOVES[lv%MQ_MOVES.length], arcH=Math.max(110,h*.8)*M.hi, D=M.d;
+  if(M.swing){ // the pearl earring: two giant swings round the hook, like a gymnast on the bar, then she lets go
+    const sa=fly.querySelector('.armL'), sb=fly.querySelector('.armR');
+    tl.set(fly,{transformOrigin:'50% 0%'})
+      .to([sa,sb],{rotation:i=>i?-170:170,svgOrigin:i=>i?'86.5 93':'33.5 93',duration:.25},'<')
+      .to(fly,{rotation:-40,duration:.35,ease:'sine.inOut'})
+      .to(fly,{rotation:720,duration:1.7,ease:'power2.inOut'})
+      .set(fly,{rotation:0,transformOrigin:'50% 50%'}); }
+  const sv=fly.querySelector('svg'), aL=sv.querySelector('.armL'), aR=sv.querySelector('.armR'), sk=sv.querySelector('.skirt'), lL=sv.querySelector('.legL'), lR=sv.querySelector('.legR');
+  const pr={p:0};
+  tl.call(()=>mqProps(M.props||[],{x:l+w/2,y:tp+h*.4},{x:t.left+t.width/2,y:t.top+t.height*.4},D+.4),null,'fly')
+    .to(pr,{p:1,duration:D,ease:M.float?'sine.inOut':'power1.inOut',onUpdate:()=>{ const T=tgt(), q=pr.p;
+        gsap.set(fly,{x:(T.left-l)*q, y:(T.top-tp)*q-4*q*(1-q)*arcH, width:w+(T.width-w)*q, height:h+(T.height-h)*q}); }},'fly')
+    // arms up and the skirt ballooning, as in her fall down the rabbit hole; back to normal just before she lands
+    .to(aL,{rotation:155,svgOrigin:'33.5 93',duration:.28,ease:'back.out(2)'},'fly')
+    .to(aR,{rotation:-155,svgOrigin:'86.5 93',duration:.28,ease:'back.out(2)'},'fly')
+    .to(sk,{scaleX:M.float?1.45:1.25,scaleY:M.float?.82:.92,svgOrigin:'60 108',duration:.3,ease:'power2.out'},'fly')
+    .to(lL,{rotation:12,svgOrigin:'52.5 150',duration:.3},'fly').to(lR,{rotation:-12,svgOrigin:'67.5 150',duration:.3},'fly')
+    .to([aL,aR,sk,lL,lR],{rotation:0,scaleX:1,scaleY:1,duration:.22,ease:'power2.in'},'fly+='+(D-.22));
+  if(M.float) tl.to(fly,{rotation:9,duration:D/4,ease:'sine.inOut',yoyo:true,repeat:3},'fly');
+  if(M.rot) tl.to(fly,{rotation:M.rot,duration:D*.9,ease:'power1.inOut'},'fly+='+(D*.05));
+  if(M.spin) tl.to(fly,{scaleX:-1,duration:D/(M.spin*2),ease:'sine.inOut',yoyo:true,repeat:M.spin*2-1},'fly');
+  if(M.drink) tl.to(fly,{scale:.3,duration:D*.4,ease:'power2.in'},'fly').to(fly,{scale:1,duration:D*.45,ease:'back.out(2.2)'},'fly+='+(D*.55));
+  if(M.eat) tl.to(fly,{scale:1.9,duration:D*.4,ease:'power2.out'},'fly').to(fly,{scale:1,duration:D*.45,ease:'elastic.out(1,.5)'},'fly+='+(D*.55));
+}
+function mqStart(body){
+  const root=body.querySelector('.mq'); if(!root) return;
+  const al=root.querySelector('.mq-alice'), stage=root.querySelector('.mq-stage');
+  mqSize(root); requestAnimationFrame(()=>mqSize(root)); // the mannequin takes its size from her before anything shows
+  if(!window._mqRs){ window._mqRs=1; addEventListener('resize',()=>{ const r=document.querySelector('#chBody .mq'); if(r) mqSize(r); }); }
+  (al.dataset.final?['hop','bend','twirl']:['hop','stool','bend']).forEach(n=>mqVid(al,n));
+  if(mqReduce()){ root.querySelectorAll('.mq-pin').forEach(p=>p.classList.add('in')); stage.classList.add('placed'); }
+  al.style.opacity='0'; root._x=0; root._y=0;
+  const chEl=document.querySelector('#chapter');
+  const check=()=>{ if(root._entered || !root.isConnected){ chEl.removeEventListener('scroll',check); return; }
+    const r=stage.getBoundingClientRect(); if(r.top<innerHeight*.72 && r.bottom>innerHeight*.28){ root._entered=true; chEl.removeEventListener('scroll',check); mqEnter(root); } };
+  chEl.addEventListener('scroll',check,{passive:true}); setTimeout(check,900);
+}
 function workHTML(d){
-  if(!d.work) return '';
-  const plaque = w=>`<figcaption class="plaque2">${w.title?`<b>${w.title}</b>`:''}<span>${w.cap||''}</span></figcaption>`;
+  const lv=DOORS.indexOf(d);
+  if(!d.work && !MQCFG[lv]) return '';
+  const plaque = w=>w.bare?'':`<figcaption class="plaque2">${w.ceci?`<em class="ceci">${w.ceci}</em>`:''}${w.title?`<b>${w.title}</b>`:''}<span>${w.cap||''}</span></figcaption>`;
   const item = w=>{
     if(w.head) return `<h5 class="xhead">${w.head}</h5>`;
     if(w.text) return `<div class="xtext">${w.text}</div>`;
+    if(w.postcard) return `<figure class="ex pc"><div class="pc-card"><img src="${W+w.postcard}" alt="${w.title.replace(/"/g,'&quot;')}" loading="lazy"><div class="pc-back"><span class="stamp"></span><span class="pmark">TELL-ME<br>AIR MAIL<br>✈</span><p class="pc-msg">${w.msg}</p><div class="pc-lines"><i>${w.to||''}</i><i></i><i></i></div></div></div></figure>`;
     if(w.letter) return `<figure class="ex letter"><div class="mat"><img src="${W+w.letter}" alt="${w.cap.replace(/"/g,'&quot;')}" loading="lazy"></div><figcaption class="quote">${w.cap}</figcaption></figure>`;
     if(w.yt) return `<figure class="ex"><div class="gilt block"><div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${w.yt}?rel=0&modestbranding=1&playsinline=1" title="${w.title.replace(/"/g,'&quot;')}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div></div>${plaque(w)}</figure>`;
     if(w.video) return `<figure class="ex"${w.optional?' data-optional':''}><div class="gilt"><div class="vid"><video src="${W+w.video}"${w.poster?` poster="${W+w.poster}"`:''} muted loop playsinline preload="metadata"></video><span class="sound">🔊 tap for sound</span></div></div>${plaque(w)}</figure>`;
     return `<figure class="ex"><div class="gilt"><img src="${W+w.img}" alt="${(w.title||w.cap).replace(/"/g,'&quot;')}" loading="lazy"></div>${plaque(w)}</figure>`;
   };
-  return `<div class="work">${d.noTitle?'':`<h4>${d.workTitle||'What I made'}</h4>`}${d.work.map(item).join('')}</div>`;
+  if(MQCFG[lv]) return mannequinHTML(d,item,lv);
+  return `${d.noTitle?'':`<h4 class="work-h">${d.workTitle||'What I made'}</h4>`}<div class="work${d.theme?' t-'+d.theme:''}">${d.work.map(item).join('')}</div>`;
 }
 
 /* ===== helpers ===== */
@@ -675,63 +1367,88 @@ const $ = s => document.querySelector(s);
 const tpl = $('#ursulaTpl');
 const mountU = el => el.appendChild(tpl.content.cloneNode(true));
 mountU($('#u1')); mountU($('#u2')); mountU($('#u3 .flip'));
-const catTpl = $('#catTpl');
-/* Cheshire cat: every so often it peeks from a corner of the screen or from behind a painting,
-   grins, fades to just the grin, and is gone */
-(function(){
-  const mk = id => { const el=document.createElement('div'); el.id=id; el.className='cat vanish';
-    el.innerHTML='<div class="bob"></div>'; el.querySelector('.bob').appendChild(catTpl.content.cloneNode(true)); return el; };
-  const pk = mk('peek'); document.body.appendChild(pk);
-  const bh = mk('behind');
-  const note = document.createElement('span'); note.className='catnote'; document.body.appendChild(note);
-  const lines = ['we’re all mad here.','psst. keep walking.','every door is a way in.','i was never here.','curiouser and curiouser.','try the next painting.'];
-  let lastC='';
-  const say = (x,y,alignRight)=>{ note.textContent=lines[Math.random()*lines.length|0];
-    note.style.left = alignRight ? 'auto' : x+'px'; note.style.right = alignRight ? (innerWidth-x)+'px' : 'auto';
-    note.style.top = y+'px'; note.classList.add('on'); };
-  function seq(el, cls){
-    el.className='cat vanish '+cls;
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ el.classList.add('on'); el.classList.remove('vanish'); }));
-    setTimeout(()=>{ const r=el.getBoundingClientRect(); const right = r.left+r.width/2 > innerWidth/2;
-      const y = r.top+r.height/2 < innerHeight/2 ? r.bottom+6 : r.top-34;
-      say(right ? r.left : r.right, Math.max(8,Math.min(innerHeight-40,y)), right); }, 900);
-    setTimeout(()=>{ note.classList.remove('on'); el.classList.add('vanish'); }, 4200);
-    setTimeout(()=>el.classList.add('gone'), 5600);
-    setTimeout(()=>{ el.className='cat vanish '+cls; later(); }, 6800);
+const catDrape = $('#catDrapeTpl'), catPeek = $('#catPeekTpl'); $('#grin .bob').appendChild(catPeek.content.cloneNode(true));
+/* Cheshire cat in the hall: lounges on the top-right corner of a frame; when Ursula walks
+   it jumps down and trots along the floor beside her; when she stops it leaps onto a painting again */
+const hallCat = (function(){
+  const hall=$('#hall'), el=document.createElement('div'); el.id='hcat'; el.className='cat'; hall.appendChild(el);
+  const note=document.createElement('span'); note.className='catnote'; document.body.appendChild(note);
+  const lines=['we’re all mad here.','psst. keep walking.','every door is a way in.','curiouser and curiouser.','try this one.','i’ll wait up here.'];
+  const T={drape:$('#catDrapeTpl'), walk:$('#catWalkTpl')};
+  let mode='', st='walk', x=-1, face=1, dir=1, lastMove=-1e9, perch=-1, downAt=0, J=null, t0=0, retryAt=0, fadeT=[];
+  const frames=()=>[...document.querySelectorAll('.door .dframe')];
+  const size=()=>{ const w=Math.min(104,Math.max(64,innerHeight*.095)); return {w, d:w*.86}; };
+  function setMode(m){ if(m===mode) return; mode=m; el.innerHTML=''; el.appendChild(T[m].content.cloneNode(true)); }
+  function place(l,t,w){ el.style.width=w+'px'; el.style.transform=`translate(${l}px,${t}px)`; }
+  const H=hall.getBoundingClientRect.bind(hall);
+  function alice(){ const r=$('#u3').getBoundingClientRect(), h=H(); return {x:r.left+r.width/2-h.left, y:r.bottom-h.top-4, w:r.width}; }
+  function perchPt(i){ const r=frames()[i].getBoundingClientRect(), h=H(), d=size().d;
+    // top-right corner of the frame, nudged in if that corner is off-screen
+    const x=Math.min(r.right-.27*d, h.width-.62*d)-h.left; return {x, y:r.top-h.top+2, r, h, ok:x>r.left-h.left+.35*d && x>.3*d}; }
+  function say(){ if(Math.random()>.4) return; const r=el.getBoundingClientRect();
+    note.textContent=lines[Math.random()*lines.length|0]; note.style.right='auto'; note.style.left=Math.max(10,r.left-20)+'px';
+    note.style.top=Math.max(70,r.top-26)+'px'; note.classList.add('on'); setTimeout(()=>note.classList.remove('on'),2600); }
+  function unfade(){ fadeT.forEach(clearTimeout); fadeT=[]; el.classList.remove('vanish'); }
+  function jump(from,to,dur,done){ unfade(); st='jump'; J={from,to,dur,done,s:performance.now()}; setMode('walk'); el.classList.add('jump'); el.classList.remove('moving'); }
+  function land(){ el.classList.remove('jump'); el.classList.add('land'); setTimeout(()=>el.classList.remove('land'),360); }
+  function tick(now){
+    requestAnimationFrame(tick);
+    const h=H(); if(h.bottom<0||h.top>innerHeight) return;
+    const dt=Math.min(.05,(now-(t0||now))/1000); t0=now;
+    const S=size(), A=alice(), walking=now-lastMove<180;
+    if(x<0) x=A.x+S.w*1.2;
+    if(st==='perch'){
+      const P=perchPt(perch); setMode('drape'); el.classList.remove('left','moving');
+      place(P.x-.59*S.d, P.r.top-h.top-.541*S.d*170/220, S.d);
+      if(downAt && now>downAt){ downAt=0; x=P.x;
+        jump({x:P.x,y:P.y}, ()=>{ const a=alice(); return {x:a.x+dir*S.w*1.25, y:a.y}; }, 620, ()=>{ st='walk'; land(); }); }
+      return;
+    }
+    if(st==='jump'){
+      const k=Math.min(1,(now-J.s)/J.dur), to=J.to(), f=J.from;
+      x=f.x+(to.x-f.x)*k; let y=f.y+(to.y-f.y)*k; y-=(Math.abs(to.y-f.y)*.3+50)*4*k*(1-k);
+      face = to.x>=f.x?1:-1; el.classList.toggle('left',face<0);
+      const hh=S.w*120/160; place(x-S.w/2, y-hh+2, S.w);
+      if(k>=1){ const d=J.done; J=null; d(); }
+      return;
+    }
+    // walking on the floor next to Ursula
+    setMode('walk');
+    const target=A.x+dir*S.w*1.25, dx=target-x, run=Math.abs(dx)>3;
+    if(run){ x+=Math.sign(dx)*Math.min(Math.abs(dx),(walking?320:220)*dt); face=Math.sign(dx); } else face=dir;
+    el.classList.toggle('left',face<0); el.classList.toggle('moving', run||walking);
+    const hh=S.w*120/160; place(x-S.w/2, A.y-hh+2, S.w);
+    if(!walking && !run && now-lastMove>650 && now>retryAt){
+      // pick the visible painting nearest to the cat and leap onto its top-right corner
+      let best=-1,bd=1e9; frames().forEach((f,i)=>{ const P=perchPt(i); if(!P.ok) return;
+        const d=Math.abs(P.x-x); if(d<bd){bd=d;best=i;} });
+      if(best>=0){ const i=best; jump({x,y:A.y}, ()=>perchPt(i), 680, ()=>{ st='perch'; perch=i; land(); setTimeout(say,500);
+          // now and then the cat fades away and only the grin stays on the frame
+          if(Math.random()<.45){ fadeT.push(setTimeout(()=>{ if(st==='perch') el.classList.add('vanish'); }, 1800+Math.random()*2200));
+            fadeT.push(setTimeout(()=>{ if(st==='perch') el.classList.remove('vanish'); }, 8000+Math.random()*4000)); } }); }
+      else retryAt=now+800; // nothing to climb: look again in a moment
+    }
   }
-  function visibleDoor(){
-    const ds=[...document.querySelectorAll('.door')].filter(d=>{const r=d.querySelector('.dframe').getBoundingClientRect();
-      return r.left>40 && r.right<innerWidth-40 && r.top>0 && r.bottom<innerHeight; });
-    return ds.length ? ds[Math.random()*ds.length|0] : null;
-  }
-  function show(){
-    if(document.hidden || document.querySelector('.chapter.open')) return later();
-    const door = Math.random()<.6 ? visibleDoor() : null;
-    if(door){ door.insertBefore(bh, door.querySelector('.dframe')); seq(bh, Math.random()<.5?'sl':'sr'); return; }
-    let c; do{ c=['tl','tr','bl','br'][Math.random()*4|0]; }while(c===lastC); lastC=c; seq(pk,c);
-  }
-  function later(){ setTimeout(show, 16000 + Math.random()*16000); }
-  setTimeout(show, 7000);
+  requestAnimationFrame(tick);
+  return { moved(d){ lastMove=performance.now(); if(d) dir=d; if(st==='perch' && !downAt) downAt=lastMove+220; } };
 })();
 gsap.registerPlugin(ScrollTrigger);
 
 /* ===== 1 · portrait ===== */
-$('#halfL').style.backgroundImage = 'url(assets/art/bovary.jpg)';
-if (URSULA_FACE){ $('#halfR').style.backgroundImage = `url(${URSULA_FACE})`; $('#halfR').classList.add('placeholder'); }
-else { $('#halfR').style.backgroundImage = 'url(assets/art/bovary.jpg)'; }
-const crack = $('#crackPath'); const cl = 140;
+/* both halves are her (set in CSS) */
+const crack = $('#crackPath'); const cl = Math.ceil(crack.getTotalLength() * Math.max($('#pframe').clientHeight, $('#pframe').clientWidth) / 100 * 1.15);
 crack.style.strokeDasharray = cl; crack.style.strokeDashoffset = cl;
 
 gsap.timeline({scrollTrigger:{trigger:'#portrait',start:'top top',end:'bottom bottom',scrub:.7}})
   .to('#hint',{opacity:0,duration:.2})
   .to(crack,{strokeDashoffset:0,duration:1})
   .to('#pframe',{x:3,duration:.05,repeat:5,yoyo:true},'<.6')
-  .to('#halfL',{xPercent:-16,rotation:-8,transformOrigin:'0% 100%',duration:1},'+=.1')
-  .to('#halfR',{xPercent:16,rotation:8,transformOrigin:'100% 100%',duration:1},'<')
+  .to('#halfL',{xPercent:-12,rotation:-7,transformOrigin:'0% 100%',duration:1},'+=.1')
+  .to('#halfR',{xPercent:12,rotation:7,transformOrigin:'100% 100%',duration:1},'<')
   .to(crack,{opacity:0,duration:.3},'<')
   .fromTo('#u1',{scale:0,y:'6vh',rotation:-20},{scale:1,y:'-4vh',rotation:0,duration:.9,ease:'back.out(2)'},'-=.5')
   .to('#oops',{opacity:1,duration:.3})
-  .to(['#title','#plaque'],{opacity:0,y:-20,duration:.6},'<')
+  .to('#title',{opacity:0,y:-20,duration:.6},'<')
   .call(()=>$('#u1').classList.remove('falling'),null,'<')
   .to('#u1',{y:'75vh',rotation:35,duration:1.2,ease:'power2.in',onStart(){$('#u1').classList.add('falling')},onReverseComplete(){$('#u1').classList.remove('falling')}},'+=.2')
   .to('#oops',{opacity:0,duration:.3},'<')
@@ -770,6 +1487,7 @@ function renderFall(p){
   objEls.forEach(o=>{ const t=(p-o.s)/.3; const y = vh*1.15 - t*(vh*1.6); const sc=.6+o.d*.6;
     o.el.style.transform=`translate(${o.x/100*vw}px,${y}px) rotate(${o.rot*t}deg) scale(${sc})`; o.el.style.opacity=(t>-0.1&&t<1.1)?1:0; });
   $('#u2').style.transform=`rotate(${Math.sin(p*18)*14}deg) translateY(${Math.sin(p*9)*10}px)`;
+  $('#grin').style.transform=`translate(${Math.sin(p*6)*26}px,${Math.cos(p*4)*18}px) rotate(${Math.sin(p*5)*12}deg)`;
   caps.forEach(c=>{ const a=+c.dataset.at, t=(p-a)/.2; const o = t<0||t>1?0:Math.min(1,t*5,(1-t)*5); c.style.opacity=o; c.style.transform=`translateY(${(1-t)*20}px)`; });
   $('#whiteout').style.opacity = Math.max(0,(p-.9)/.1);
 }
@@ -777,24 +1495,144 @@ ScrollTrigger.create({trigger:'#fall',start:'top top',end:'bottom bottom',onUpda
 renderFall(0);
 
 /* ===== 3 · hall of doors ===== */
+/* ===== Ursula steps into each painting: one pose per painting =====
+   x = centre (% of width), top/h = % of height. Vermeer and Friedrich: she takes the subject's place */
+const INPAINT = [
+  {pose:'front', x:50, top:41,   h:22,   add:'book'},                         // I   among the philosophers
+  {pose:'front', x:61, top:51.9, h:12,  vb:'0 -14 120 244', add:'earring', cls:'dangle'},       // II  the girl with the pearl earring
+  {pose:'back',  x:60, top:50.6, h:22.8, add:'rocksit'},                                     // III the wanderer, from behind
+  {pose:'side',  x:12, top:39,   h:46, add:'chair'},                            // IV  sitting on Vincent's bed, laptop
+  {pose:'front', x:11, top:43.1, h:32.4, add:'push'},                         // V   pushing the Mondrian lines apart
+  {pose:'back',  x:32.7, top:55.6, h:36.25, add:'balloon'},           // VI  flying off with the balloon
+  {pose:'front', x:50, top:15.3, h:90.3, vb:'0 -20 120 250', add:'apple'},                        // VII apple over her face
+  {pose:'front', x:20, top:49,   h:52, add:'brush'},                          // ∞   painting what comes next
+];
+const ADD = {
+  book:`<g><rect x="43" y="99" width="34" height="24" rx="2" fill="#7a4a2a"/><rect x="45" y="101" width="30" height="20" fill="#f2e6cc"/><path d="M60 101v20" stroke="#7a4a2a" stroke-width="1.2"/><path d="M48 106h9M48 110h9M63 106h9M63 110h9" stroke="#b9a98a" stroke-width=".8"/></g>`,
+  pearl:`<path d="M80 28 C92 36 97 54 94 76 L84 78 C85 58 83 42 77 32Z" fill="#34609f"/><path d="M34 50 C27 16 46 2 62 2 C82 2 96 16 87 50 C83 34 74 27 60 27 C46 27 38 36 34 50Z" fill="#3b67ad"/>
+    <path d="M38 22 C48 10 72 10 84 22 M36 34 C48 24 74 24 86 34" stroke="#5c86c9" stroke-width="3" fill="none" opacity=".7"/>
+    <path d="M38 40 C38 46 39 52 40 58 L43 58 C42 50 42 44 44 36Z M82 40 C82 46 81 52 80 58 L77 58 C78 50 78 44 76 36Z" fill="#2a1a12"/>
+    <path d="M76 6 C98 0 118 20 114 46 C112 72 116 98 120 126 C104 120 94 88 90 62 C88 40 84 22 76 6Z" fill="#e6c766"/>
+    <path d="M100 30 C104 56 106 84 112 112 M88 16 C96 24 98 40 97 60" stroke="#c9a640" stroke-width="1.8" fill="none" opacity=".75"/>
+    <circle cx="39" cy="63" r="3.6" fill="#f4f1ea" stroke="#bfb7a6" stroke-width=".6"/><circle cx="38" cy="62" r="1.1" fill="#fff"/>`,
+  jacket:`<g><defs><linearGradient id="vjk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b98a45"/><stop offset="1" stop-color="#5e3f17"/></linearGradient></defs>
+    <path d="M60 66 C36 70 16 84 8 108 C4 124 2 140 2 160 L130 160 C128 136 124 114 112 100 C100 84 82 68 60 66Z" fill="url(#vjk)"/>
+    <path d="M30 96 C40 110 44 130 42 160 M96 96 C90 114 92 136 96 160" stroke="#4a3112" stroke-width="1.6" fill="none" opacity=".6"/>
+    <path d="M46 78 Q60 94 74 78 L80 86 Q60 104 40 86Z" fill="#f1ece0"/></g>`,
+  bowler:`<path d="M34 16 Q32 -16 60 -17 Q88 -16 86 16Z" fill="#1d1d1d"/><ellipse cx="60" cy="17" rx="38" ry="6" fill="#1d1d1d"/>`,
+  suit:`<path d="M60 76 C40 78 24 86 18 104 L12 232 L108 232 L102 104 C96 86 80 78 60 76Z" fill="#2c2c2c"/>
+    <path d="M52 80 L60 98 L68 80Z" fill="#fff"/><path d="M57.5 84 h5 l1.6 30 l-4.1 5 l-4.1 -5Z" fill="#b3202f"/>`,
+
+  sit:`<g class="sitlegs"><ellipse cx="51" cy="160" rx="8" ry="6" fill="#e8bb98"/><ellipse cx="69" cy="160" rx="8" ry="6" fill="#e8bb98"/>
+    <rect x="47" y="158" width="9" height="32" rx="4.5" fill="#eec3a2" transform="rotate(6 51 160)"/><rect x="64" y="158" width="9" height="32" rx="4.5" fill="#eec3a2" transform="rotate(-6 69 160)"/>
+    <rect x="47.5" y="176" width="10" height="13" rx="3" fill="#fff"/><rect x="62.5" y="176" width="10" height="13" rx="3" fill="#fff"/>
+    <path d="M43 187h16a5 5 0 0 1 0 10H43a5 5 0 0 1 0-10zM61 187h16a5 5 0 0 1 0 10H61a5 5 0 0 1 0-10z" fill="#111"/></g>`,
+  laptop:`<g><path d="M40 152 L45 124 L77 124 L82 152Z" fill="#c9ccd2" stroke="#8f949c" stroke-width=".8"/><circle cx="61" cy="137" r="2.2" fill="#fff"/>
+    <rect x="34" y="151" width="54" height="5" rx="2" fill="#9aa0a8"/></g>`,
+  apple:`<circle cx="60" cy="47" r="27" fill="#6bb33e"/><path d="M52 28 q-6 8 -4 18" stroke="#9ad06b" stroke-width="4" fill="none" stroke-linecap="round" opacity=".7"/>
+    <path d="M60 21 q2 -10 9 -14" stroke="#5a3a1a" stroke-width="3" fill="none"/><path d="M64 16 q14 -14 26 -3 q-14 9 -26 3z" fill="#3f8a26"/>`,
+};
+function inpaintHTML(i, ratio){
+  const c = INPAINT[i]; if(!c) return '';
+  const g = tpl.content.querySelector('.pose-'+c.pose).cloneNode(true), b = g.querySelector('.bodyg');
+  const arm = s => b.querySelector('.arm'+s);
+  if(c.add==='sit'){ b.querySelectorAll('.leg').forEach(l=>l.remove()); b.querySelector('.skirt').insertAdjacentHTML('beforebegin', ADD.sit); b.insertAdjacentHTML('beforeend', ADD.laptop); }
+  if(c.add==='pearl'){ // the girl with the pearl earring: no choker, no Alice band, hair tucked under the turban
+    b.querySelectorAll('path[fill="#2a1a12"]').forEach(h=>h.remove()); b.querySelectorAll('path[stroke="#111"][stroke-width="4"]').forEach(h=>h.remove());
+    b.querySelectorAll('g[fill="#fbf7ee"],circle[fill="#d9b25a"],ellipse[stroke="#b8913a"]').forEach(h=>h.remove());
+    b.querySelector('rect[y="68"]').insertAdjacentHTML('afterend', ADD.jacket); }
+  if(c.add==='apple'){ b.querySelector('rect[y="68"]').insertAdjacentHTML('afterend', ADD.suit);
+    b.querySelectorAll('g[fill="#fbf7ee"],circle[fill="#d9b25a"],ellipse[stroke="#b8913a"]').forEach(h=>h.remove()); }
+  if(c.add==='wander'){ // a touch wider so the wanderer's coat disappears behind her
+    b.insertAdjacentHTML('afterbegin','<path d="M24 40 C19 70 18 110 21 152 L99 152 C102 110 101 70 96 40Z" fill="#2a1a12"/>'); }
+  if(c.add==='chair'){ b.querySelectorAll('.leg').forEach(l=>l.remove());
+    b.querySelector('.skirt').insertAdjacentHTML('beforebegin', `<g><rect x="56" y="144" width="40" height="11" rx="5.5" fill="#eec3a2"/>
+      <rect x="86" y="148" width="9" height="40" rx="4.5" fill="#eec3a2"/><rect x="85.5" y="170" width="10" height="16" rx="3" fill="#fff"/>
+      <path d="M84 185h18a5 5 0 0 1 0 10H84z" fill="#111"/></g>`);
+    b.insertAdjacentHTML('beforeend', `<g><path d="M60 140 L52 116" stroke="#c9ccd2" stroke-width="4" stroke-linecap="round"/><rect x="58" y="138" width="38" height="5" rx="2" fill="#9aa0a8"/></g>`); }
+  if(c.add==='earring'){ // she is the pearl: hanging from the girl's earlobe on a gold hook
+    arm('L').setAttribute('transform','rotate(22 33.5 94)'); arm('R').setAttribute('transform','rotate(-22 86.5 94)');
+    b.insertAdjacentHTML('afterbegin','<path d="M60 12 C60 2 67 -4 62 -12" stroke="#d9b25a" stroke-width="2.2" fill="none" stroke-linecap="round"/>'); }
+  if(c.add==='armin'){ // on a rock beside him, her arm hooked through his bent arm
+    arm('L').remove();
+    b.insertAdjacentHTML('afterbegin',`<path d="M2 250 L7 222 C13 209 30 203 46 205 C60 199 80 202 93 209 C105 214 113 227 118 250Z" fill="#3a2b21"/>
+      <path d="M18 214 C34 207 54 207 72 205 M60 222 C74 218 92 222 104 232 M14 236 C26 230 40 232 50 240" stroke="#6b5442" stroke-width="2.5" fill="none" opacity=".7"/>`);
+    b.insertAdjacentHTML('beforeend',`<path d="M34 97 L24 86 L12 92" stroke="#eec3a2" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="35" cy="93" r="8.5" fill="#d7263d"/>
+      <path d="M6 76 C12 80 18 88 19 100 L10 103 C9 92 5 84 1 80Z" fill="#1d221e"/>`); }
+  if(c.add==='rocksit'){ // sitting on the rock next to him, seen from behind
+    b.querySelectorAll('.leg').forEach(l=>l.remove());
+    b.insertAdjacentHTML('afterbegin','<ellipse cx="60" cy="166" rx="38" ry="5" fill="#000" opacity=".35"/>'); }
+  if(c.add==='push'){ arm('L').setAttribute('transform','rotate(90 33.5 94)'); arm('R').setAttribute('transform','rotate(-90 86.5 94)'); }
+  if(c.add==='balloon') arm('R').setAttribute('transform','rotate(-140.5 86.5 94)');
+  if(c.add==='balloon' && c.pose==='back'){ // three-quarter back view: her cheek, lashes and nose tip turned toward the balloon
+    b.querySelector('rect[y="68"]').setAttribute('x','58');
+    b.insertAdjacentHTML('beforeend',`<path d="M74 30 C84 34 90 44 90 54 C90 62 87 70 79 74 C75 74 72 72 71 70 C76 58 77 44 74 30Z" fill="#f3cfb3"/>
+      <path d="M88 50 L92 55 L88.6 57" fill="#f3cfb3" stroke="#d29c80" stroke-width=".8" stroke-linejoin="round"/>
+      <path d="M80 45 Q84 43 87.5 45.5" stroke="#111" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M79 38.5 Q83 36.6 87 38.4" stroke="#2a1a12" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+      <circle cx="82" cy="58" r="4" fill="#ef9f9a" opacity=".4"/>
+      <path d="M84 64.5 Q86.5 64 88 65" stroke="#a85a52" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M72 26 C76 40 76 56 72 72 C74 84 74 96 72 104 L66 104 C68 80 68 50 66 26Z" fill="#2a1a12"/>
+      <path d="M36 30 C47 15 70 13 80 24" stroke="#111" stroke-width="4" fill="none" stroke-linecap="round"/>`); }
+  if(c.add==='brush'){ arm('R').setAttribute('transform','rotate(-135 86.5 94)');
+    arm('R').insertAdjacentHTML('beforeend','<path d="M86.5 136 V164" stroke="#7a4a2a" stroke-width="3" stroke-linecap="round"/><path d="M84 161 h5 l-1 9 h-3z" fill="#d7263d"/>'); }
+  if(ADD[c.add] && c.add!=='sit') b.insertAdjacentHTML('beforeend', ADD[c.add]);
+  if(c.add==='apple') b.insertAdjacentHTML('beforeend', ADD.bowler);
+  const vb = (c.vb||'0 0 120 230').split(' ').map(Number), w = c.h * (vb[2]/vb[3]) / ratio;
+  return `<div class="inpaint ${c.cls||''}" style="left:${c.x}%;top:${c.top}%;height:${c.h}%;width:${w}%">
+    <svg class="inp" viewBox="${vb.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${g.outerHTML}</svg></div>`;
+}
+let entering = false;
+function enterPainting(i){
+  if(entering) return;
+  if(lit.has(i)) return openChapter(i);
+  entering = true; document.body.classList.add('is-entering'); stopWalk(); speech.classList.remove('on');
+  const door = doors[i], cv = door.querySelector('.canvas').getBoundingClientRect(), u = u3.getBoundingClientRect();
+  const dx = cv.left+cv.width/2 - (u.left+u.width/2), dy = cv.top+cv.height*.55 - (u.top+u.height/2);
+  u3.classList.add('looking'); u3.classList.remove('walking');
+  gsap.timeline()
+    .to(u3,{scaleY:.86,scaleX:1.08,transformOrigin:'50% 100%',duration:.16,ease:'power2.out'})
+    .to(u3,{x:dx*.5,y:Math.min(dy,0)-90,scaleX:.62,scaleY:.62,duration:.38,ease:'power2.out'})
+    .to(u3,{x:dx,y:dy,scale:.12,opacity:0,duration:.34,ease:'power2.in'})
+    .call(()=>{ door.classList.add('entering','lit'); lit.add(i); $('#litCount').textContent = lit.size;
+                setTimeout(()=>door.classList.remove('entering'),800); })
+    .to({}, {duration:1.1})
+    .call(()=>{ openChapter(i,{clientX:cv.left+cv.width/2, clientY:cv.top+cv.height/2});
+                setTimeout(()=>{ gsap.set(u3,{clearProps:'transform,opacity'}); entering=false; document.body.classList.remove('is-entering'); }, 700); });
+}
+function mqWatch(w){ if(!w) return ''; // the White Rabbit's pocket watch: "I'm late, I'm late!"
+  return `<div class="pwatch" aria-label="${w.join(' ')}" title="${w.join(' ').trim()}"><span class="chain"></span><svg viewBox="0 0 80 96" aria-hidden="true">
+    <circle cx="40" cy="9" r="6" fill="none" stroke="#b8913a" stroke-width="3"/><rect x="35" y="13" width="10" height="9" rx="2" fill="#c9a23a"/>
+    <circle cx="40" cy="56" r="37" fill="#c9a23a"/><circle cx="40" cy="56" r="37" fill="none" stroke="#8a6a23" stroke-width="2"/>
+    <circle cx="40" cy="56" r="31" fill="#fffaf0" stroke="#e2cf96" stroke-width="1.5"/>
+    <g stroke="#9a8a6a" stroke-width="1.6" stroke-linecap="round">${[...Array(12)].map((_,i)=>{const a=i*Math.PI/6,x=40+Math.sin(a)*27,y=56-Math.cos(a)*27,x2=40+Math.sin(a)*(i%3?24.5:22.5),y2=56-Math.cos(a)*(i%3?24.5:22.5);return `<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`;}).join('')}</g>
+    <g class="hands" stroke="#d7263d" stroke-width="1.6" stroke-linecap="round" opacity=".35"><line x1="40" y1="56" x2="40" y2="34"/><line x1="40" y1="56" x2="53" y2="63"/></g>
+  </svg><span class="w1">${w[0]}</span>${w[1]?`<span class="w2">${w[1]}</span>`:''}</div>`; }
 const track = $('#track');
 DOORS.forEach((d,i)=>{
   const el = document.createElement('article'); el.className='door'; el.dataset.i=i;
   const acc = d.accent ? `<img class="c accent" src="${d.art}" alt="" style="--accent:${d.accent};opacity:1">` : '';
   el.innerHTML = `<button class="enter">Step inside →</button>
     <div class="dframe"><div class="canvas" style="aspect-ratio:${d.ratio}">
-      <img class="g" src="${d.art}" alt="${d.credit}"><img class="c" src="${d.art}" alt="">${acc}<img class="c brush" src="${d.art}" alt="" style="opacity:1">
-    </div><span class="knob"></span></div>
+      <img class="g" src="${d.art}" alt="${d.credit}"><img class="c" src="${d.artIn||d.art}" alt="">${acc}${inpaintHTML(i, d.ratio)}<span class="splash"></span>
+    </div><span class="knob"></span>${mqWatch(d.when)}</div>
     <div class="label"><b>${d.n} · ${d.place}</b>${d.credit.split(' · ')[0]}</div>`;
   track.appendChild(el);
   const cv = el.querySelector('.canvas');
   cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();cv.style.setProperty('--mx',(e.clientX-r.left)+'px');cv.style.setProperty('--my',(e.clientY-r.top)+'px');});
   cv.addEventListener('pointerenter',()=>$('#cursor').classList.add('on'));
   cv.addEventListener('pointerleave',()=>$('#cursor').classList.remove('on'));
-  el.querySelector('.enter').addEventListener('click',e=>openChapter(i,e));
-  cv.addEventListener('click',e=>{ if(el.classList.contains('active')) openChapter(i,e); else walkTo(i); });
+  el.querySelector('.enter').addEventListener('click',e=>enterPainting(i));
+  cv.addEventListener('click',e=>{ if(el.classList.contains('active')) enterPainting(i); else walkTo(i); });
 });
 const sp = document.createElement('div'); sp.className='end-spacer'; track.appendChild(sp);
+/* leave enough room after the last door that Alice can actually reach the Epilogue */
+function sizeSpacer(){ const u=document.querySelector('#u3'), last=[...track.querySelectorAll('.door')].pop(); if(!u||!last) return;
+  // at the end of the walk the track sits at x = -(scrollWidth - innerWidth): make that put the last door right at Alice
+  const target=last.offsetLeft+last.offsetWidth/2+innerWidth-(u.offsetLeft+u.offsetWidth/2);
+  const cur=track.scrollWidth-sp.offsetWidth; sp.style.flexBasis=Math.max(1,target-cur)+'px'; }
+sizeSpacer(); addEventListener('load',sizeSpacer);
 document.addEventListener('pointermove',e=>{$('#cursor').style.transform=`translate(${e.clientX}px,${e.clientY}px)`;});
 
 const doors = [...document.querySelectorAll('.door')];
@@ -807,6 +1645,7 @@ function updateHall(){
   const x = gsap.getProperty(track,'x'); const dx = x - lastX; lastX = x;
   if (Math.abs(dx) < .3) return;
   u3.classList.add('walking'); u3.classList.toggle('back', dx>0);
+  hallCat.moved(dx>0?-1:1);
   clearTimeout(walkTimer); walkTimer = setTimeout(()=>u3.classList.remove('walking'),140);
   // nearest door to Ursula
   const ux = u3.getBoundingClientRect(); const cx = ux.left + ux.width/2;
@@ -817,8 +1656,7 @@ function updateHall(){
     doors.forEach(d=>d.classList.remove('active'));
     activeIdx = near; u3.classList.toggle('looking', near>-1);
     if (near>-1){
-      doors[near].classList.add('active','lit');
-      if(!lit.has(near)){ lit.add(near); $('#litCount').textContent = lit.size; }
+      doors[near].classList.add('active');
       speech.textContent = DOORS[near].say; speech.classList.add('on');
     } else speech.classList.remove('on');
   }
@@ -830,6 +1668,7 @@ const hallTween = gsap.to(track,{x:()=>-(track.scrollWidth-innerWidth),ease:'non
 
 /* ===== walking controls: hold the arrows (keys or on-screen), or tap a painting ===== */
 const hallST = hallTween.scrollTrigger;
+ScrollTrigger.addEventListener('refreshInit', sizeSpacer); ScrollTrigger.refresh();
 let walkDir = 0, walkRAF = 0;
 function walkLoop(){ if(!walkDir){ walkRAF=0; return; } window.scrollBy(0, walkDir*9); walkRAF = requestAnimationFrame(walkLoop); }
 function startWalk(d){ walkDir = d; if(!walkRAF) walkRAF = requestAnimationFrame(walkLoop); }
@@ -863,13 +1702,18 @@ function wireWork(root){
     v.parentElement.onclick=()=>{ const on=v.muted; vids.forEach(o=>{o.muted=true;o.parentElement.classList.remove('on');}); v.muted=!on; if(on){v.currentTime=0;v.play();v.parentElement.classList.add('on');} };
   });
 }
+document.querySelector('#chBody').addEventListener('click',e=>{ const b=e.target.closest('.mq-pin,.mq-chip'); if(b) mqSelect(b.closest('.mq'),b.dataset.k); });
 /* ===== chapter overlay ===== */
 const ch = $('#chapter');
 function openChapter(i,e){
   const d = DOORS[i];
   $('#chArt').src = d.art; $('#chArt').alt = d.credit; $('#chCredit').textContent = d.credit;
+  document.querySelectorAll('.chlive').forEach(n=>n.remove()); $('#chArt').style.display='';
+  if(lit.has(i)){ const live = doors[i].querySelector('.canvas').cloneNode(true); live.classList.add('chlive');
+    live.querySelectorAll('.splash').forEach(n=>n.remove()); live.style.setProperty('--ar', d.ratio);
+    $('#chArt').style.display='none'; $('#chArt').after(live); }
   $('#chNum').textContent = `Chapter ${d.n} · ${d.place}`; $('#chTitle').textContent = d.title; $('#chBody').innerHTML = d.body + workHTML(d) + (d.after||'');
-  wireWork($('#chBody'));
+  wireWork($('#chBody')); mqStart($('#chBody'));
   const x = e && e.clientX ? e.clientX : innerWidth/2, y = e && e.clientY ? e.clientY : innerHeight/2;
   ch.classList.add('open'); ch.scrollTop = 0; document.body.style.overflow='hidden'; document.body.classList.add('ch-open');
   gsap.fromTo(ch,{clipPath:`circle(0px at ${x}px ${y}px)`},{clipPath:`circle(150vmax at ${x}px ${y}px)`,duration:1,ease:'power3.inOut'});
@@ -887,7 +1731,7 @@ $('#lightbox').onclick = ()=>$('#lightbox').classList.remove('open');
 addEventListener('keydown',e=>{
   if(e.key==='Escape' && $('#lightbox').classList.contains('open')){ $('#lightbox').classList.remove('open'); return; }
   if(e.key==='Escape'){ if(ch.classList.contains('open')) closeChapter(); $('#short').classList.remove('open'); }
-  if(e.key==='Enter' && activeIdx>-1 && !ch.classList.contains('open')) openChapter(activeIdx);
+  if(e.key==='Enter' && activeIdx>-1 && !ch.classList.contains('open')) enterPainting(activeIdx);
 });
 
 
@@ -959,14 +1803,19 @@ function initCaptcha(root){
 
 /* ===== short version ===== */
 const SHORT = [
-  [6,'Didit YC W26','Barcelona · Marketing & events','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
+  [6,'Didit YC W26','Barcelona · Marketing & events contractor','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
   [5,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 50 members in the first month.'],
   [4,'Accenture Song','Switzerland','BA, Product Owner, Scrum Master and Delivery Lead on five projects. Pre-sales (RFP/RFI) for clients. Leadership events for 30+ leaders.'],
   [2,'Tell-Me','Growth marketer','Value proposition, go-to-market and digital PR for a travel startup.'],
   [3,'SLB Coaching Academy','Content producer','Course programmes for beauty, fashion and lifestyle business owners.'],
   [1,'L’Oréal Brandstorm','Finalist','6 finalists out of 280 teams in Italy, then a pitch to the L’Oréal Italy Board.'],
 ];
-$('#shortList').innerHTML = SHORT.map(([i,t,r,p])=>`<div class="row" data-i="${i}"><b>${t}</b><span>${r}</span><p>${p}</p></div>`).join('');
+const DECK = [['A','♥'],['K','♠'],['Q','♦'],['J','♣'],['10','♥'],['9','♠']], ROT = [-3,2,-1.5,2.5,-2.5,1.5];
+$('#shortList').innerHTML = SHORT.map(([i,t,r,p],n)=>{ const [rk,su]=DECK[n], c = '♥♦'.includes(su)?'#c8233a':'#1b1b1b', w=DOORS[i].when;
+  return `<div class="pcard row" data-i="${i}" tabindex="0" role="button" style="--suitc:${c};--rot:${ROT[n]}deg;--n:${n}">
+    <span class="pip tl">${rk}<small>${su}</small></span><span class="pip br">${rk}<small>${su}</small></span><span class="big" aria-hidden="true">${su}</span>${w?`<i class="htag"><small>in this style</small>${w[0]}${w[1]?(/^[–→]/.test(w[1])?' ':' · ')+w[1]:''}</i>`:''}
+    <b>${t}</b><span>${r}</span><p>${p}</p><em class="go">open the door →</em></div>`; }).join('');
+$('#shortList').addEventListener('keydown',e=>{ const r=e.target.closest('.row'); if(r && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); r.click(); } });
 $('#shortList').addEventListener('click',e=>{const r=e.target.closest('.row'); if(!r) return; $('#short').classList.remove('open'); openChapter(+r.dataset.i,e);});
 const openShort = e=>{e&&e.preventDefault(); $('#short').classList.add('open');};
 $('#openShort').onclick = openShort; $('#openShort2').onclick = openShort;
