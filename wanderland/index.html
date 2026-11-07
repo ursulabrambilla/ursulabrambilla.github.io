@@ -985,14 +985,15 @@ const DOORS = [
   credit:'after Banksy · an homage, redrawn', say:'I wrote them a book. then built them a world.',
   body:`<p>I wrote a book full of plushies with jobs they’re bad at, dreams they’re brave about and loves they fumble beautifully. Then they needed somewhere to live. So I built them a world.</p>
   <p><a href="https://theplushysociety.com" target="_blank" rel="noopener"><b>theplushysociety.com ↗</b></a>: describe your plushy and it comes to life. It explores, exchanges letters, writes to its human.</p>
-  <div class="stat"><div>50<small>members, month one</small></div><div>50+<small>plushies alive</small></div><div>1<small>founder (me)</small></div></div>
+  <div class="stat"><div>78<small>members</small></div><div>81<small>plushies signed up</small></div><div>1<small>founder (me)</small></div></div>
   <p>Designed, built and launched on my own with Next.js, Supabase and Claude.</p>`,
   mannequin:{title:'Pin by pin', sign:'fitting room · one plushy at a time', hint:'Every plushy needs a soul. Tap a pin to see what I stitched on.',
     pins:[{i:0,x:66,y:37,label:'Meet the founder',icon:'♥'},{i:5,x:36,y:65.5,label:'Social ad',icon:'▶'},{items:[2,3,4],x:30,y:33,label:'Reviews',icon:'✉',kicker:'Letters from the members'}]},
   theme:'street', work:[{video:'gulino.mp4',title:'Meet the founder',cap:'Gulino, polar bear and CEO. Edited by me.'},
         {head:'Letters from the members'},
         {letter:'letter1.jpg',cap:'“a safe and fun place for stuffie lovers like myself”'},{letter:'letter2.jpg',cap:'“very warm, cosy, safe and friendly”'},{letter:'letter3.jpg',cap:'“a feeling of being less alone in the world”'},
-        {video:'plushy-ad.mp4',poster:'plushy-ad.jpg',title:'A day with Biscuit',cap:'A social media ad for The Plushy Society.'}],
+        {video:'plushy-ad.mp4',poster:'plushy-ad.jpg',title:'A day with Biscuit',cap:'A social media ad for The Plushy Society.'},
+        {loom:'ed757ce5977a4e86b8f4d9d6b61e4d5d',title:'Demo',cap:'A walk through The Plushy Society.'}],
   after:`<span class="note">customer discovery, but with teddy bears.</span>`},
  {n:'VII', place:'Didit · YC W26', when:['2026','3 weeks'], title:'Prove you’re human', art:APPLE, artIn:APPLE_IN, ratio:600/760,
   credit:'after Magritte · an homage, redrawn', say:'they verify identities. fitting, for me.',
@@ -1062,7 +1063,7 @@ const MQCFG = {
            {x:162,y:130,label:'Events Lead',icon:'■',note:{t:'Events Lead',c:'Leadership events for 30+ leaders, budgets up to CHF 30k.'}},
            {x:100,y:112,label:'Pre-sales',icon:'■',note:{t:'Pre-sales · RFP / RFI',c:'Responses to RFPs and RFIs for clients, plus the business cases behind them.'}}]},
   5:{touch:{x:74,y:83}, sign:'fitting room · one plushy at a time', fresh:'new: a stitched-on heart', hint:'Every plushy needs a soul. Tap a tag to see what I stitched on.',
-     pins:[{x:131,y:82,label:'Meet the founder',icon:'♥',i:0},{x:146,y:82,label:'Social ad',icon:'▶',i:5},{x:139,y:95,label:'Reviews',icon:'✉',items:[2,3,4],kicker:'Letters from the members'}]},
+     pins:[{x:131,y:82,label:'Meet the founder',icon:'♥',i:0},{x:146,y:82,label:'Social ad',icon:'▶',i:5},{x:139,y:95,label:'Reviews',icon:'✉',items:[2,3,4],kicker:'Letters from the members'},{x:139,y:105,label:'Demo',icon:'▶',i:6}]},
   6:{touch:{x:88,y:117}, sign:'fitting room · ID check', fresh:'new: a face, verified', hint:'Now she has a face, and a badge that says she’s human. Tap a tag below.',
      pins:[{x:106,y:112,label:'The panel',icon:'▶',i:0},{x:116,y:124,label:'Launch night',icon:'▶',i:1}]},
   7:{touch:{x:110,y:100}, nopin:true, sign:'fitting room · final fitting', fresh:'now I wear it all', hint:'Everything I gave the mannequin, I now wear. Tap the tag below.',
@@ -1089,7 +1090,7 @@ function mannequinHTML(d,item,lv){
   const L=x=>(x/220*100).toFixed(2)+'%', T=y=>((y+86)/426*100).toFixed(2)+'%';
   const pins=''&&m.pins.map((p,k)=>`<button class="mq-pin" data-k="${k}" style="left:${L(p.x)};top:${T(p.y)};--d:${k*.45}s" title="${esc(p.label)}" aria-label="${esc(p.label)}"></button>`).join('');
   const chips=m.pins.map((p,k)=>`<button class="mq-chip" data-k="${k}">${p.icon||''} ${p.label}</button>`).join('');
-  const bare=w=>w.postcard?{img:w.postcard,title:w.title,cap:''}:(w.video||w.yt)?Object.assign({},w,{bare:true}):w;
+  const bare=w=>w.postcard?{img:w.postcard,title:w.title,cap:''}:(w.video||w.yt||w.loom)?Object.assign({},w,{bare:true}):w;
   const body=p=>p.notes?p.notes.map(MQ_NOTE).join(''):p.note?MQ_NOTE(p.note):(p.items||[p.i]).map(i=>item(bare(d.work[i]))).join('');
   const tpls=m.pins.map((p,k)=>`<template data-k="${k}">${p.kicker?`<h5 class="xhead">${p.kicker}</h5>`:''}${body(p)}</template>`).join('');
   return `<h4 class="work-h">Piece by piece</h4><div class="mq" data-lv="${lv}"><div class="mq-stage"><span class="mq-sign">${m.sign}</span><span class="mq-fresh">${m.fresh}</span><div class="mq-alice"${lv===7?' data-final="1"':''}>${mqAlice()}</div><div class="mq-fig">${mqSVG(lv===7?6:lv)}<svg class="mq-legs" viewBox="0 -86 220 426" aria-hidden="true"><path d="M110 244 V312" stroke="#6b4a2c" stroke-width="7" stroke-linecap="round"/><path d="M110 300 L66 324 M110 300 L154 324 M110 300 L110 326" stroke="#6b4a2c" stroke-width="5" stroke-linecap="round"/><circle cx="66" cy="325" r="3.5" fill="#3d2a18"/><circle cx="154" cy="325" r="3.5" fill="#3d2a18"/></svg>${lv===7?`<div class="mq-bare">${mqSVG(-1)}</div>`:''}${pins}</div></div>
@@ -1354,6 +1355,7 @@ function workHTML(d){
     if(w.text) return `<div class="xtext">${w.text}</div>`;
     if(w.postcard) return `<figure class="ex pc"><div class="pc-card"><img src="${W+w.postcard}" alt="${w.title.replace(/"/g,'&quot;')}" loading="lazy"><div class="pc-back"><span class="stamp"></span><span class="pmark">TELL-ME<br>AIR MAIL<br>✈</span><p class="pc-msg">${w.msg}</p><div class="pc-lines"><i>${w.to||''}</i><i></i><i></i></div></div></div></figure>`;
     if(w.letter) return `<figure class="ex letter"><div class="mat"><img src="${W+w.letter}" alt="${w.cap.replace(/"/g,'&quot;')}" loading="lazy"></div><figcaption class="quote">${w.cap}</figcaption></figure>`;
+    if(w.loom) return `<figure class="ex"><div class="gilt block"><div class="yt"><iframe src="https://www.loom.com/embed/${w.loom}?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true" title="${w.title.replace(/"/g,'&quot;')}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe></div></div>${plaque(w)}</figure>`;
     if(w.yt) return `<figure class="ex"><div class="gilt block"><div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${w.yt}?rel=0&modestbranding=1&playsinline=1" title="${w.title.replace(/"/g,'&quot;')}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div></div>${plaque(w)}</figure>`;
     if(w.video) return `<figure class="ex"${w.optional?' data-optional':''}><div class="gilt"><div class="vid"><video src="${W+w.video}"${w.poster?` poster="${W+w.poster}"`:''} muted loop playsinline preload="metadata"></video><span class="sound">🔊 tap for sound</span></div></div>${plaque(w)}</figure>`;
     return `<figure class="ex"><div class="gilt"><img src="${W+w.img}" alt="${(w.title||w.cap).replace(/"/g,'&quot;')}" loading="lazy"></div>${plaque(w)}</figure>`;
@@ -1804,7 +1806,7 @@ function initCaptcha(root){
 /* ===== short version ===== */
 const SHORT = [
   [6,'Didit YC W26','Barcelona · Marketing & events contractor','Office launch event end to end, product demo video, social content, SiGMA Rome.'],
-  [5,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 50 members in the first month.'],
+  [5,'The Plushy Society','Founder','Designed, built and launched a storybook web platform on my own. 78 members and 81 plushies signed up.'],
   [4,'Accenture Song','Switzerland','BA, Product Owner, Scrum Master and Delivery Lead on five projects. Pre-sales (RFP/RFI) for clients. Leadership events for 30+ leaders.'],
   [2,'Tell-Me','Growth marketer','Value proposition, go-to-market and digital PR for a travel startup.'],
   [3,'SLB Coaching Academy','Content producer','Course programmes for beauty, fashion and lifestyle business owners.'],
