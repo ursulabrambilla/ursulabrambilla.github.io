@@ -1338,16 +1338,21 @@ function mqEnter(root){ // she stands up in the painting, hops out and lands in 
   const next=()=>{ if(al.dataset.final) mqFinale(root); else mqPin(root,0,null,true,null,pt); };
   const land=(flew)=>{ al.style.opacity='1'; if(mqReduce()){ next(); return; } mqPlay(al,'hop',flew?2.2:.6,2.95,{done:()=>{ mqIdle(al); next(); }}); };
   const ip=document.querySelector('.chlive .inpaint'), r=ip&&ip.getBoundingClientRect();
-  if(mqReduce() || !r || r.width<4 || r.bottom<0 || r.top>innerHeight || r.right<0 || r.left>innerWidth){ land(false); return; }
+  if(mqReduce()){ land(false); return; }
+  // on a phone the painting has scrolled away by now: she drops in from the top of the screen instead
+  const seen = r && r.width>=4 && r.bottom>0 && r.top<innerHeight && r.right>0 && r.left<innerWidth;
   // a standing Alice the same height as the one in the painting, feet where hers were
-  const h=Math.max(r.height,40), w=h*120/230, l=r.left+r.width/2-w/2, tp=r.bottom-h;
+  const h=seen?Math.max(r.height,40):Math.min(130,Math.max(80,innerHeight*.13)), w=h*120/230,
+        l=seen?r.left+r.width/2-w/2:innerWidth/2-w/2, tp=seen?r.bottom-h:Math.max(14,innerHeight*.05);
   const fly=document.createElement('div'); fly.className='mq-fly'; fly.innerHTML=mqStandSVG();
   Object.assign(fly.style,{left:l+'px',top:tp+'px',width:w+'px',height:h+'px'}); document.body.appendChild(fly);
-  ip.style.transition='opacity .25s'; ip.style.opacity='0';
+  if(seen){ ip.style.transition='opacity .25s'; ip.style.opacity='0'; }
   const tgt=()=>{ const a=al.getBoundingClientRect(); return {left:a.left+a.width*.3, top:a.top+a.height*.23, width:a.width*.4, height:a.height*.65}; }, t=tgt();
   const tl=gsap.timeline({onComplete:()=>{ fly.remove(); land(true); }});
   const sv0=fly.querySelector('svg'); mqFaceFX(sv0);
-  tl.from(fly,{opacity:0,scaleY:.8,transformOrigin:'50% 100%',duration:.35,ease:'power2.out'})
+  if(seen) tl.from(fly,{opacity:0,scaleY:.8,transformOrigin:'50% 100%',duration:.35,ease:'power2.out'});
+  else tl.from(fly,{y:-tp-h-20,duration:.55,ease:'bounce.out'});
+  tl
     .call(()=>mqWink(sv0)).to({}, {duration:.75})
     .to(fly,{scaleY:.86,scaleX:1.08,transformOrigin:'50% 100%',duration:.16,ease:'power2.out'})
     .to(fly,{scaleX:1,scaleY:1,duration:.12})
