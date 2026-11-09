@@ -56,7 +56,8 @@ button{font:inherit;cursor:pointer}
 .falling .legL{transform:rotate(20deg)}
 .falling .legR{transform:rotate(-26deg)}
 .falling .skirt{transform:scale(1.32,.78)}
-.falling .bodyg{animation:flail .9s ease-in-out infinite alternate}
+/* the flail goes on the whole svg (its own layer): animating a <g> that holds other animated <g>s made Chrome sometimes drop everything but the hair and the eyes */
+.falling > .ursula{animation:flail .9s ease-in-out infinite alternate;transform-origin:50% 50%;will-change:transform}
 @keyframes flail{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
 .ursula .hairback{transform-box:fill-box;transform-origin:50% 14%;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
 .walking .hairback{animation:sway .46s ease-in-out infinite alternate}
