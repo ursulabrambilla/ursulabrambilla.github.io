@@ -320,6 +320,28 @@ body.ch-open .topbar *{pointer-events:none!important}
 .chapter .beat i{display:block;font-style:normal;font-family:var(--hand);font-size:24px;line-height:1.1;color:var(--red);margin-bottom:2px}
 .chapter .body h3.sub{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.15;margin:30px 0 12px}
 .chapter .body h3.sub:first-child{margin-top:0}
+.chapter .projects{list-style:none;padding:0;margin:8px 0 18px}
+.chapter .projects li{padding:8px 0 8px 22px;border-top:1px solid rgba(0,0,0,.12);position:relative;line-height:1.45}
+.chapter .projects li::before{content:'';position:absolute;left:0;top:14px;width:10px;height:10px;background:var(--c,#d7263d)}
+.chapter .projects li b{font-weight:600}
+.deep{margin:22px 0 8px;border:3px solid #111;background:#f4f1ea}
+.deep>summary{cursor:pointer;list-style:none;padding:12px 14px;font-family:var(--serif);font-size:21px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.deep>summary::-webkit-details-marker{display:none}
+.deep>summary::after{content:'+';font-family:var(--hand);font-size:28px;color:var(--red);line-height:1}
+.deep[open]>summary::after{content:'–'}
+.deep .in{padding:0 14px 14px;font-size:14px;line-height:1.45}
+.deep .lane{margin:14px 0 4px}
+.deep .lane>i{display:block;font-style:normal;font-family:var(--hand);font-size:22px;color:var(--red);margin-bottom:6px}
+.deep .steps{display:flex;flex-wrap:wrap;gap:6px 0;align-items:stretch}
+.deep .st{flex:1 1 110px;min-width:96px;max-width:160px;border:2px solid #111;padding:8px;font-size:12.5px;line-height:1.3;background:#fff;position:relative;margin-right:18px}
+.deep .st:last-child{margin-right:0}
+.deep .st:not(:last-child)::after{content:'→';position:absolute;right:-16px;top:50%;transform:translateY(-50%);font-size:14px}
+.deep .st b{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;opacity:.7}
+.deep .st.r{background:#d7263d;color:#fff}.deep .st.y{background:#f1c40f}.deep .st.b{background:#2c4f9e;color:#fff}
+.deep .why{margin:16px 0 0;padding:0;list-style:none}
+.deep .why li{padding:7px 0;border-top:1px solid rgba(0,0,0,.15)}
+.deep .why li b{font-family:var(--serif);font-weight:400;font-size:17px;display:block}
+.deep .fine{font-size:12px;opacity:.65;margin-top:10px}
 .xhead{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.05;margin:34px 0 10px;padding-top:18px;border-top:1px solid rgba(0,0,0,.15)}
 .work > .xhead:first-child{margin-top:0;border-top:0;padding-top:0}
 .xtext{margin-bottom:6px}
@@ -879,7 +901,7 @@ body.ch-open .topbar *{pointer-events:none!important}
 <section id="finale">
   <div>
     <h2>The next painting<br>isn’t <em>painted</em> yet.</h2>
-    <p>Moving to San Francisco. Looking for roles in marketing, events, business design and strategy, ideally somewhere that lets people switch colours on.</p>
+    <p>Moving to San Francisco. Looking for roles in marketing, events and product, ideally somewhere that lets people switch colours on.</p>
     <div class="cta">
       <a href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">Hand me a brush ✉</a>
       <a class="alt" href="mailto:ursulabrambilla@gmail.com">ursulabrambilla@gmail.com</a>
@@ -973,32 +995,40 @@ const DOORS = [
  {n:'II', place:'L’Oréal Brandstorm', when:['2021',''], title:'Red lipstick speaks louder', art:'assets/art/pearl.jpg', ratio:960/1137,
   accent:'radial-gradient(ellipse 9% 5% at 38.5% 53%, #000 65%, transparent 100%)',
   credit:'Johannes Vermeer, Girl with a Pearl Earring, c. 1665 · Mauritshuis', say:'the lips were red before anything else.',
-  body:`${BEAT('The challenge','L’Oréal’s global marketing innovation competition, with 280 teams in Italy.')}
-  ${BEAT('What I did','With my team I developed a customer experience concept, worked 3 months with a dedicated L’Oréal Marketing Manager, and pitched directly to the L’Oréal Italy Board.')}
-  ${BEAT('How it went','National finalist, top 6 of 280 (top 2%).')}
+  body:`<p>I dreamt of working in beauty, and I was looking for a way to express my creativity. Back then, before AI, I taught myself to make visuals on Canva, with no design skills at all, just to put my love for beauty and my ideas in the same place. Two of them hang below.</p>
+  <p>So in 2021, in the middle of my master’s and plenty of exams, I signed up for L’Oréal Brandstorm, without getting my hopes up. I met two girls from another university online. We met, swapped ideas and split the work: I would lead the marketing side, starting from the idea; they would take the business side, numbers and budget.</p>
+  <h3 class="sub">The idea: a Virtual Make-up Masterclass</h3>
+  <p>A new customer experience for L’Oréal. You sign up and choose the look you want to learn: everyday, evening, contouring, 80s, or a celebrity’s. You tell the app about your features (eyes, lips, face shape, skin tone, hair) and upload a photo with and without make-up. The app scores your skills by category, then gives you tutorials and the L’Oréal products for exactly what you need to improve. Last step: share the result on Instagram, tag L’Oréal, #challengeaccepted, and you could be their next beauty testimonial.</p>
+  <p>When they picked us among the 6 finalists out of 280 teams in Italy, the excitement was enormous. Then came three months developing the idea with Chiara, our L’Oréal marketing manager: unforgettable, even if it all happened online because of Covid. We pitched to the L’Oréal Italy Board. We made it to the final, not to the win, unfortunately. Still, I carry this experience in my heart.</p>
   <div class="stat"><div>6/280<small>national finalists</small></div><div>top 2%<small>in Italy</small></div><div>3<small>months with a L’Oréal marketing manager</small></div></div>`,
-  noTitle:true, theme:'dutch', work:[{img:'team.jpg',title:'Team 5 · “Red lipstick speaks louder”',cap:'My team at L’Oréal Brandstorm, with our L’Oréal mentor Chiara Bernardini.'}]},
+  noTitle:true, theme:'dutch', work:[{img:'team.jpg',title:'Team 5 · “Red lipstick speaks louder”',cap:'My team at L’Oréal Brandstorm, with our L’Oréal mentor Chiara Bernardini.'},
+        {img:'concept-urbandecay.jpg',title:'Urban Decay · Newport Beach',cap:'“Just glamour and peace, we preach in Newport Beach.” Made on Canva, just for fun.'},
+        {img:'concept-maybelline.jpg',title:'Maybelline · Upper East Side',cap:'“It was not love at first sight, it was New York, Upper East Side.” Made on Canva, just for fun.'}]},
  {n:'III', place:'Tell-Me', when:['2020',''], title:'A startup called Tell-Me', art:'assets/art/wanderer.jpg', ratio:960/1231,
   credit:'Caspar David Friedrich, Wanderer above the Sea of Fog, c. 1818 · Hamburger Kunsthalle', say:'a travel app. lovely view. lots of fog.',
-  body:`${BEAT('What I did','For TellMe, a pre-seed startup, I sharpened the go-to-market and led press outreach before launch.')}`,
+  body:`<p>After Brandstorm I knew what I wanted next: a dynamic place, and something so early-stage that I could feel it was partly mine. So I joined TellMe, a startup whose business I genuinely loved. It was really early, and the pace was fast.</p>
+  <p>The core business was a sort of Tripadvisor that worked through recommendations. The founders were looking for someone young with fresh ideas to help them with marketing. The business plan needed a rethink, so I sharpened the value proposition and defined the positioning, the concept and the go-to-market strategy. I led digital PR and press outreach, growing brand awareness and online presence ahead of launch. Once the app was live, I tested it and reported the bugs.</p>
+  <p>I learnt an enormous amount.</p>`,
   noTitle:true, work:[{postcard:'tellme.jpg',title:'Tell-Me',msg:'“Travel the world with TellMe.”<br>Wish you were here! ✈',to:'to: fellow travellers'}]},
  {n:'IV', place:'SLB Coaching Academy', when:['2020','– 2021'], title:'Colours, magazines and a pen', art:'assets/art/bedroom.jpg', ratio:960/762,
   credit:'Vincent van Gogh, The Bedroom, 1888 · Van Gogh Museum', say:'styling, interiors, a pinch of feng shui.',
-  body:`${BEAT('What I did','For SLB I designed executive workshops for beauty, fashion and lifestyle founders, mixing personal styling, interior design and feng shui into a personal-brand method.')}`,
+  body:`<p>Then came another small company, in the world of style coaching. I took one of their courses while I was studying, and asked if I could help out while I finished my degree.</p>
+  <p>So I started creating content for their style-coach programmes, both for social media and for the students’ lessons. I went to fashion shows and did research with all kinds of materials: fabrics, magazines, colour swatches.</p>`,
   noTitle:true, theme:'vangogh', work:[{img:'slb.jpg',title:'Colours, magazines and a pen',cap:'Fashion magazines, colour swatches and a style guide: course material in the making.'},{video:'slb.mp4',poster:'slb.jpg',title:'Course material in the making',cap:'Video.'}]},
  {n:'V', place:'Accenture Song', when:['2021','→ now'], title:'Switzerland, in primary colours', art:'assets/art/mondrian.jpg', ratio:960/973,
-  credit:'Piet Mondrian, Composition II in Red, Blue and Yellow, 1930', say:'swiss precision. national scale. one grid.',
-  body:`<h3 class="sub">Building at national scale</h3>
-  <div class="grid-mondrian"><div class="r" style="grid-column:span 2"><b>The challenge</b>Switzerland is rolling out fibre nationwide by 2035. Behind it sits an order journey that has to work for millions of customers and a web of third-party providers.</div><div class="y"><b>How it went</b>Faster order completion and releases shipped on time.</div><div class="full b"><b>What I did</b>I owned the digital product delivery of that journey: roadmap, priorities, vendors, releases across teams in Switzerland, India and Vietnam. Elsewhere I led the B2B marketing integration with Oracle Eloqua, and rolled out digital products across 30+ countries for a consumer goods brand.</div></div>
-  <h3 class="sub">Leadership &amp; volunteering events</h3>
-  ${BEAT('What I did','I designed and ran volunteering days and leadership gatherings for 30+ leaders: venue, content, guests, logistics, catering, décor, on budgets up to CHF 30k.')}`},
+  credit:'Piet Mondrian, Composition II in Red, Blue and Yellow, 1930', say:'swiss precision. seven squares. one grid.',
+  body:`<p>Meanwhile I was trying to leave Italy, interviewing for jobs abroad. One of those interviews was with Accenture Song in Switzerland. When the offer came, I accepted it very happily: a new country, new perspectives. So in December 2021 I moved to Switzerland, and they have been beautiful years between Lugano, Zurich and Bern.</p>
+  <p>I started as a tester, and my role grew into project and product management, in many different shapes along the way.</p>
+  <h3 class="sub">What I learnt to do</h3>
+  <div class="grid-mondrian"><div class="r"><b>Product Management</b>Owned end-to-end digital product delivery of fibre order journeys for Switzerland’s largest telecom (government-mandated nationwide rollout, target 2035). Reduced customer order completion time and aligned internal teams with third-party services.</div><div class="b" style="grid-column:span 2"><b>B2B Marketing Systems Integration</b>Stabilized and scaled the client’s B2B marketing ecosystem by leading the integration between the Sales Portal and Oracle Eloqua, translating business needs into clear functional requirements and designing end-to-end data flows. Ensured compliant and on-scope releases by introducing delivery governance, risk control, and change management practices.</div><div><b>Product Ownership</b>Owned roadmap, prioritization, and external vendor coordination as Deputy Product Owner. Shipped releases on-time and on-scope across multi-continent agile teams (Switzerland, India, Vietnam).</div><div class="y" style="grid-column:span 2"><b>Multi-Market, Multi-Channel Product Rollouts</b>Led scalable digital product rollouts across 30+ countries for a multinational consumer goods brand, owning feature delivery and solution design across web and mobile channels.</div><div><b>Cross-Functional Collaboration</b>Created UX/UI flows in Figma alongside design and engineering teams, accelerating stakeholder alignment and reducing back-and-forth between business, design, and development.</div><div class="r" style="grid-column:span 2"><b>Pre-Sales &amp; Business Cases</b>Defined solution approaches and partnered with cross-functional teams to develop business cases and commercial offers that secured new client engagements for Accenture Song.</div><div class="full"><b>Volunteering &amp; Leadership Events</b>Designed and ran company volunteering events and leadership gatherings for 30+ leadership people, managing budgets up to CHF 30k (venue, content, invitees, logistics, catering, décor).</div></div>`},
  {n:'VI', place:'The Plushy Society', when:['2026','→ now'], title:'The Plushy Society', art:BALLOON, artIn:BALLOON_IN, ratio:600/760,
   credit:'after Banksy · an homage, redrawn', say:'I wrote them a book. then built them a world.',
-  body:`${BEAT('The idea','What if plushies had a social life of their own?')}
-  ${BEAT('What I did','I designed, built and launched it solo: a cute, safe space where plushies socialise based on their personalities, visit places and write letters to their humans. Humans discover each other, join contests, and win points to dress their plushy or decorate its home.')}
-  ${BEAT('How it went','78 members and 81 plushies brought to life in the first month.')}
-  <div class="stat"><div>78<small>members</small></div><div>81<small>plushies signed up</small></div><div>1<small>founder (me)</small></div></div>
-  <p><a href="https://theplushysociety.com" target="_blank" rel="noopener"><b>theplushysociety.com ↗</b></a></p>`,
+  body:`<p>When Claude Code came out, it gave me the chance to vibe-code something of my own. So I started a project I had always wanted to make, but never knew where to begin.</p>
+  <p>I have always seen my plushy as a real friend, one who has been with me through every step of my life. I always imagined his voice, his words, what he would do. In my head he has his own personality and his own way of seeing the world. So I wrote a fantasy book about him, his friends and their world.</p>
+  <p>When I got the chance to build something with vibe coding, I took it: a world made to measure for people who love stuffed animals. I designed, built and launched it solo: a cute, safe space where plushies socialise based on their personalities, visit places and write letters to their humans. Humans discover each other, join contests, and win points to dress their plushy or decorate its home.</p>
+  <p>It was a huge joy to find out I wasn’t the only one, and that people loved what I built.</p>
+  <div class="stat"><div>78<small>members</small></div><div>81<small>plushies signed up</small></div><div>1<small>month</small></div></div>
+  <p>To find out more: <a href="https://theplushysociety.com" target="_blank" rel="noopener"><b>theplushysociety.com ↗</b></a></p>`,
   mannequin:{title:'Pin by pin', sign:'fitting room · one plushy at a time', hint:'Every plushy needs a soul. Tap a pin to see what I stitched on.',
     pins:[{i:0,x:66,y:37,label:'Meet the founder',icon:'♥'},{i:5,x:36,y:65.5,label:'Social ad',icon:'▶'},{items:[2,3,4],x:30,y:33,label:'Feedback',icon:'✉',kicker:'Letters from the members'}]},
   theme:'street', work:[{video:'gulino.mp4',title:'Meet the founder',cap:'Gulino, polar bear and CEO. Edited by me.'},
@@ -1008,21 +1038,22 @@ const DOORS = [
         {loom:'ed757ce5977a4e86b8f4d9d6b61e4d5d',title:'Demo',cap:'A walk through The Plushy Society.'}]},
  {n:'VII', place:'Didit · YC W26', when:['2026','3 weeks'], title:'Prove you’re human', art:APPLE, artIn:APPLE_IN, ratio:600/760,
   credit:'after Magritte · an homage, redrawn', say:'they verify identities. fitting, for me.',
-  body:`<h3 class="sub">Barcelona launch</h3>
-  ${BEAT('The challenge','Didit, a YC identity-verification startup, was opening an office in Barcelona and needed a way in.')}
+  body:`<p>Meanwhile I was looking for a chance to learn something new alongside my job at Accenture. So I worked for three weeks as a contractor for Didit, a Y Combinator identity-verification startup. I had met the founders, and they needed help organising their Barcelona opening and creating content.</p>
+  <h3 class="sub">Barcelona launch</h3>
   ${BEAT('What I did','I threw a launch party, but turned it into a way to build community: “Building, Raising &amp; Scaling in the AI Era”, a panel with a VC and founders on raising in SF vs. EU. A topic that pulls founders and investors into the same room. I ran everything end to end: catering, DJ, lights, transport, swag, guest list, landing page and invite campaign. Then I built a small web app that tagged every confirmed guest as client, lead or prospect, so the team walked in knowing who to talk to and why. On the night, I moderated the panel.')}
   <h3 class="sub">Vibe-coding with Didit</h3>
   ${BEAT('The challenge','Show what identity verification feels like, not just what it does.')}
   ${BEAT('What I did','I vibe-coded a small demo app on Didit’s verification API and pitched it as a short video for social.')}
   <h3 class="sub">SiGMA</h3>
-  ${BEAT('What I did','I prepared Didit’s presence at SiGMA, the iGaming summit: booth branding spec, the backwall, budget, branding and merchandising.')}`,
+  ${BEAT('What I did','I prepared Didit’s presence at SiGMA, the iGaming summit: booth branding spec, the backwall, budget, branding and merchandising.')}
+  <p>A beautiful experience, with a very sharp team that moves fast. I treasure it.</p>`,
   theme:'magritte', work:[{yt:'ksi8eAmbTTc',ceci:'Ceci n’est pas un panel.',title:'Didit’s first event in Barcelona',cap:'AI-native companies and fundraising in SF vs EU. The panel I moderated, with a VC and founders.'},
         {video:'didit-event.mp4',poster:'didit-event.jpg',ceci:'Ceci n’est pas une fête.',title:'Launch night',cap:'“Building, Raising &amp; Scaling in the AI Era”, Barcelona.'}],
   after:`<p>Before you go on, a quick security check. You know how it is.</p><div id="captcha"></div>`, game:true},
  {n:'∞', place:'Epilogue', when:['',''], title:'The next chapter', art:BLANK, ratio:600/760,
   credit:'Ursula Brambilla, Untitled (San Francisco), work in progress', say:'this one isn’t painted yet.',
-  body:`<p>Every identity evolves, and mine is packing again. Next stop: San Francisco.</p><p>I’m looking for roles in the U.S. in marketing, events, business design and strategy.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p>`,
-  noTitle:true, theme:'easel', work:[{img:'cover.jpg',title:'work in progress',cap:'Ursula Brambilla, still being painted.'}],
+  body:`<p>Every identity evolves, and mine is packing again. Next stop: San Francisco.</p><p>I’m looking for roles in the U.S. in marketing, events and product.</p><p><b>Strongest skills:</b> agency, taste, creativity and good knowledge of AI.</p>`,
+  noTitle:true, theme:'easel', work:[],
   after:`<div class="cta" style="justify-content:flex-start;margin-top:8px"><a href="mailto:ursulabrambilla@gmail.com">ursulabrambilla@gmail.com</a><a class="alt" href="https://www.linkedin.com/in/ursula-brambilla-83787a195/" target="_blank" rel="noopener">LinkedIn ↗</a></div><span class="note">shall we write it together?</span>`},
 ];
 const W = 'assets/work/';
@@ -1067,23 +1098,20 @@ const MQCFG = {
            {x:95,y:154,label:'Boston',icon:'✎',note:{t:'Boston · 2018',c:'Summer program in Marketing, Boston University. First taste of America. Noted for later.'}},
            {x:130,y:154,label:'MIP',icon:'✎',note:{t:'Milan · 2020–21',c:'Master in Marketing &amp; Customer Analytics, MIP Politecnico di Milano.'}},
            {x:165,y:148,label:'Antwerp',icon:'✎',note:{t:'Antwerp · 2021',c:'Business &amp; Economics, University of Antwerp.'}}]},
-  1:{touch:{x:121,y:5}, sign:'fitting room · make-up', fresh:'new: red lips', hint:'Red lipstick speaks louder. Tap the tag below.',
-     pins:[{x:121,y:5,label:'Team 5',icon:'💄',i:0}]},
+  1:{touch:{x:121,y:5}, sign:'fitting room · make-up', fresh:'new: red lips', hint:'Red lipstick speaks louder. Tap a tag below.',
+     pins:[{x:121,y:5,label:'Team 5',icon:'💄',i:0},{x:121,y:5,label:'My Canva visuals',icon:'✎',items:[1,2],kicker:'Before AI: beauty ads on Canva, no briefs, no clients'}]},
   2:{touch:{x:140,y:-35}, sign:'fitting room · packing', fresh:'new: a travel hat', hint:'Every traveller needs a good hat. Tap the tag below.',
      pins:[{x:140,y:-35,label:'Postcard',icon:'✈',i:0}]},
   3:{touch:{x:80,y:182}, sign:'fitting room · dressing', fresh:'new: a skirt of swatches', hint:'Dressed in colour swatches. Tap a tag below.',
      pins:[{x:80,y:182,label:'Colours &amp; magazines',icon:'✂',i:0},{x:140,y:182,label:'Video',icon:'▶',i:1}]},
-  4:{touch:{x:100,y:100}, sign:'fitting room · tailoring', fresh:'new: the Mondrian dress', hint:'A Mondrian dress: every colour block is a piece of the work. Tap one below.',
-     pins:[{x:54,y:70,label:'Fibre journey',icon:'■',note:{t:'Building at national scale',c:'The fibre order journey for Switzerland’s 2035 nationwide rollout: roadmap, priorities, vendors, releases across Switzerland, India and Vietnam.'}},
-           {x:160,y:90,label:'Oracle Eloqua',icon:'■',note:{t:'B2B marketing integration',c:'Led the B2B marketing integration with Oracle Eloqua.'}},
-           {x:114,y:74,label:'30+ countries',icon:'■',note:{t:'Rollouts',c:'Digital products rolled out across 30+ countries for a consumer goods brand.'}},
-           {x:162,y:130,label:'Events',icon:'■',note:{t:'Leadership &amp; volunteering events',c:'Volunteering days and leadership gatherings for 30+ leaders, budgets up to CHF 30k.'}}]},
+  4:{touch:{x:100,y:100}, sign:'fitting room · tailoring', fresh:'new: the Mondrian dress', hint:'A Mondrian dress, cut from the same grid as my years in Switzerland.',
+     pins:[]},
   5:{touch:{x:74,y:83}, sign:'fitting room · one plushy at a time', fresh:'new: a stitched-on heart', hint:'Every plushy needs a soul. Tap a tag to see what I stitched on.',
      pins:[{x:131,y:82,label:'Meet the founder',icon:'♥',i:0},{x:146,y:82,label:'Social ad',icon:'▶',i:5},{x:139,y:95,label:'Feedback',icon:'✉',items:[2,3,4],kicker:'Letters from the members'},{x:139,y:105,label:'Demo',icon:'▶',i:6}]},
   6:{touch:{x:88,y:117}, sign:'fitting room · ID check', fresh:'new: a face, verified', hint:'Now she has a face, and a badge that says she’s human. Tap a tag below.',
      pins:[{x:106,y:112,label:'The panel',icon:'▶',i:0},{x:116,y:124,label:'Launch night',icon:'▶',i:1}]},
-  7:{touch:{x:110,y:100}, nopin:true, sign:'fitting room · final fitting', fresh:'now I wear it all', hint:'Everything I gave the mannequin, I now wear. Tap the tag below.',
-     pins:[{x:110,y:96,label:'The heroine',icon:'★',i:0}]},
+  7:{touch:{x:110,y:100}, nopin:true, sign:'fitting room · final fitting', fresh:'now I wear it all', hint:'Everything I gave the mannequin, I now wear.',
+     pins:[]},
 };
 const MQ_SW = '<stop offset="0" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#e9b7d6"/><stop offset=".143" stop-color="#f1c40f"/><stop offset=".286" stop-color="#f1c40f"/><stop offset=".286" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#7fb8a4"/><stop offset=".429" stop-color="#d7263d"/><stop offset=".571" stop-color="#d7263d"/><stop offset=".571" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#2c4f9e"/><stop offset=".714" stop-color="#f4a261"/><stop offset=".857" stop-color="#f4a261"/><stop offset=".857" stop-color="#9b5de5"/><stop offset="1" stop-color="#9b5de5"/>';
 function mqAlice(){ return '<canvas width="360" height="640" aria-hidden="true"></canvas>'; }
@@ -1826,10 +1854,10 @@ function initCaptcha(root){
 const SHORT = [
   [6,'Didit YC W26','Barcelona · Marketing & events contractor','Barcelona launch party turned community event, run end to end and moderated by me. A vibe-coded demo on Didit’s API. SiGMA booth: spec, backwall, budget, merch.'],
   [5,'The Plushy Society','Founder','A social life for plushies, designed, built and launched solo. 78 members and 81 plushies in the first month.'],
-  [4,'Accenture Song','Switzerland','Product delivery for Switzerland’s national fibre order journey, Oracle Eloqua integration, rollouts in 30+ countries, leadership events.'],
-  [2,'Tell-Me','Growth marketer','Sharpened the go-to-market and led press outreach before launch.'],
-  [3,'SLB Coaching Academy','Content producer','Executive workshops for beauty, fashion and lifestyle founders: a personal-brand method.'],
-  [1,'L’Oréal Brandstorm','Finalist','National finalist, top 6 of 280 (top 2%). Pitched to the L’Oréal Italy Board.'],
+  [4,'Accenture Song','Switzerland','From tester to product management: Switzerland’s national fibre rollout, Sales Portal × Oracle Eloqua, rollouts in 30+ countries, pre-sales and leadership events.'],
+  [2,'Tell-Me','Growth marketer','Value proposition, positioning, go-to-market and digital PR before launch, then testing the live app.'],
+  [3,'SLB Coaching Academy','Content producer','Content for style-coach programmes, on social media and in class. Fashion shows and material research.'],
+  [1,'L’Oréal Brandstorm','Finalist','A Virtual Make-up Masterclass for L’Oréal. National finalist, top 6 of 280 (top 2%). Pitched to the L’Oréal Italy Board.'],
 ];
 const DECK = [['A','♥'],['K','♠'],['Q','♦'],['J','♣'],['10','♥'],['9','♠']], ROT = [-3,2,-1.5,2.5,-2.5,1.5];
 $('#shortList').innerHTML = SHORT.map(([i,t,r,p],n)=>{ const [rk,su]=DECK[n], c = '♥♦'.includes(su)?'#c8233a':'#1b1b1b', w=DOORS[i].when;
