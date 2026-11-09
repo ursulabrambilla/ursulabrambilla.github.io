@@ -57,12 +57,14 @@ button{font:inherit;cursor:pointer}
 .falling .legR{transform:rotate(-26deg)}
 .falling .skirt{transform:scale(1.32,.78)}
 /* the flail goes on the whole svg (its own layer): animating a <g> that holds other animated <g>s made Chrome sometimes drop everything but the hair and the eyes */
-.falling > .ursula{animation:flail .9s ease-in-out infinite alternate;transform-origin:50% 50%;will-change:transform}
+.falling > .ursula{animation:flail .9s ease-in-out infinite alternate;transform-origin:50% 50%}
+/* while falling nothing inside the svg animates on its own (those inner layers were the only parts Chrome kept painting) */
+.falling .blink{animation:none}
 @keyframes flail{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
 .ursula .hairback{transform-box:fill-box;transform-origin:50% 14%;transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
 .walking .hairback{animation:sway .46s ease-in-out infinite alternate}
 @keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
-.falling .hairback{transform:scaleY(-.45);animation:whoosh .5s ease-in-out infinite alternate}
+.falling .hairback{transform:scaleY(-.45)}
 @keyframes whoosh{from{transform:scaleY(-.42) skewX(-5deg)}to{transform:scaleY(-.5) skewX(5deg)}}
 .ursula .blink{animation:blink 4s infinite}
 @keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
@@ -1505,6 +1507,9 @@ function renderFall(p){
   caps.forEach(c=>{ const a=+c.dataset.at, t=(p-a)/.2; const o = t<0||t>1?0:Math.min(1,t*5,(1-t)*5); c.style.opacity=o; c.style.transform=`translateY(${(1-t)*20}px)`; });
   $('#whiteout').style.opacity = Math.max(0,(p-.9)/.1);
 }
+// on the first way in, make the browser paint the falling Alice from scratch
+const repaintU = ()=>['#u1','#u2'].forEach(q=>{ const sv=$(q+' > svg'); if(!sv) return; sv.style.display='none'; void sv.getBoundingClientRect(); sv.style.display=''; });
+ScrollTrigger.create({trigger:'#fall',start:'top bottom',end:'bottom top',onToggle:s=>{ if(s.isActive) requestAnimationFrame(repaintU); }});
 ScrollTrigger.create({trigger:'#fall',start:'top top',end:'bottom bottom',onUpdate:s=>renderFall(s.progress)});
 renderFall(0);
 
