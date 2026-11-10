@@ -1358,7 +1358,15 @@ function mqEnter(root){ // she stands up in the painting, hops out and lands in 
     .to(fly,{scaleX:1,scaleY:1,duration:.12})
     .set(fly,{transformOrigin:'50% 50%'});
   const M=MQ_MOVES[lv%MQ_MOVES.length], arcH=Math.max(110,h*.8)*M.hi, D=M.d;
-  if(M.swing){ // the pearl earring: two giant swings round the hook, like a gymnast on the bar, then she lets go
+  const letGo = M.swing && !seen; // on a phone the earring is off screen: no swings, she opens her arms and lets herself fall
+  if(letGo){
+    const sa=fly.querySelector('.armL'), sb=fly.querySelector('.armR');
+    tl.to(sa,{rotation:85,svgOrigin:'33.5 93',duration:.35,ease:'back.out(2)'})
+      .to(sb,{rotation:-85,svgOrigin:'86.5 93',duration:.35,ease:'back.out(2)'},'<')
+      .to({}, {duration:.4})
+      .to(fly,{rotation:-10,transformOrigin:'50% 100%',duration:.3,ease:'sine.in'})
+      .set(fly,{transformOrigin:'50% 50%'}); }
+  else if(M.swing){ // the pearl earring: two giant swings round the hook, like a gymnast on the bar, then she lets go
     const sa=fly.querySelector('.armL'), sb=fly.querySelector('.armR');
     tl.set(fly,{transformOrigin:'50% 0%'})
       .to([sa,sb],{rotation:i=>i?-170:170,svgOrigin:i=>i?'86.5 93':'33.5 93',duration:.25},'<')
@@ -1377,7 +1385,8 @@ function mqEnter(root){ // she stands up in the painting, hops out and lands in 
     .to(lL,{rotation:12,svgOrigin:'52.5 150',duration:.3},'fly').to(lR,{rotation:-12,svgOrigin:'67.5 150',duration:.3},'fly')
     .to([aL,aR,sk,lL,lR],{rotation:0,scaleX:1,scaleY:1,duration:.22,ease:'power2.in'},'fly+='+(D-.22));
   if(M.float) tl.to(fly,{rotation:9,duration:D/4,ease:'sine.inOut',yoyo:true,repeat:3},'fly');
-  if(M.rot) tl.to(fly,{rotation:M.rot,duration:D*.9,ease:'power1.inOut'},'fly+='+(D*.05));
+  if(letGo) tl.to(fly,{rotation:6,duration:D/3,ease:'sine.inOut',yoyo:true,repeat:2},'fly');
+  else if(M.rot) tl.to(fly,{rotation:M.rot,duration:D*.9,ease:'power1.inOut'},'fly+='+(D*.05));
   if(M.spin) tl.to(fly,{scaleX:-1,duration:D/(M.spin*2),ease:'sine.inOut',yoyo:true,repeat:M.spin*2-1},'fly');
   if(M.drink) tl.to(fly,{scale:.3,duration:D*.4,ease:'power2.in'},'fly').to(fly,{scale:1,duration:D*.45,ease:'back.out(2.2)'},'fly+='+(D*.55));
   if(M.eat) tl.to(fly,{scale:1.9,duration:D*.4,ease:'power2.out'},'fly').to(fly,{scale:1,duration:D*.45,ease:'elastic.out(1,.5)'},'fly+='+(D*.55));
